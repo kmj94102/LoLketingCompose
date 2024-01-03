@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lolketingcompose.ui.home.HomeScreen
+import com.example.lolketingcompose.ui.home.login.LoginScreen
 
 @Composable
 fun NavigationGraph(
@@ -15,7 +16,7 @@ fun NavigationGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NavScreen.Home.item.routeWithPostFix
+        startDestination = NavScreen.Login.item.routeWithPostFix
     ) {
 
         homeScreens(onBackClick, navController)
@@ -30,5 +31,10 @@ fun NavGraphBuilder.homeScreens(
         route = NavScreen.Home.item.routeWithPostFix
     ) {
         HomeScreen()
+    }
+    composable(
+        route = NavScreen.Login.item.routeWithPostFix
+    ) {
+        LoginScreen()
     }
 }

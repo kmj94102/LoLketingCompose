@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "LoLketingCompose"
 include(":app")
+include(":network")

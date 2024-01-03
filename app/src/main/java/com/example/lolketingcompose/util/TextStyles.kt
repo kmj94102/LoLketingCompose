@@ -11,9 +11,8 @@ import com.example.lolketingcompose.R
 import com.example.lolketingcompose.ui.theme.MyWhite
 
 val fontFamily = FontFamily(
-    Font(R.font.noto_serif, FontWeight.Normal, FontStyle.Normal),
-    Font(R.font.noto_serif_semi_bold, FontWeight.SemiBold, FontStyle.Normal),
-    Font(R.font.noto_serif_bold, FontWeight.Bold, FontStyle.Normal)
+    Font(R.font.maru_buri_light, FontWeight.Normal, FontStyle.Normal),
+    Font(R.font.maru_buri_bold, FontWeight.Bold, FontStyle.Normal)
 )
 
 fun textStyle14B(color: Color = MyWhite): TextStyle = TextStyle(
@@ -21,4 +20,25 @@ fun textStyle14B(color: Color = MyWhite): TextStyle = TextStyle(
     fontWeight = FontWeight.Bold,
     fontSize = 14.sp,
     fontFamily = fontFamily
+)
+
+fun textStyle16(color: Color = MyWhite): TextStyle = TextStyle(
+    color = color,
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    fontFamily = fontFamily
+)
+
+fun textStyle20(color: Color = MyWhite): TextStyle = TextStyle(
+    color = color,
+    fontWeight = FontWeight.Normal,
+    fontSize = 20.sp,
+    fontFamily = fontFamily
+)
+
+fun textStyle20B(color: Color = MyWhite): TextStyle = TextStyle(
+    color = color,
+    fontWeight = FontWeight.Bold,
+    fontSize = 20.sp,
+    fontFamily = fontFamily,
 )
