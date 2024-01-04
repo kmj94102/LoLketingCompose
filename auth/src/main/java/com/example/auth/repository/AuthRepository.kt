@@ -8,4 +8,8 @@ interface AuthRepository {
     fun naverLogin(context: Context): Flow<Unit>
 
     fun fetchNaverProfile(): Flow<UserInfo>
+
+    fun kakaoLogin(context: Context): Flow<String>
+
+    fun fetchKakaoProfile(): Flow<String>
 }

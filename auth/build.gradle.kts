@@ -21,6 +21,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "CLIENT_ID", "${properties["client_id"]}")
         buildConfigField("String", "CLIENT_SECRET", "${properties["client_secret"]}")
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "${properties["kakao_native_app_key"]}")
     }
 
     buildTypes {
@@ -73,4 +74,7 @@ dependencies {
 
     // Naver
     implementation("com.navercorp.nid:oauth-jdk8:5.9.0") // jdk 8
+
+    // Kakao
+    implementation("com.kakao.sdk:v2-user:2.19.0")
 }

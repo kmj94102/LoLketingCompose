@@ -29,6 +29,7 @@ import com.example.lolketingcompose.R
 import com.example.lolketingcompose.ui.custom.CommonButton
 import com.example.lolketingcompose.ui.custom.CommonTextField
 import com.example.lolketingcompose.ui.theme.MainColor
+import com.example.lolketingcompose.ui.theme.MyBlack
 import com.example.lolketingcompose.ui.theme.MyWhite
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.textStyle16
@@ -123,11 +124,13 @@ fun LoginScreen(
             Spacer(modifier = Modifier.padding(top = 16.dp))
 
             SocialLoginButton(
-                text = "네이버 로그인",
-                textColor = MyWhite,
-                backgroundColor = Color(0xFF03C75A),
-                iconRes = R.drawable.img_logo_naver,
-                modifier = Modifier.fillMaxWidth()
+                text = "카카오 로그인",
+                textColor = MyBlack,
+                backgroundColor = Color(0xFFFEE500),
+                iconRes = R.drawable.img_logo_kakao,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .nonRippleClickable { viewModel.kakaoLogin(context) }
             )
         }
     }

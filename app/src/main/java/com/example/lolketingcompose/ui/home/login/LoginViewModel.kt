@@ -45,10 +45,26 @@ class LoginViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun fetchNaverProfile() {
+    private fun fetchNaverProfile() {
         repository
             .fetchNaverProfile()
             .onEach { Log.e("++++++", it.toString()) }
+            .catch {  }
+            .launchIn(viewModelScope)
+    }
+
+    fun kakaoLogin(context: Context) {
+        repository
+            .kakaoLogin(context)
+            .onEach { fetchKakaoProfile() }
+            .catch { context.getString(R.string.login_failure)  }
+            .launchIn(viewModelScope)
+    }
+
+    private fun fetchKakaoProfile() {
+        repository
+            .fetchKakaoProfile()
+            .onEach {  }
             .catch {  }
             .launchIn(viewModelScope)
     }
