@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -5,15 +7,20 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
-    namespace = "com.example.network"
-    compileSdk = 34
+    namespace = "com.example.auth"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "CLIENT_ID", "${properties["client_id"]}")
+        buildConfigField("String", "CLIENT_SECRET", "${properties["client_secret"]}")
     }
 
     buildTypes {
@@ -33,13 +40,13 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
     buildFeatures {
         buildConfig = true
     }
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -63,4 +70,7 @@ dependencies {
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Naver
+    implementation("com.navercorp.nid:oauth-jdk8:5.9.0") // jdk 8
 }

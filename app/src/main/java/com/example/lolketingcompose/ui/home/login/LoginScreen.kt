@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -28,17 +29,16 @@ import com.example.lolketingcompose.R
 import com.example.lolketingcompose.ui.custom.CommonButton
 import com.example.lolketingcompose.ui.custom.CommonTextField
 import com.example.lolketingcompose.ui.theme.MainColor
-import com.example.lolketingcompose.ui.theme.MyGray
 import com.example.lolketingcompose.ui.theme.MyWhite
+import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.textStyle16
-import com.example.lolketingcompose.util.textStyle20
 import com.example.lolketingcompose.util.textStyle20B
-import com.example.network.model.LoginInfo
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -116,7 +116,9 @@ fun LoginScreen(
                 textColor = MyWhite,
                 backgroundColor = Color(0xFF03C75A),
                 iconRes = R.drawable.img_logo_naver,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .nonRippleClickable { viewModel.naverLogin(context) }
             )
             Spacer(modifier = Modifier.padding(top = 16.dp))
 
