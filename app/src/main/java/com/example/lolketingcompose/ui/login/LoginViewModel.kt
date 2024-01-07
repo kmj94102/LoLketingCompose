@@ -1,4 +1,4 @@
-package com.example.lolketingcompose.ui.home.login
+package com.example.lolketingcompose.ui.login
 
 import android.content.Context
 import android.util.Log

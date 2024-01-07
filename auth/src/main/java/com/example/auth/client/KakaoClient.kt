@@ -3,10 +3,13 @@ package com.example.auth.client
 import android.content.Context
 import android.util.Log
 import com.example.auth.exception.KakaoException
+import com.example.auth.model.UserInfo
+import com.example.auth.model.UserInfoType
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.User
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -77,15 +80,25 @@ class KakaoClient @Inject constructor() {
                 error.printStackTrace()
                 cont.resumeWithException(KakaoException())
             } else if (user != null) {
-                Log.i(TAG, "사용자 정보 요청 성공" +
-                        "\n회원번호: ${user.id}" +
-                        "\nageRange: ${user.kakaoAccount?.ageRange}" +
-                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                        "\nbirthday: ${user.kakaoAccount?.birthday}" +
-                        "\ngender: ${user.kakaoAccount?.gender}")
+                Log.e("+++++", "$user")
+                user.mapperToUserInfo()
                 cont.resume("")
             }
         }
+    }
+
+    private fun User.mapperToUserInfo(): UserInfo? {
+        return UserInfo(
+            type = UserInfoType.Kakao.type,
+            id = kakaoAccount?.email ?: "",
+            password = "",
+            nickname = kakaoAccount?.profile?.nickname ?: return null,
+            gender = kakaoAccount?.gender?.name ?: "",
+            birthday = kakaoAccount?.birthday ?: "",
+            birthYear = kakaoAccount?.birthyear ?: "",
+            mobile = kakaoAccount?.phoneNumber ?: "",
+            address = ""
+        )
     }
 
 }

@@ -85,6 +85,21 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
 
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // Lottie
+    val lottieVersion = "6.1.0"
+    implementation("com.airbnb.android:lottie:$lottieVersion")
+    implementation("com.airbnb.android:lottie-compose:$lottieVersion")
+
+    val lifecycleVersion = "2.6.2"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
+
     implementation(project(path = ":network"))
     implementation(project(path = ":auth"))
 }

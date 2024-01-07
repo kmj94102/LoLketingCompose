@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 class BaseStatus {
-    var message by mutableStateOf("")
+    var message by mutableStateOf(Any())
         private set
 
     var isLoading by mutableStateOf(false)

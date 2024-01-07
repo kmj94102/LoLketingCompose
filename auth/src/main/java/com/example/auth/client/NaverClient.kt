@@ -68,7 +68,7 @@ class NaverClient @Inject constructor() {
     private fun NidProfile.mapperToUserInfo() : UserInfo? {
         return UserInfo(
             type = UserInfoType.Naver.type,
-            id = id ?: return null,
+            id = email ?: "",
             password = "",
             nickname = nickname ?: return null,
             gender = gender ?: "",

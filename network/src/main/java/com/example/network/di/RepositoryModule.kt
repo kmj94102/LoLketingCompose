@@ -1,5 +1,7 @@
 package com.example.network.di
 
+import com.example.network.repository.AddressRepository
+import com.example.network.repository.AddressRepositoryImpl
 import com.example.network.repository.MainRepository
 import com.example.network.repository.MainRepositoryImpl
 import dagger.Binds
@@ -15,5 +17,10 @@ interface RepositoryModule {
     fun bindMainRepository(
         repository: MainRepositoryImpl
     ): MainRepository
+
+    @Binds
+    fun bindAddressRepository(
+        repository: AddressRepositoryImpl
+    ): AddressRepository
 
 }

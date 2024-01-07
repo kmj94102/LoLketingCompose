@@ -15,6 +15,13 @@ val fontFamily = FontFamily(
     Font(R.font.maru_buri_bold, FontWeight.Bold, FontStyle.Normal)
 )
 
+fun textStyle12(color: Color = MyWhite): TextStyle = TextStyle(
+    color = color,
+    fontWeight = FontWeight.Normal,
+    fontSize = 12.sp,
+    fontFamily = fontFamily
+)
+
 fun textStyle14B(color: Color = MyWhite): TextStyle = TextStyle(
     color = color,
     fontWeight = FontWeight.Bold,
@@ -25,6 +32,13 @@ fun textStyle14B(color: Color = MyWhite): TextStyle = TextStyle(
 fun textStyle16(color: Color = MyWhite): TextStyle = TextStyle(
     color = color,
     fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    fontFamily = fontFamily
+)
+
+fun textStyle16B(color: Color = MyWhite): TextStyle = TextStyle(
+    color = color,
+    fontWeight = FontWeight.Bold,
     fontSize = 16.sp,
     fontFamily = fontFamily
 )

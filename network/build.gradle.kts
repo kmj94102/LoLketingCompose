@@ -1,9 +1,14 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.example.network"
@@ -12,6 +17,7 @@ android {
     defaultConfig {
         minSdk = 24
 
+        buildConfigField("String", "ADDRESS_API_KEY", "${properties["address_api_key"]}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
