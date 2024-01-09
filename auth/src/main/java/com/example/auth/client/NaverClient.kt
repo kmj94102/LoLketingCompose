@@ -70,6 +70,7 @@ class NaverClient @Inject constructor() {
             type = UserInfoType.Naver.type,
             id = email ?: "",
             password = "",
+            passwordCheck = "",
             nickname = nickname ?: return null,
             gender = gender ?: "",
             birthday = birthday ?: "",

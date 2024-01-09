@@ -12,4 +12,7 @@ interface AuthRepository {
     fun kakaoLogin(context: Context): Flow<String>
 
     fun fetchKakaoProfile(): Flow<String>
+
+    fun join(userInfo: UserInfo): Flow<String>
+
 }

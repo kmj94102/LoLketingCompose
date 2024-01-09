@@ -21,6 +21,10 @@ class BaseStatus {
         this.message = message
     }
 
+    fun updateMessage(message: Int) {
+        this.message = message
+    }
+
     fun startLoading() {
         isLoading = true
         isNetworkError = false

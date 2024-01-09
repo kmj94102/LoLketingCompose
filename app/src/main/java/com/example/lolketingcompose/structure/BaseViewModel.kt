@@ -24,12 +24,16 @@ abstract class BaseViewModel: ViewModel() {
         _status.value.updateMessage(message)
     }
 
+    protected fun updateMessage(message: Int) {
+        _status.value.updateMessage(message)
+    }
+
     protected fun updateNetworkErrorState(value: Boolean = true) {
         _status.value.updateNetworkErrorState(value)
     }
 
-    protected fun updateFinish(value: Boolean = true) {
-        _status.value.updateFinish(value)
+    protected fun updateFinish() {
+        _status.value.updateFinish(true)
     }
 
     fun <T> Flow<T>.setLoadingState(): Flow<T> =

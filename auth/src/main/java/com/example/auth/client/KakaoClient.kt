@@ -92,6 +92,7 @@ class KakaoClient @Inject constructor() {
             type = UserInfoType.Kakao.type,
             id = kakaoAccount?.email ?: "",
             password = "",
+            passwordCheck = "",
             nickname = kakaoAccount?.profile?.nickname ?: return null,
             gender = kakaoAccount?.gender?.name ?: "",
             birthday = kakaoAccount?.birthday ?: "",

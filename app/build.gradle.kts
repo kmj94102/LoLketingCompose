@@ -102,5 +102,6 @@ dependencies {
 
     implementation(project(path = ":network"))
     implementation(project(path = ":auth"))
+    implementation(project(path = ":database"))
 }
 

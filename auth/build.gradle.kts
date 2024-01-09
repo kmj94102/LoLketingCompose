@@ -77,4 +77,7 @@ dependencies {
 
     // Kakao
     implementation("com.kakao.sdk:v2-user:2.19.0")
+
+    implementation(project(path = ":database"))
+    implementation(project(path = ":network"))
 }

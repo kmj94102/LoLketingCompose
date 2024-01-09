@@ -9,6 +9,7 @@ data class UserInfo(
     val type: String,
     val id: String,
     val password: String,
+    val passwordCheck: String,
     val nickname: String,
     val gender: String,
     val birthday: String,
@@ -19,14 +20,15 @@ data class UserInfo(
     companion object {
         fun create() = UserInfo(
             type = "",
-            id = "test@test.com",
+            id = "",
             password = "",
+            passwordCheck = "",
             nickname = "",
             gender = "",
             birthday = "",
             birthYear = "",
             mobile = "",
-            address = ""
+            address = "",
         )
     }
 

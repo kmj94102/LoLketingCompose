@@ -18,3 +18,4 @@ rootProject.name = "LoLketingCompose"
 include(":app")
 include(":network")
 include(":auth")
+include(":database")

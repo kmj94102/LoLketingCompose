@@ -71,6 +71,9 @@ fun NavGraphBuilder.homeScreens(
             onBack = onBackClick,
             goToAddress = {
                 navController.navigate(NavScreen.Address.item.routeWithPostFix)
+            },
+            goToHome = {
+                navController.navigate(NavScreen.Home.item.routeWithPostFix)
             }
         )
     }

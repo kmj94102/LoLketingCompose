@@ -17,6 +17,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +45,8 @@ fun JoinScreen(
     viewModel: JoinViewModel = hiltViewModel(),
     address: String?,
     onBack: () -> Unit,
-    goToAddress: () -> Unit
+    goToAddress: () -> Unit,
+    goToHome: () -> Unit
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
 
@@ -59,11 +61,21 @@ fun JoinScreen(
                 viewModel = viewModel,
                 goToAddress = goToAddress
             )
-            CommonButton(text = "회원가입", modifier = Modifier.fillMaxWidth())
+            CommonButton(
+                text = "회원가입",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .nonRippleClickable { viewModel.join() })
         }
     }
 
     address?.let(viewModel::updateAddress)
+
+    LaunchedEffect(viewModel.complete.value) {
+        if (viewModel.complete.value) {
+            goToHome()
+        }
+    }
 
 }
 
@@ -102,13 +114,17 @@ fun JoinBody(
     viewModel: JoinViewModel,
     goToAddress: () -> Unit
 ) {
+    val info = viewModel.info.value
+
     LazyColumn(
         modifier = modifier
     ) {
         item {
             CommonTextField(
-                value = "",
-                onTextChange = {},
+                value = info.id,
+                onTextChange = {
+                    viewModel.updateField { info.copy(id = it) }
+                },
                 hint = "아이디를 입력해주세요",
                 imeAction = ImeAction.Next,
                 leadingIcon = {
@@ -124,8 +140,10 @@ fun JoinBody(
 
             if (viewModel.isEmail.value) {
                 CommonTextField(
-                    value = "",
-                    onTextChange = {},
+                    value = info.password,
+                    onTextChange = {
+                        viewModel.updateField { info.copy(password = it) }
+                    },
                     imeAction = ImeAction.Next,
                     visualTransformation = PasswordVisualTransformation(),
                     hint = "비밀번호를 입력해주세요",
@@ -141,8 +159,10 @@ fun JoinBody(
                 )
 
                 CommonTextField(
-                    value = "",
-                    onTextChange = {},
+                    value = info.passwordCheck,
+                    onTextChange = {
+                        viewModel.updateField { info.copy(passwordCheck = it) }
+                    },
                     imeAction = ImeAction.Next,
                     visualTransformation = PasswordVisualTransformation(),
                     hint = "비밀번호를 다시 입력해주세요",
@@ -159,8 +179,10 @@ fun JoinBody(
             }
 
             CommonTextField(
-                value = "",
-                onTextChange = {},
+                value = info.nickname,
+                onTextChange = {
+                    viewModel.updateField { info.copy(nickname = it) }
+                },
                 hint = "닉네임을 입력해주세요",
                 imeAction = ImeAction.Next,
                 leadingIcon = {
@@ -193,8 +215,10 @@ fun JoinBody(
             }
 
             CommonTextField(
-                value = "",
-                onTextChange = {},
+                value = info.mobile,
+                onTextChange = {
+                    viewModel.updateField { info.copy(mobile = it) }
+                },
                 hint = "전화번호를 입력해주세요",
                 leadingIcon = {
                     Image(
