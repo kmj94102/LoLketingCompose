@@ -5,7 +5,6 @@ import com.example.auth.client.AuthClient
 import com.example.auth.client.KakaoClient
 import com.example.auth.client.NaverClient
 import com.example.auth.exception.NaverException
-import com.example.auth.exception.getFailureThrow
 import com.example.auth.model.UserInfo
 import com.example.database.DatabaseRepository
 import kotlinx.coroutines.flow.flow
@@ -48,7 +47,7 @@ class AuthRepositoryImpl @Inject constructor(
                     .onSuccess { emit(result) }
                     .onFailure { throw Exception("데이터베이스 오류") }
             }
-            .getFailureThrow()
+            .onFailure { throw it }
     }
 
 }

@@ -64,6 +64,4 @@ class JoinViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-
-
 }
