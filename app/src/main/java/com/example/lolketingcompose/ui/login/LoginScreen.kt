@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.auth.model.UserInfo
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.BaseContainer
 import com.example.lolketingcompose.ui.custom.CommonButton
@@ -41,10 +43,13 @@ import com.example.lolketingcompose.util.textStyle20B
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
-    goToJoin: () -> Unit
+    goToJoin: () -> Unit,
+    goToSocialJoin: (UserInfo) -> Unit,
+    goToHome: () -> Unit
 ) {
     val context = LocalContext.current
     val status by viewModel.status.collectAsStateWithLifecycle()
+    val loginStatus by viewModel.loginStatus
 
     BaseContainer(status = status) {
         Column(
@@ -100,7 +105,9 @@ fun LoginScreen(
                 CommonButton(
                     text = "로그인",
                     shape = RoundedCornerShape(3.dp),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .nonRippleClickable(viewModel::emailLogin)
                 )
                 Spacer(modifier = Modifier.padding(top = 22.dp))
 
@@ -144,6 +151,14 @@ fun LoginScreen(
                         .nonRippleClickable { viewModel.kakaoLogin(context) }
                 )
             }
+        }
+    }
+
+    LaunchedEffect(loginStatus) {
+        when (val resultStatus = loginStatus) {
+            is LoginViewModel.LoginStatus.SocialJoin -> goToSocialJoin(resultStatus.userInfo)
+            is LoginViewModel.LoginStatus.Success -> goToHome()
+            else -> {}
         }
     }
 }

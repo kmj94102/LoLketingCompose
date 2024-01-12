@@ -22,9 +22,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,7 +55,7 @@ fun JoinScreen(
 
     BaseContainer(status = status) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            JoinHeader(onBack, "")
+            JoinHeader(onBack, viewModel.guide.value)
             JoinBody(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -101,9 +104,9 @@ fun ColumnScope.JoinHeader(
     )
     Text(
         text = guide,
-        style = textStyle16(MyYellow),
+        style = textStyle16(MyYellow).copy(textAlign = TextAlign.Center),
         modifier = Modifier
-            .padding(vertical = 25.dp)
+            .padding(vertical = 25.dp, horizontal = 20.dp)
             .align(Alignment.CenterHorizontally)
     )
 }
@@ -115,6 +118,7 @@ fun JoinBody(
     goToAddress: () -> Unit
 ) {
     val info = viewModel.info.value
+    val context = LocalContext.current
 
     LazyColumn(
         modifier = modifier
@@ -122,9 +126,18 @@ fun JoinBody(
         item {
             CommonTextField(
                 value = info.id,
-                onTextChange = {
-                    viewModel.updateField { info.copy(id = it) }
+                onTextChange = { value ->
+                    info.copy(id = value).let {
+                        viewModel.updateField { it }
+                        if (it.isEmailValid().not()) {
+                            viewModel.updateGuide(context.getString(R.string.guide_id_format))
+                        } else {
+                            viewModel.updateGuide("")
+                        }
+                    }
                 },
+                isError = info.id.isNotEmpty() && info.isEmailValid().not(),
+                readOnly = viewModel.readOnly.value,
                 hint = "아이디를 입력해주세요",
                 imeAction = ImeAction.Next,
                 leadingIcon = {
@@ -141,9 +154,22 @@ fun JoinBody(
             if (viewModel.isEmail.value) {
                 CommonTextField(
                     value = info.password,
-                    onTextChange = {
-                        viewModel.updateField { info.copy(password = it) }
+                    onTextChange = { value ->
+                        info.copy(password = value).let {
+                            viewModel.updateField { it }
+                            if (it.isPasswordValid().not()) {
+                                viewModel.updateGuide(context.getString(R.string.guide_password))
+                            } else if (it.password.length < 6) {
+                                viewModel.updateGuide(
+                                    context.getString(R.string.guide_password_length)
+                                )
+                            } else {
+                                viewModel.updateGuide("")
+                            }
+                        }
                     },
+                    isError = info.password.isNotEmpty() && info.isPasswordValid().not()
+                            && info.password.length !in 6..30,
                     imeAction = ImeAction.Next,
                     visualTransformation = PasswordVisualTransformation(),
                     hint = "비밀번호를 입력해주세요",
@@ -160,9 +186,17 @@ fun JoinBody(
 
                 CommonTextField(
                     value = info.passwordCheck,
-                    onTextChange = {
-                        viewModel.updateField { info.copy(passwordCheck = it) }
+                    onTextChange = { value ->
+                        info.copy(passwordCheck = value).let {
+                            viewModel.updateField { it }
+                            if (it.password != it.passwordCheck) {
+                                viewModel.updateGuide(context.getString(R.string.guide_password_check))
+                            } else {
+                                viewModel.updateGuide("")
+                            }
+                        }
                     },
+                    isError = info.passwordCheck.isNotEmpty() && info.password != info.passwordCheck,
                     imeAction = ImeAction.Next,
                     visualTransformation = PasswordVisualTransformation(),
                     hint = "비밀번호를 다시 입력해주세요",
@@ -182,7 +216,13 @@ fun JoinBody(
                 value = info.nickname,
                 onTextChange = {
                     viewModel.updateField { info.copy(nickname = it) }
+                    if (it.length >= 11) {
+                        viewModel.updateGuide(context.getString(R.string.guide_nickname_length))
+                    } else {
+                        viewModel.updateGuide("")
+                    }
                 },
+                isError = info.id.isNotEmpty() && info.nickname.length >= 11,
                 hint = "닉네임을 입력해주세요",
                 imeAction = ImeAction.Next,
                 leadingIcon = {
@@ -216,9 +256,18 @@ fun JoinBody(
 
             CommonTextField(
                 value = info.mobile,
-                onTextChange = {
-                    viewModel.updateField { info.copy(mobile = it) }
+                onTextChange = { value ->
+                    if (value.all { it.isDigit() } && value.length < 12) {
+                        viewModel.updateField { info.copy(mobile = value) }
+                    }
+                    if (value.length !in 10..11) {
+                        viewModel.updateGuide(context.getString(R.string.guide_mobile_length))
+                    } else {
+                        viewModel.updateGuide("")
+                    }
                 },
+                isError = info.mobile.isNotEmpty() && info.mobile.length !in 10..11,
+                keyboardType = KeyboardType.Phone,
                 hint = "전화번호를 입력해주세요",
                 leadingIcon = {
                     Image(

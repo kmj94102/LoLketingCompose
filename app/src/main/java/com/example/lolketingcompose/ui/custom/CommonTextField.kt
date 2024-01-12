@@ -29,9 +29,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.lolketingcompose.ui.theme.MainColor
-import com.example.lolketingcompose.ui.theme.MyBlack
 import com.example.lolketingcompose.ui.theme.MyGray
 import com.example.lolketingcompose.ui.theme.MyWhite
+import com.example.lolketingcompose.ui.theme.MyYellow
 import com.example.lolketingcompose.util.textStyle20
 
 @OptIn(
@@ -53,13 +53,14 @@ fun CommonTextField(
     singleLine: Boolean = true,
     maxLines: Int = 1,
     onSearch: (String) -> Unit = {},
+    isError: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(false) }
-    val borderColor = if (isFocused) MainColor else MyWhite
+    val borderColor = if (isError) MyYellow else if (isFocused) MainColor else MyWhite
 
     BasicTextField(
         value = value,
@@ -82,7 +83,7 @@ fun CommonTextField(
             }
         ),
         decorationBox = @Composable { innerTextField ->
-            TextFieldDefaults.TextFieldDecorationBox(
+            TextFieldDefaults.DecorationBox(
                 value = value,
                 innerTextField = innerTextField,
                 enabled = true,
@@ -95,10 +96,14 @@ fun CommonTextField(
                 leadingIcon = leadingIcon,
                 contentPadding = contentPadding,
                 shape = RoundedCornerShape(3.dp),
-                colors = TextFieldDefaults.textFieldColors(
+                isError = isError,
+                colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    containerColor = MyBlack,
+                    errorIndicatorColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedContainerColor = Color.Transparent,
+                    errorContainerColor = Color.Transparent
                 )
             )
         },

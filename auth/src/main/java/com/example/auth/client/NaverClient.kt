@@ -47,7 +47,6 @@ class NaverClient @Inject constructor() {
         val callProfileApi = object : NidProfileCallback<NidProfileResponse> {
 
             override fun onSuccess(result: NidProfileResponse) {
-                Log.e("++++++", "profile ${result.profile}")
                 cont.resume(result.profile?.mapperToUserInfo())
             }
 
@@ -75,7 +74,7 @@ class NaverClient @Inject constructor() {
             gender = gender ?: "",
             birthday = birthday ?: "",
             birthYear = birthYear ?: "",
-            mobile = mobile ?: "",
+            mobile = mobile?.replace("-", "") ?: "",
             address = ""
         )
     }

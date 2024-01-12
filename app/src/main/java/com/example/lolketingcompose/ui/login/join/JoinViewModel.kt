@@ -30,6 +30,12 @@ class JoinViewModel @Inject constructor(
     private val _info = mutableStateOf(UserInfo.create())
     val info: State<UserInfo> = _info
 
+    private val _readOnly = mutableStateOf(false)
+    val readOnly: State<Boolean> =_readOnly
+
+    private val _guide = mutableStateOf("")
+    val guide: State<String> = _guide
+
     private val _complete = mutableStateOf(false)
     val complete: State<Boolean> = _complete
 
@@ -40,6 +46,10 @@ class JoinViewModel @Inject constructor(
             updateFinish()
         }
         savedStateHandle.getArgumentDecode<UserInfo>(NavScreen.Join.Data)?.let {
+            _info.value = it
+            if (it.id.trim().isNotEmpty()) {
+                _readOnly.value = true
+            }
         }
     }
 
@@ -62,6 +72,10 @@ class JoinViewModel @Inject constructor(
                 updateMessage(it.message ?: "회원가입 실패")
             }
             .launchIn(viewModelScope)
+    }
+
+    fun updateGuide(msg: String) {
+        _guide.value = msg
     }
 
 }

@@ -132,6 +132,7 @@ fun AddressBody(
                         contentDescription = null
                     )
                 },
+                hint = "상세 주소를 입력해주세요.",
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
             )
             Spacer(modifier = Modifier.weight(1f))

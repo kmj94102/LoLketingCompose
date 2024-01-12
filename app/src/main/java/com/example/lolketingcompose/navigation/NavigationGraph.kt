@@ -25,7 +25,6 @@ fun NavigationGraph(
         navController = navController,
         startDestination = NavScreen.Login.item.routeWithPostFix
     ) {
-
         homeScreens(onBackClick, navController)
     }
 }
@@ -51,6 +50,20 @@ fun NavGraphBuilder.homeScreens(
                         argumentEncode(UserInfo.create())
                     )
                 )
+            },
+            goToSocialJoin = {
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.Join.item.route,
+                        it.type,
+                        argumentEncode(it)
+                    )
+                )
+            },
+            goToHome = {
+                navController.navigate(NavScreen.Home.item.routeWithPostFix) {
+                    navController.popBackStack()
+                }
             }
         )
     }
@@ -73,7 +86,9 @@ fun NavGraphBuilder.homeScreens(
                 navController.navigate(NavScreen.Address.item.routeWithPostFix)
             },
             goToHome = {
-                navController.navigate(NavScreen.Home.item.routeWithPostFix)
+                navController.navigate(NavScreen.Home.item.routeWithPostFix) {
+                    navController.popBackStack()
+                }
             }
         )
     }

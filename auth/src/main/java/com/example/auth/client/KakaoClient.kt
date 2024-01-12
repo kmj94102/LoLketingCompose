@@ -1,7 +1,6 @@
 package com.example.auth.client
 
 import android.content.Context
-import android.util.Log
 import com.example.auth.exception.KakaoException
 import com.example.auth.model.UserInfo
 import com.example.auth.model.UserInfoType
@@ -16,9 +15,6 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class KakaoClient @Inject constructor() {
-    companion object {
-        private const val TAG = "KakaoClient"
-    }
 
     suspend fun kakaoLogin(context: Context) = suspendCoroutine { cont ->
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -80,9 +76,7 @@ class KakaoClient @Inject constructor() {
                 error.printStackTrace()
                 cont.resumeWithException(KakaoException())
             } else if (user != null) {
-                Log.e("+++++", "$user")
-                user.mapperToUserInfo()
-                cont.resume("")
+                cont.resume(user.mapperToUserInfo())
             }
         }
     }
@@ -97,7 +91,7 @@ class KakaoClient @Inject constructor() {
             gender = kakaoAccount?.gender?.name ?: "",
             birthday = kakaoAccount?.birthday ?: "",
             birthYear = kakaoAccount?.birthyear ?: "",
-            mobile = kakaoAccount?.phoneNumber ?: "",
+            mobile = kakaoAccount?.phoneNumber?.replace("-", "") ?: "",
             address = ""
         )
     }
