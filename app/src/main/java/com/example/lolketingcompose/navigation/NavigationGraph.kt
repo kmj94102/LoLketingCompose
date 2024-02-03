@@ -13,6 +13,7 @@ import com.example.lolketingcompose.ui.home.HomeScreen
 import com.example.lolketingcompose.ui.login.LoginScreen
 import com.example.lolketingcompose.ui.login.address.AddressScreen
 import com.example.lolketingcompose.ui.login.join.JoinScreen
+import com.example.lolketingcompose.ui.mypage.MyPageScreen
 import com.example.lolketingcompose.util.Constants
 import com.example.lolketingcompose.util.argumentEncode
 
@@ -27,6 +28,7 @@ fun NavigationGraph(
         startDestination = NavScreen.Home.item.routeWithPostFix
     ) {
         homeScreens(onBackClick, navController)
+        myPageScreens(onBackClick, navController)
     }
 }
 
@@ -38,6 +40,7 @@ fun NavGraphBuilder.homeScreens(
         route = NavScreen.Home.item.routeWithPostFix
     ) {
         HomeScreen(
+            goToScreen = { navController.navigate(it) },
             goToLogin = {
                 navController.navigate(NavScreen.Login.item.routeWithPostFix)
             }
@@ -111,6 +114,19 @@ fun NavGraphBuilder.homeScreens(
                     ?.savedStateHandle
                     ?.set(Constants.Address, it)
             }
+        )
+    }
+}
+
+fun NavGraphBuilder.myPageScreens(
+    onBackClick: () -> Unit,
+    navController: NavHostController
+) {
+    composable(
+        route = NavScreen.MyPage.item.routeWithPostFix
+    ) {
+        MyPageScreen(
+            onBackClick = onBackClick
         )
     }
 }

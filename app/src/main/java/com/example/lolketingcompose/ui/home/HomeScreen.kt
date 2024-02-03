@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import com.example.lolketingcompose.R
+import com.example.lolketingcompose.navigation.NavScreen
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle14B
@@ -29,6 +30,7 @@ import com.example.lolketingcompose.util.textStyle14B
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
+    goToScreen: (String) -> Unit,
     goToLogin: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -67,7 +69,7 @@ fun HomeScreen(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_profile,
                         text = "내 정보",
-                        onClick = {}
+                        onClick = { goToScreen(NavScreen.MyPage.item.routeWithPostFix) }
                     )
                 )
             }

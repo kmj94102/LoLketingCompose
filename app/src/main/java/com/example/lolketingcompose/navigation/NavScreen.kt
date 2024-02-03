@@ -28,4 +28,10 @@ sealed class NavScreen(val item: NavItem) {
             route = "Address"
         )
     )
+
+    object MyPage: NavScreen(
+        NavItem(
+            route = "MyPage"
+        )
+    )
 }

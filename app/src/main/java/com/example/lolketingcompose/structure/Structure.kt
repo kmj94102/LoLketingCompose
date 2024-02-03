@@ -137,7 +137,7 @@ fun HeaderBodyContainer(
 fun CommonHeader(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
-    title: String,
+    title: String = "",
     centerItem: @Composable () -> Unit = {
         Text(text = title, style = textStyle16B(MainColor))
     },
@@ -159,6 +159,7 @@ fun CommonHeader(
         }
         Box(
             modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .height(1.dp)
                 .background(MyGray)
