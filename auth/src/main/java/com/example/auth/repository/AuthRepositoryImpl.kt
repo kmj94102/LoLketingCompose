@@ -101,4 +101,6 @@ class AuthRepositoryImpl @Inject constructor(
         naverClient.naverUnlink()
     }
 
+    override suspend fun isLogin() = databaseRepository.isLogin()
+
 }

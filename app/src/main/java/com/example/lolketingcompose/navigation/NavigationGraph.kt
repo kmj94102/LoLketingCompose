@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.auth.model.UserInfo
+import com.example.auth.model.UserInfoType
 import com.example.lolketingcompose.ui.home.HomeScreen
 import com.example.lolketingcompose.ui.login.LoginScreen
 import com.example.lolketingcompose.ui.login.address.AddressScreen
@@ -23,7 +24,7 @@ fun NavigationGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NavScreen.Login.item.routeWithPostFix
+        startDestination = NavScreen.Home.item.routeWithPostFix
     ) {
         homeScreens(onBackClick, navController)
     }
@@ -36,7 +37,11 @@ fun NavGraphBuilder.homeScreens(
     composable(
         route = NavScreen.Home.item.routeWithPostFix
     ) {
-        HomeScreen()
+        HomeScreen(
+            goToLogin = {
+                navController.navigate(NavScreen.Login.item.routeWithPostFix)
+            }
+        )
     }
     composable(
         route = NavScreen.Login.item.routeWithPostFix
@@ -46,8 +51,10 @@ fun NavGraphBuilder.homeScreens(
                 navController.navigate(
                     makeRouteWithArgs(
                         NavScreen.Join.item.route,
-                        "email",
-                        argumentEncode(UserInfo.create())
+                        UserInfoType.Email.type,
+                        argumentEncode(
+                            UserInfo.create().copy(type = UserInfoType.Email.type)
+                        )
                     )
                 )
             },

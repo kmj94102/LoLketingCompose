@@ -9,4 +9,7 @@ class DatabaseRepositoryImpl @Inject constructor(
     override suspend fun insertInfo(id: String, nickname: String) =
         client.insertInfo(AuthEntity(id = id, nickname = nickname))
 
+    override suspend fun isLogin(): Boolean =
+        client.isLogin().getOrElse { false }
+
 }

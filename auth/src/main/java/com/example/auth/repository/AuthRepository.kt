@@ -17,4 +17,6 @@ interface AuthRepository {
 
     suspend fun naverUnlink()
 
+    suspend fun isLogin(): Boolean
+
 }

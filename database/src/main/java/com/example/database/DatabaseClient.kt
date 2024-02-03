@@ -10,4 +10,8 @@ class DatabaseClient @Inject constructor(
         dao.insertInfo(authEntity)
     }
 
+    suspend fun isLogin() = runCatching {
+        dao.isLogin() > 0
+    }
+
 }
