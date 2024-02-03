@@ -3,7 +3,7 @@ package com.example.auth.client
 import android.content.Context
 import android.util.Log
 import com.example.auth.exception.NaverException
-import com.example.auth.model.UserInfo
+import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
@@ -64,8 +64,8 @@ class NaverClient @Inject constructor() {
         NidOAuthLogin().callProfileApi(callProfileApi)
     }
 
-    private fun NidProfile.mapperToUserInfo() : UserInfo? {
-        return UserInfo(
+    private fun NidProfile.mapperToUserInfo() : JoinInfo? {
+        return JoinInfo(
             type = UserInfoType.Naver.type,
             id = email ?: "",
             password = "",

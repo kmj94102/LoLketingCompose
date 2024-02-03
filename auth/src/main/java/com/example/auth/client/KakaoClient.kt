@@ -2,7 +2,7 @@ package com.example.auth.client
 
 import android.content.Context
 import com.example.auth.exception.KakaoException
-import com.example.auth.model.UserInfo
+import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -81,8 +81,8 @@ class KakaoClient @Inject constructor() {
         }
     }
 
-    private fun User.mapperToUserInfo(): UserInfo? {
-        return UserInfo(
+    private fun User.mapperToUserInfo(): JoinInfo? {
+        return JoinInfo(
             type = UserInfoType.Kakao.type,
             id = kakaoAccount?.email ?: "",
             password = "",

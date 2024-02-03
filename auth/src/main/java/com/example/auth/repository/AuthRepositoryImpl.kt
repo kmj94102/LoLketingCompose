@@ -8,7 +8,7 @@ import com.example.auth.exception.KakaoException
 import com.example.auth.exception.NaverException
 import com.example.auth.model.LoginInfo
 import com.example.auth.model.SocialLoginInfo
-import com.example.auth.model.UserInfo
+import com.example.auth.model.JoinInfo
 import com.example.database.DatabaseRepository
 import com.example.network.util.NetworkException
 import kotlinx.coroutines.flow.flow
@@ -21,12 +21,12 @@ class AuthRepositoryImpl @Inject constructor(
     private val databaseRepository: DatabaseRepository
 ): AuthRepository {
 
-    override fun join(userInfo: UserInfo) = flow {
-        userInfo.checkValidation()
-        authClient.join(userInfo)
+    override fun join(joinInfo: JoinInfo) = flow {
+        joinInfo.checkValidation()
+        authClient.join(joinInfo)
             .onSuccess { result ->
                 databaseRepository
-                    .insertInfo(id = userInfo.id, nickname = userInfo.nickname)
+                    .insertInfo(id = joinInfo.id, nickname = joinInfo.nickname)
                     .onSuccess { emit(result) }
                     .onFailure { throw Exception("데이터베이스 오류") }
             }
@@ -91,7 +91,7 @@ class AuthRepositoryImpl @Inject constructor(
             }
     }
 
-    private suspend fun socialLogin(info: UserInfo) =
+    private suspend fun socialLogin(info: JoinInfo) =
         authClient
             .socialLogin(
                 SocialLoginInfo(type = info.type, id = info.id)

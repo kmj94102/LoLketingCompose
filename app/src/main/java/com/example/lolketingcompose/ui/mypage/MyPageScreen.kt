@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.auth.model.UserInfo
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.HeaderBodyContainer
 
@@ -31,10 +30,9 @@ fun MyPageScreen(
 
 @Composable
 fun UserInfoContainer(
-    userInfo: UserInfo,
     modifier: Modifier
 ) {
     Row(modifier = modifier) {
-        
+
     }
 }

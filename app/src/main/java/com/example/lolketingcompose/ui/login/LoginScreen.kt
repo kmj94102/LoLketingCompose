@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.auth.model.UserInfo
+import com.example.auth.model.JoinInfo
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.BaseContainer
 import com.example.lolketingcompose.ui.custom.CommonButton
@@ -44,7 +44,7 @@ import com.example.lolketingcompose.util.textStyle20B
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     goToJoin: () -> Unit,
-    goToSocialJoin: (UserInfo) -> Unit,
+    goToSocialJoin: (JoinInfo) -> Unit,
     goToHome: () -> Unit
 ) {
     val context = LocalContext.current
@@ -156,7 +156,7 @@ fun LoginScreen(
 
     LaunchedEffect(loginStatus) {
         when (val resultStatus = loginStatus) {
-            is LoginViewModel.LoginStatus.SocialJoin -> goToSocialJoin(resultStatus.userInfo)
+            is LoginViewModel.LoginStatus.SocialJoin -> goToSocialJoin(resultStatus.joinInfo)
             is LoginViewModel.LoginStatus.Success -> goToHome()
             else -> {}
         }

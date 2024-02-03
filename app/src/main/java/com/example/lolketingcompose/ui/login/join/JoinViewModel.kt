@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.auth.model.UserInfo
+import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
 import com.example.auth.repository.AuthRepository
 import com.example.lolketingcompose.R
@@ -27,8 +27,8 @@ class JoinViewModel @Inject constructor(
     private val _isEmail = mutableStateOf(type == UserInfoType.Email.type)
     val isEmail: State<Boolean> = _isEmail
 
-    private val _info = mutableStateOf(UserInfo.create())
-    val info: State<UserInfo> = _info
+    private val _info = mutableStateOf(JoinInfo.create())
+    val info: State<JoinInfo> = _info
 
     private val _readOnly = mutableStateOf(false)
     val readOnly: State<Boolean> =_readOnly
@@ -45,7 +45,7 @@ class JoinViewModel @Inject constructor(
             updateMessage("오류가 발생하였습니다.")
             updateFinish()
         }
-        savedStateHandle.getArgumentDecode<UserInfo>(NavScreen.Join.Data)?.let {
+        savedStateHandle.getArgumentDecode<JoinInfo>(NavScreen.Join.Data)?.let {
             _info.value = it
             if (it.id.trim().isNotEmpty()) {
                 _readOnly.value = true
@@ -53,7 +53,7 @@ class JoinViewModel @Inject constructor(
         }
     }
 
-    fun updateField(updateValue: () -> UserInfo) {
+    fun updateField(updateValue: () -> JoinInfo) {
         _info.value = updateValue()
     }
 

@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.auth.model.LoginInfo
-import com.example.auth.model.UserInfo
+import com.example.auth.model.JoinInfo
 import com.example.auth.repository.AuthRepository
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.BaseViewModel
@@ -93,7 +93,7 @@ class LoginViewModel @Inject constructor(
 
         object Success: LoginStatus()
 
-        data class SocialJoin(val userInfo: UserInfo): LoginStatus()
+        data class SocialJoin(val joinInfo: JoinInfo): LoginStatus()
     }
 
 }

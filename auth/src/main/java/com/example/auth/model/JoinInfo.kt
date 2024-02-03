@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class UserInfo(
+data class JoinInfo(
     val type: String,
     val id: String,
     val password: String,
@@ -18,7 +18,7 @@ data class UserInfo(
     val address: String,
 ) : Parcelable {
     companion object {
-        fun create() = UserInfo(
+        fun create() = JoinInfo(
             type = "",
             id = "",
             password = "",

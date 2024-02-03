@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.auth.model.UserInfo
+import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
 import com.example.lolketingcompose.ui.home.HomeScreen
 import com.example.lolketingcompose.ui.login.LoginScreen
@@ -56,7 +56,7 @@ fun NavGraphBuilder.homeScreens(
                         NavScreen.Join.item.route,
                         UserInfoType.Email.type,
                         argumentEncode(
-                            UserInfo.create().copy(type = UserInfoType.Email.type)
+                            JoinInfo.create().copy(type = UserInfoType.Email.type)
                         )
                     )
                 )
