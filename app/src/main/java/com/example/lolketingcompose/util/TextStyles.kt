@@ -81,3 +81,14 @@ fun textStyle20B(
     fontFamily = fontFamily,
     textAlign = textAlign
 )
+
+fun textStyle22B(
+    color: Color = MyWhite,
+    textAlign: TextAlign = TextAlign.Start
+): TextStyle = TextStyle(
+    color = color,
+    fontWeight = FontWeight.Bold,
+    fontSize = 22.sp,
+    fontFamily = fontFamily,
+    textAlign = textAlign
+)

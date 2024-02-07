@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,9 +21,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,14 +39,21 @@ import coil.compose.AsyncImage
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.HeaderBodyContainer
+import com.example.lolketingcompose.ui.custom.CommonTextField
 import com.example.lolketingcompose.ui.custom.TextProgress
+import com.example.lolketingcompose.ui.dialog.CommonConfirmDialog
+import com.example.lolketingcompose.ui.dialog.ConfirmDialog
 import com.example.lolketingcompose.ui.theme.MainColor
+import com.example.lolketingcompose.ui.theme.MyRed
 import com.example.lolketingcompose.ui.theme.MyWhite
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle12
+import com.example.lolketingcompose.util.textStyle16
 import com.example.lolketingcompose.util.textStyle16B
 import com.example.lolketingcompose.util.textStyle20B
+import com.example.lolketingcompose.util.textStyle22B
+import com.example.lolketingcompose.util.toast
 import com.example.network.model.Grade
 import com.example.network.model.MyInfo
 
@@ -50,6 +63,8 @@ fun MyPageScreen(
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
+    var isLogoutDialogShow by remember { mutableStateOf(false) }
+    var isWithdrawalDialogShow by remember { mutableStateOf(false) }
 
     HeaderBodyContainer(
         status = status,
@@ -86,8 +101,8 @@ fun MyPageScreen(
                 goToPurchase = {
 
                 },
-                logout = { viewModel.logout() },
-                withdrawal = { viewModel.withdrawal() }
+                logout = { isLogoutDialogShow = true },
+                withdrawal = { isWithdrawalDialogShow = true }
             )
         }
     )
@@ -103,6 +118,18 @@ fun MyPageScreen(
     LaunchedEffect(isLogout) {
         if (isLogout) onBackClick()
     }
+
+    LogoutDialog(
+        isShow = isLogoutDialogShow,
+        onDismiss = { isLogoutDialogShow = false },
+        listener = { viewModel.logout() }
+    )
+
+    WithdrawalDialog(
+        isShow = isWithdrawalDialogShow,
+        onDismiss = { isWithdrawalDialogShow = false },
+        listener = { viewModel.withdrawal() }
+    )
 }
 
 @Composable
@@ -291,7 +318,7 @@ fun SettingsContainer(
                 .background(MyWhite)
         )
 
-        SettingItem("로그아웃", logout)
+        SettingItem(stringResource(id = R.string.logout), logout)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -299,7 +326,7 @@ fun SettingsContainer(
                 .background(MyWhite)
         )
 
-        SettingItem("회원 탈퇴", withdrawal)
+        SettingItem(stringResource(id = R.string.withdrawal), withdrawal)
     }
 }
 
@@ -327,4 +354,76 @@ fun SettingItem(
             modifier = Modifier.padding(end = 10.dp)
         )
     }
+}
+
+@Composable
+fun LogoutDialog(
+    isShow: Boolean,
+    onDismiss: () -> Unit,
+    listener: () -> Unit
+) {
+    ConfirmDialog(
+        isShow = isShow,
+        content = stringResource(id = R.string.guide_logout),
+        onDismiss = onDismiss,
+        okClick = {
+            listener()
+            onDismiss()
+        }
+    )
+}
+
+@Composable
+fun WithdrawalDialog(
+    isShow: Boolean,
+    onDismiss: () -> Unit,
+    listener: () -> Unit
+) {
+    var textFieldValue by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    CommonConfirmDialog(
+        isShow = isShow,
+        onDismiss = onDismiss,
+        title = {
+            Text(
+                text = stringResource(id = R.string.withdrawal),
+                style = textStyle22B(textAlign = TextAlign.Center),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            )
+        },
+        contents = {
+            Column {
+                Text(
+                    text = stringResource(id = R.string.guide_withdrawal),
+                    style = textStyle16(textAlign = TextAlign.Center),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                )
+                Spacer(modifier = Modifier.height(25.dp))
+                CommonTextField(
+                    value = textFieldValue,
+                    onTextChange = { textFieldValue = it },
+                    contentPadding = PaddingValues(10.dp),
+                    hint = stringResource(id = R.string.withdrawal),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                )
+            }
+        },
+        okClick = {
+            if (textFieldValue == context.getString(R.string.withdrawal)) {
+                listener()
+                onDismiss()
+            } else {
+                context.toast(R.string.wrong_input_withdrawal)
+            }
+        },
+        okText = stringResource(id = R.string.do_withdrawal),
+        okButtonColor = MyRed
+    )
 }

@@ -12,4 +12,11 @@
     <string name="guide_password_check">비밀번호와 비밀번호 확인이 일치하지 않습니다.</string>
     <string name="guide_mobile_length">전화번호를 확인해 주세요.</string>
     <string name="reload">다시 시도</string>
+
+    <string name="logout">로그아웃</string>
+    <string name="guide_logout">로그아웃을 하시겠습니까?</string>
+    <string name="withdrawal">회원 탈퇴</string>
+    <string name="guide_withdrawal">회원 탈퇴를 진행하시려면\n아래의 입력창에 \‘회원 탈퇴\'를 입력 후\n탈퇴하기 버튼을 눌러주세요.</string>
+    <string name="wrong_input_withdrawal">회원 탈퇴를 정확히 입력해 주세요.</string>
+    <string name="do_withdrawal">탈퇴하기</string>
 </resources>
