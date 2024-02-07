@@ -14,4 +14,12 @@ class DatabaseClient @Inject constructor(
         dao.isLogin() > 0
     }
 
+    suspend fun getUserId() = runCatching {
+        dao.getUserId()
+    }
+
+    suspend fun logout() = runCatching {
+        dao.logout()
+    }
+
 }

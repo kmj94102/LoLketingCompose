@@ -6,4 +6,8 @@ interface DatabaseRepository {
 
     suspend fun isLogin(): Boolean
 
+    suspend fun getUserId(): String
+
+    suspend fun logout(): Result<Unit>
+
 }

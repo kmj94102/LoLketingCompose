@@ -14,4 +14,10 @@ interface AuthDao {
     @Query("SELECT COUNT(*) FROM AuthEntity")
     suspend fun isLogin(): Int
 
+    @Query("SELECT id FROM AuthEntity LIMIT 1")
+    suspend fun getUserId(): String
+
+    @Query("DELETE FROM AuthEntity")
+    suspend fun logout()
+
 }

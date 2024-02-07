@@ -97,8 +97,24 @@ class AuthRepositoryImpl @Inject constructor(
                 SocialLoginInfo(type = info.type, id = info.id)
             )
 
-    override suspend fun naverUnlink() {
-        naverClient.naverUnlink()
+    override suspend fun logout() = databaseRepository.logout()
+
+    override suspend fun withdrawal(): Result<Unit> = runCatching {
+        val id = databaseRepository.getUserId()
+        if (id.isEmpty()) throw Exception("유저 정보가 없습니다.")
+
+        authClient
+            .withdrawal(id)
+            .onSuccess {
+                if (it.type == "kakao") {
+                    kakaoClient.kakaoUnlink()
+                } else if (it.type == "naver") {
+                    naverClient.naverUnlink()
+                }
+            }
+            .onFailure { throw it }
+
+        databaseRepository.logout()
     }
 
     override suspend fun isLogin() = databaseRepository.isLogin()

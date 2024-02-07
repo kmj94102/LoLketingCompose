@@ -1,5 +1,6 @@
 package com.example.auth.client
 
+import com.example.auth.model.IdParam
 import com.example.auth.model.LoginInfo
 import com.example.auth.model.SocialLoginInfo
 import com.example.auth.model.JoinInfo
@@ -21,6 +22,10 @@ class AuthClient @Inject constructor(
 
     suspend fun socialLogin(item: SocialLoginInfo) = runCatching {
         service.socialLogin(item).result()
+    }
+
+    suspend fun withdrawal(id: String) = runCatching {
+        service.withdrawal(IdParam(id)).result()
     }
 
 }

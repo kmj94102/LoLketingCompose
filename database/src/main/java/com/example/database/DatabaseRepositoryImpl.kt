@@ -12,4 +12,10 @@ class DatabaseRepositoryImpl @Inject constructor(
     override suspend fun isLogin(): Boolean =
         client.isLogin().getOrElse { false }
 
+    override suspend fun getUserId(): String =
+        client.getUserId().getOrElse { "" }
+
+    override suspend fun logout() =
+        client.logout()
+
 }

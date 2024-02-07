@@ -15,8 +15,11 @@ interface AuthRepository {
 
     fun kakaoLogin(context: Context): Flow<JoinInfo?>
 
-    suspend fun naverUnlink()
+    suspend fun logout(): Result<Unit>
+
+    suspend fun withdrawal(): Result<Unit>
 
     suspend fun isLogin(): Boolean
+
 
 }
