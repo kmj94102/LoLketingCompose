@@ -122,6 +122,7 @@ fun UserInfoContainer(
                 modifier = Modifier
                     .size(90.dp)
                     .border(1.dp, MyWhite, CircleShape)
+                    .padding(8.dp)
             )
             Text(
                 text = Grade.getKoreanName(myInfo.grade),
@@ -171,7 +172,7 @@ fun UserInfoContainer(
 
     TextProgress(
         maxValue = Grade.getMaxPoint(myInfo.grade),
-        value = myInfo.point,
+        value = if (myInfo.grade == Grade.MASTER.code) Grade.MASTER.maxPoint else myInfo.point,
         modifier = modifier
     )
 }
