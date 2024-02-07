@@ -39,9 +39,10 @@ fun TextProgress(
         animationSpec = tween(durationMillis = 2500),
         label = ""
     )
-    LaunchedEffect(Unit) {
-        isStart = true
-    }
+    val text =
+        if (maxValue <= value) "MAX" else "${formatNumber(value)} / ${formatNumber(maxValue)}"
+
+    LaunchedEffect(Unit) { isStart = true }
 
     Box(
         modifier = modifier
@@ -55,7 +56,7 @@ fun TextProgress(
                 .background(MainColor, RoundedCornerShape(16.dp))
         )
         Text(
-            text = "${formatNumber(value)} / ${formatNumber(maxValue)}",
+            text = text,
             style = textStyle14B(),
             modifier = Modifier.align(Alignment.Center)
         )
