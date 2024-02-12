@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.auth.repository.AuthRepository
 import com.example.lolketingcompose.structure.BaseViewModel
 import com.example.network.model.MyInfo
+import com.example.network.model.UpdateCashItem
+import com.example.network.model.UpdateCouponItem
 import com.example.network.repository.MainRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -47,6 +49,38 @@ class MyPageViewModel @Inject constructor(
             .withdrawal()
             .onSuccess { _isLogout.value = true }
             .onFailure { updateMessage(it.message ?: "회원 탈퇴 실패") }
+    }
+
+    fun updateCashCharging(cash: Int) {
+        mainRepository
+            .updateCashCharging(
+                UpdateCashItem(
+                    id = _myInfo.value.id,
+                    cash = cash
+                )
+            )
+            .setLoadingState()
+            .onEach {
+                _myInfo.value = it
+            }
+            .catch { updateMessage(it.message ?: "충전 중 오류가 발생하였습니다.") }
+            .launchIn(viewModelScope)
+    }
+
+    fun updateUsingCoupon(id: Int) {
+        mainRepository
+            .updateUsingCoupon(
+                UpdateCouponItem(
+                    id = _myInfo.value.id,
+                    couponId = id
+                )
+            )
+            .setLoadingState()
+            .onEach {
+                _myInfo.value = it
+            }
+            .catch { updateMessage(it.message ?: "오류가 발생하였습니다.") }
+            .launchIn(viewModelScope)
     }
 
 }

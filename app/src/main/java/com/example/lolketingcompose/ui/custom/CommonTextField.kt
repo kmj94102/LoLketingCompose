@@ -54,7 +54,8 @@ fun CommonTextField(
     maxLines: Int = 1,
     onSearch: (String) -> Unit = {},
     isError: Boolean = false,
-    leadingIcon: @Composable (() -> Unit)? = null
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -94,6 +95,7 @@ fun CommonTextField(
                     Text(text = hint, style = textStyle, color = MyGray)
                 },
                 leadingIcon = leadingIcon,
+                trailingIcon = trailingIcon,
                 contentPadding = contentPadding,
                 shape = RoundedCornerShape(3.dp),
                 isError = isError,

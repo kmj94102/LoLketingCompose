@@ -14,6 +14,7 @@ import com.example.lolketingcompose.ui.login.LoginScreen
 import com.example.lolketingcompose.ui.login.address.AddressScreen
 import com.example.lolketingcompose.ui.login.join.JoinScreen
 import com.example.lolketingcompose.ui.mypage.MyPageScreen
+import com.example.lolketingcompose.ui.mypage.modify.MyInfoModifyScreen
 import com.example.lolketingcompose.util.Constants
 import com.example.lolketingcompose.util.argumentEncode
 
@@ -126,7 +127,24 @@ fun NavGraphBuilder.myPageScreens(
         route = NavScreen.MyPage.item.routeWithPostFix
     ) {
         MyPageScreen(
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            goToModify = {
+                navController.navigate(NavScreen.MyPageModify.item.routeWithPostFix)
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.MyPageModify.item.routeWithPostFix
+    ) { entry ->
+        val address = entry
+            .savedStateHandle
+            .get<String>(Constants.Address)
+
+        MyInfoModifyScreen(
+            address = address,
+            onBackClick = onBackClick,
+            goToAddress = { navController.navigate(NavScreen.Address.item.routeWithPostFix) }
         )
     }
 }

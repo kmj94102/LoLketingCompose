@@ -33,7 +33,7 @@ class MainRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
-    override suspend fun fetchCashInfo() = flow {
+    override fun fetchCashInfo() = flow {
         val userId = databaseRepository.getUserId()
         if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
 
@@ -43,28 +43,28 @@ class MainRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
-    override suspend fun updateCashCharging(item: UpdateCashItem) = flow {
+    override fun updateCashCharging(item: UpdateCashItem) = flow {
         client
             .updateCashCharging(item)
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }
 
-    override suspend fun fetchCouponList(id: String) = flow {
+    override fun fetchCouponList(id: String) = flow {
         client
             .fetchCouponList(id)
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }
 
-    override suspend fun updateUsingCoupon(item: UpdateCouponItem) = flow {
+    override fun updateUsingCoupon(item: UpdateCouponItem) = flow {
         client
             .updateUsingCoupon(item)
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }
 
-    override suspend fun updateMyInfo(item: ModifyInfo) = flow {
+    override fun updateMyInfo(item: ModifyInfo) = flow {
         client
             .updateMyInfo(item)
             .onSuccess { emit(Unit) }

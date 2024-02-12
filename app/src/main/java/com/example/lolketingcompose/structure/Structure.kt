@@ -166,3 +166,29 @@ fun CommonHeader(
         )
     }
 }
+
+@Composable
+fun TopBodyBottomContainer(
+    status: BaseStatus,
+    paddingValues: PaddingValues = PaddingValues(0.dp),
+    reload: (() -> Unit)? = null,
+    onBackClick: (() -> Unit)? = null,
+    errorScreen: (@Composable () -> Unit)? = null,
+    topContent: @Composable ColumnScope.() -> Unit,
+    bodyContent: @Composable ColumnScope.() -> Unit,
+    bottomContent: @Composable ColumnScope.() -> Unit,
+) {
+    BaseContainer(
+        status = status,
+        paddingValues = paddingValues,
+        reload = reload,
+        onBackClick = onBackClick,
+        errorScreen = errorScreen
+    ) {
+        topContent()
+        Column(modifier = Modifier.weight(1f)) {
+            bodyContent()
+        }
+        bottomContent()
+    }
+}

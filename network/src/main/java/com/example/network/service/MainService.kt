@@ -28,6 +28,6 @@ interface MainService {
     suspend fun updateUsingCoupon(@Body item: UpdateCouponItem): Response<MyInfo>
 
     @POST("/user/update/myInfo")
-    suspend fun updateMyInfo(@Body item: ModifyInfo)
+    suspend fun updateMyInfo(@Body item: ModifyInfo): Response<Unit>
 
 }

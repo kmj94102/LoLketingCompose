@@ -14,14 +14,14 @@ interface MainRepository {
 
     fun fetchModifyInfo(): Flow<ModifyInfo>
     
-    suspend fun fetchCashInfo(): Flow<MyCash>
+    fun fetchCashInfo(): Flow<MyCash>
 
-    suspend fun updateCashCharging(item: UpdateCashItem): Flow<MyInfo>
+    fun updateCashCharging(item: UpdateCashItem): Flow<MyInfo>
 
-    suspend fun fetchCouponList(id: String): Flow<List<Coupon>>
+    fun fetchCouponList(id: String): Flow<List<Coupon>>
 
-    suspend fun updateUsingCoupon(item: UpdateCouponItem): Flow<MyInfo>
+    fun updateUsingCoupon(item: UpdateCouponItem): Flow<MyInfo>
 
-    suspend fun updateMyInfo(item: ModifyInfo): Flow<Unit>
+    fun updateMyInfo(item: ModifyInfo): Flow<Unit>
 
 }

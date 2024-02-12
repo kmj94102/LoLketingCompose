@@ -32,6 +32,6 @@ class MainClient @Inject constructor(
     }
 
     suspend fun updateMyInfo(item: ModifyInfo) = runCatching {
-        service.updateMyInfo(item)
+        service.updateMyInfo(item).result()
     }
 }

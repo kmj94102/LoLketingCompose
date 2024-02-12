@@ -34,4 +34,10 @@ sealed class NavScreen(val item: NavItem) {
             route = "MyPage"
         )
     )
+
+    object MyPageModify: NavScreen(
+        NavItem(
+            route = "MyPageModify"
+        )
+    )
 }
