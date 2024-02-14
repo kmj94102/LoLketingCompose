@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
+import com.example.lolketingcompose.ui.event.EventScreen
+import com.example.lolketingcompose.ui.event.roulette.RouletteScreen
 import com.example.lolketingcompose.ui.home.HomeScreen
 import com.example.lolketingcompose.ui.login.LoginScreen
 import com.example.lolketingcompose.ui.login.address.AddressScreen
@@ -30,6 +32,7 @@ fun NavigationGraph(
     ) {
         homeScreens(onBackClick, navController)
         myPageScreens(onBackClick, navController)
+        eventScreens(onBackClick, navController)
     }
 }
 
@@ -145,6 +148,41 @@ fun NavGraphBuilder.myPageScreens(
             address = address,
             onBackClick = onBackClick,
             goToAddress = { navController.navigate(NavScreen.Address.item.routeWithPostFix) }
+        )
+    }
+}
+
+fun NavGraphBuilder.eventScreens(
+    onBackClick: () -> Unit,
+    navController: NavHostController
+) {
+    composable(
+        route = NavScreen.LolketingEvent.item.routeWithPostFix
+    ) {
+        EventScreen(
+            onBackClick = onBackClick,
+            goToMyPage = {
+                navController.navigate(NavScreen.MyPage.item.routeWithPostFix)
+            },
+            goToRoulette = {
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.Roulette.item.route,
+                        it.toString(),
+                    )
+                )
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.Roulette.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.UserId) { type = NavType.IntType }
+        )
+    ) {
+        RouletteScreen(
+            onBackClick = onBackClick
         )
     }
 }

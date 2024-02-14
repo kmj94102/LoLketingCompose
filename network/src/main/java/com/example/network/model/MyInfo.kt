@@ -1,9 +1,11 @@
 package com.example.network.model
 
-import com.google.gson.annotations.SerializedName
-
 data class IdParam(
     val id: String
+)
+
+data class UserIdParam(
+    val id: Int
 )
 
 data class MyInfo(

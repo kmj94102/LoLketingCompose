@@ -27,6 +27,17 @@ fun textStyle12(
     textAlign = textAlign
 )
 
+fun textStyle14(
+    color: Color = MyWhite,
+    textAlign: TextAlign = TextAlign.Start
+): TextStyle = TextStyle(
+    color = color,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    fontFamily = fontFamily,
+    textAlign = textAlign
+)
+
 fun textStyle14B(
     color: Color = MyWhite,
     textAlign: TextAlign = TextAlign.Start

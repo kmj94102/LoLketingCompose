@@ -1,5 +1,7 @@
 package com.example.lolketingcompose.navigation
 
+import com.example.lolketingcompose.util.Constants
+
 sealed class NavScreen(val item: NavItem) {
     object Home: NavScreen(
         NavItem(
@@ -38,6 +40,19 @@ sealed class NavScreen(val item: NavItem) {
     object MyPageModify: NavScreen(
         NavItem(
             route = "MyPageModify"
+        )
+    )
+
+    object LolketingEvent: NavScreen(
+        NavItem(
+            route = "LolketingEvent"
+        )
+    )
+
+    object Roulette: NavScreen(
+        NavItem(
+            route = "Roulette",
+            routeWithPostFix = "Roulette/{${Constants.UserId}}"
         )
     )
 }

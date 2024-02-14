@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,8 +22,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.navigation.NavScreen
+import com.example.lolketingcompose.structure.BaseContainer
+import com.example.lolketingcompose.structure.BaseStatus
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle14B
@@ -32,6 +36,29 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     goToScreen: (String) -> Unit,
     goToLogin: () -> Unit
+) {
+    val status by viewModel.status.collectAsStateWithLifecycle()
+
+    BaseContainer(
+        status = status,
+    ) {
+        HomeContent(status, goToScreen)
+    }
+
+    val lifecycleEvent = rememberLifecycleEvent()
+    LaunchedEffect(lifecycleEvent) {
+        if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+            if (viewModel.isLogin().not()) {
+                goToLogin()
+            }
+        }
+    }
+}
+
+@Composable
+fun HomeContent(
+    status: BaseStatus,
+    goToScreen: (String) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -53,7 +80,7 @@ fun HomeScreen(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_board,
                         text = "게스트",
-                        onClick = {}
+                        onClick = { status.temporaryInformationMessage() }
                     )
                 )
 
@@ -61,7 +88,7 @@ fun HomeScreen(
                     HomeIconItem(
                         iconRes = R.drawable.ic_event,
                         text = "이벤트",
-                        onClick = {}
+                        onClick = { goToScreen(NavScreen.LolketingEvent.item.routeWithPostFix) }
                     )
                 )
 
@@ -79,7 +106,7 @@ fun HomeScreen(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_trophy,
                         text = "리그 정보",
-                        onClick = {}
+                        onClick = { status.temporaryInformationMessage() }
                     )
                 )
 
@@ -87,7 +114,7 @@ fun HomeScreen(
                     HomeIconItem(
                         iconRes = R.drawable.ic_ticket,
                         text = "티켓 예메",
-                        onClick = {}
+                        onClick = { status.temporaryInformationMessage() }
                     )
                 )
 
@@ -95,7 +122,7 @@ fun HomeScreen(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_shopping,
                         text = "샵",
-                        onClick = {}
+                        onClick = { status.temporaryInformationMessage() }
                     )
                 )
             }
@@ -105,7 +132,7 @@ fun HomeScreen(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_lol_guide,
                         text = "롤알못",
-                        onClick = {}
+                        onClick = { status.temporaryInformationMessage() }
                     )
                 )
 
@@ -113,7 +140,7 @@ fun HomeScreen(
                     HomeIconItem(
                         iconRes = R.drawable.ic_news,
                         text = "뉴스",
-                        onClick = {}
+                        onClick = { status.temporaryInformationMessage() }
                     )
                 )
 
@@ -121,21 +148,16 @@ fun HomeScreen(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_chatting,
                         text = "채팅",
-                        onClick = {}
+                        onClick = { status.temporaryInformationMessage() }
                     )
                 )
             }
         }
     }
+}
 
-    val lifecycleEvent = rememberLifecycleEvent()
-    LaunchedEffect(lifecycleEvent) {
-        if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
-            if (viewModel.isLogin().not()) {
-                goToLogin()
-            }
-        }
-    }
+private fun BaseStatus.temporaryInformationMessage() {
+    updateMessage("페이지 준비중입니다.")
 }
 
 @Composable

@@ -18,3 +18,17 @@ data class UpdateCouponItem(
     val id: String,
     val couponId: Int
 )
+
+data class RouletteCouponUpdateItem(
+    val id: Int,
+    val rp: Int
+)
+
+data class NewUserCouponResult(
+    val userId: Int,
+    val isIssued: Boolean
+)
+
+data class RouletteCount(
+    val count: Int
+)
