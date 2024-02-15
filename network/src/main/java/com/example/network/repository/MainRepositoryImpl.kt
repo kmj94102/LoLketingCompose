@@ -68,6 +68,7 @@ class MainRepositoryImpl @Inject constructor(
     }
 
     override fun updateMyInfo(item: ModifyInfo) = flow {
+        item.checkValidation()
         client
             .updateMyInfo(item)
             .onSuccess { emit(Unit) }
