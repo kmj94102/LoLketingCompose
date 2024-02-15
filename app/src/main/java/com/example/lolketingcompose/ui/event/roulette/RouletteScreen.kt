@@ -18,6 +18,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -30,6 +31,7 @@ import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.TopBodyBottomContainer
 import com.example.lolketingcompose.ui.custom.CommonButton
+import com.example.lolketingcompose.ui.dialog.RouletteGuideDialog
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.util.FillMaxWithImage
 import com.example.lolketingcompose.util.nonRippleClickable
@@ -44,6 +46,7 @@ fun RouletteScreen(
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
     val isStart = remember { mutableStateOf(false) }
+    var isShow by remember { mutableStateOf(false) }
 
     TopBodyBottomContainer(
         status = status,
@@ -72,11 +75,20 @@ fun RouletteScreen(
                     .fillMaxWidth()
                     .nonRippleClickable {
                         if (isStart.value) return@nonRippleClickable
-                        isStart.value = true
-                        viewModel.rouletteStart()
+                        if (viewModel.count.value <= 0) {
+                            isShow = true
+                        } else {
+                            isStart.value = true
+                            viewModel.rouletteStart()
+                        }
                     }
             )
         }
+    )
+
+    RouletteGuideDialog(
+        isShow = isShow,
+        onDismiss = { isShow = false }
     )
 }
 

@@ -65,10 +65,6 @@ class RouletteViewModel @Inject constructor(
     }
 
     fun rouletteStart() = viewModelScope.launch {
-        if (_count.value <= 0) {
-            updateMessage("룰렛의 기회를 모두 소진하였습니다. 티켓을 구매하시면 룰렛 횟수를 추가로 받아보세요")
-            return@launch
-        }
         if (userId == null) {
             updateMessage("유저 정보가 없습니다.")
             return@launch
