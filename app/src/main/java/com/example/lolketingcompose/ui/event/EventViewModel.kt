@@ -26,11 +26,7 @@ class EventViewModel @Inject constructor(
     private val _isComplete = mutableStateOf(false)
     val isComplete: State<Boolean> = _isComplete
 
-    init {
-        fetchNewUserCoupon()
-    }
-
-    private fun fetchNewUserCoupon() {
+    fun fetchNewUserCoupon() {
         mainRepository
             .fetchNewUserCoupon()
             .setLoadingState()
@@ -42,4 +38,23 @@ class EventViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun insertNewUserCoupon() {
+        if (_isIssued.value) {
+            _isComplete.value = true
+            return
+        }
+
+        mainRepository
+            .insertNewUserCoupon(_userId)
+            .setLoadingState()
+            .onEach {
+                _isComplete.value = true
+            }
+            .catch { updateMessage(it.message ?: "오류가 발생하였습니다.") }
+            .launchIn(viewModelScope)
+    }
+
+    fun updateIsComplete() {
+        _isComplete.value = false
+    }
 }

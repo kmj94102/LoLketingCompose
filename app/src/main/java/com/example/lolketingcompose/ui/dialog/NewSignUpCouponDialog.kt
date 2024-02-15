@@ -25,8 +25,8 @@ fun NewSignUpCouponDialog(
             content = "내 정보에서 발급받은 쿠폰을\n확인할 수 있습니다.\n바로 이동하시겠습니까?",
             onDismiss = onDismiss,
             okClick = {
-                listener()
                 onDismiss()
+                listener()
             }
         )
     }

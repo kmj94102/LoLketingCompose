@@ -28,6 +28,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.CommonHeader
@@ -40,6 +41,7 @@ import com.example.lolketingcompose.ui.theme.MyLightGray
 import com.example.lolketingcompose.ui.theme.MyWhite
 import com.example.lolketingcompose.ui.theme.SubColor
 import com.example.lolketingcompose.util.nonRippleClickable
+import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle14B
 import com.example.lolketingcompose.util.textStyle16
 import com.example.lolketingcompose.util.textStyle22B
@@ -73,9 +75,7 @@ fun EventScreen(
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 item {
-                    NewSignUpEventContainer {
-                        isShow = true
-                    }
+                    NewSignUpEventContainer(viewModel::insertNewUserCoupon)
                 }
                 item {
                     TicketReservationEventContainer {
@@ -96,6 +96,14 @@ fun EventScreen(
     LaunchedEffect(viewModel.isComplete.value) {
         if (viewModel.isComplete.value) {
             isShow = true
+            viewModel.updateIsComplete()
+        }
+    }
+
+    val lifecycleEvent = rememberLifecycleEvent()
+    LaunchedEffect(lifecycleEvent) {
+        if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+            viewModel.fetchNewUserCoupon()
         }
     }
 }
