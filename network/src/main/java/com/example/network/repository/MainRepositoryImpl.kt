@@ -47,6 +47,9 @@ class MainRepositoryImpl @Inject constructor(
     }
 
     override fun updateCashCharging(item: UpdateCashItem) = flow {
+        if (item.cash < 1_000) {
+            throw Exception("최소 충전 금액은 1,000원 입니다. 충전 금액을 확인해주세요.")
+        }
         client
             .updateCashCharging(item)
             .onSuccess { emit(it) }
