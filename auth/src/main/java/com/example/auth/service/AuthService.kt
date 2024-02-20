@@ -13,7 +13,7 @@ import retrofit2.http.POST
 interface AuthService {
 
     @POST("/user/join/email")
-    suspend fun join(@Body item: JoinInfo): Response<String>
+    suspend fun join(@Body item: JoinInfo): Response<Int>
 
     @POST("/user/login/email")
     suspend fun emailLogin(@Body item: LoginInfo): Response<AuthEntity>

@@ -17,7 +17,7 @@ class MainRepositoryImpl @Inject constructor(
     private val databaseRepository: DatabaseRepository
 ) : MainRepository {
     override fun fetchMyInfo() = flow {
-        val userId = databaseRepository.getUserId()
+        val userId = databaseRepository.getUserEmail()
         if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
 
         client
@@ -27,7 +27,7 @@ class MainRepositoryImpl @Inject constructor(
     }
 
     override fun fetchModifyInfo(): Flow<ModifyInfo> = flow {
-        val userId = databaseRepository.getUserId()
+        val userId = databaseRepository.getUserEmail()
         if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
 
         client
@@ -37,7 +37,7 @@ class MainRepositoryImpl @Inject constructor(
     }
 
     override fun fetchCashInfo() = flow {
-        val userId = databaseRepository.getUserId()
+        val userId = databaseRepository.getUserEmail()
         if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
 
         client
@@ -79,7 +79,7 @@ class MainRepositoryImpl @Inject constructor(
     }
 
     override fun fetchNewUserCoupon() = flow {
-        val userId = databaseRepository.getUserId()
+        val userId = databaseRepository.getUserEmail()
         if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
 
         client

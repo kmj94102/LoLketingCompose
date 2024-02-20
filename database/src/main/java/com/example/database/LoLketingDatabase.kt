@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
     entities = [
         AuthEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class LoLketingDatabase: RoomDatabase() {

@@ -4,6 +4,8 @@ import com.example.network.repository.AddressRepository
 import com.example.network.repository.AddressRepositoryImpl
 import com.example.network.repository.MainRepository
 import com.example.network.repository.MainRepositoryImpl
+import com.example.network.repository.PurchaseRepository
+import com.example.network.repository.PurchaseRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,5 +24,10 @@ interface RepositoryModule {
     fun bindAddressRepository(
         repository: AddressRepositoryImpl
     ): AddressRepository
+
+    @Binds
+    fun bindPurchaseRepository(
+        repository: PurchaseRepositoryImpl
+    ): PurchaseRepository
 
 }

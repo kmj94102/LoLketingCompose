@@ -17,6 +17,9 @@ import com.example.lolketingcompose.ui.login.address.AddressScreen
 import com.example.lolketingcompose.ui.login.join.JoinScreen
 import com.example.lolketingcompose.ui.mypage.MyPageScreen
 import com.example.lolketingcompose.ui.mypage.modify.MyInfoModifyScreen
+import com.example.lolketingcompose.ui.ticket.TicketListScreen
+import com.example.lolketingcompose.ui.ticket.history.TicketReservationHistoryScreen
+import com.example.lolketingcompose.ui.ticket.reservation.TicketReservationScreen
 import com.example.lolketingcompose.util.Constants
 import com.example.lolketingcompose.util.argumentEncode
 
@@ -33,6 +36,7 @@ fun NavigationGraph(
         homeScreens(onBackClick, navController)
         myPageScreens(onBackClick, navController)
         eventScreens(onBackClick, navController)
+        ticketScreens(onBackClick, navController)
     }
 }
 
@@ -184,6 +188,56 @@ fun NavGraphBuilder.eventScreens(
         RouletteScreen(
             onBackClick = onBackClick
         )
+    }
+}
+
+fun NavGraphBuilder.ticketScreens(
+    onBackClick: () -> Unit,
+    navController: NavHostController
+) {
+    composable(
+        route = NavScreen.TicketList.item.routeWithPostFix
+    ) {
+        TicketListScreen(
+            onBackClick = onBackClick,
+            goToReservation = {
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.TicketReservation.item.route,
+                        it.toString()
+                    )
+                )
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.TicketReservation.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.GameId) { type = NavType.IntType }
+        )
+    ) {
+        TicketReservationScreen(
+            onBackClick = onBackClick,
+            goToTicketInfo = {
+                navController.popBackStack()
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.TicketHistory.item.route,
+                        it
+                    )
+                )
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.TicketHistory.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.GameId) { type = NavType.StringType }
+        )
+    ) {
+        TicketReservationHistoryScreen(onBackClick = onBackClick)
     }
 }
 

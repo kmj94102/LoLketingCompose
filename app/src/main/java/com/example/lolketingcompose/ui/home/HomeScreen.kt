@@ -114,7 +114,7 @@ fun HomeContent(
                     HomeIconItem(
                         iconRes = R.drawable.ic_ticket,
                         text = "티켓 예메",
-                        onClick = { status.temporaryInformationMessage() }
+                        onClick = { goToScreen(NavScreen.TicketList.item.routeWithPostFix) }
                     )
                 )
 

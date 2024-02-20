@@ -26,8 +26,8 @@ class AuthRepositoryImpl @Inject constructor(
         authClient.join(joinInfo)
             .onSuccess { result ->
                 databaseRepository
-                    .insertInfo(id = joinInfo.id, nickname = joinInfo.nickname)
-                    .onSuccess { emit(result) }
+                    .insertInfo(id = result, email = joinInfo.id, nickname = joinInfo.nickname)
+                    .onSuccess { emit("회원가입 완료") }
                     .onFailure { throw Exception("데이터베이스 오류") }
             }
             .onFailure { throw it }
@@ -37,7 +37,7 @@ class AuthRepositoryImpl @Inject constructor(
         authClient.emailLogin(loginInfo)
             .onSuccess {
                 databaseRepository
-                    .insertInfo(id = it.id, nickname = it.nickname)
+                    .insertInfo(id = it.id, email = it.email, nickname = it.nickname)
                     .onSuccess { emit(Unit) }
                     .onFailure { throw Exception("데이터베이스 오류") }
             }
@@ -55,7 +55,7 @@ class AuthRepositoryImpl @Inject constructor(
         socialLogin(info)
             .onSuccess {
                 databaseRepository
-                    .insertInfo(id = it.id, nickname = it.nickname)
+                    .insertInfo(id = it.id, email = it.email, nickname = it.nickname)
                     .onSuccess { emit(null) }
                     .onFailure { throw Exception("데이터베이스 오류") }
             }
@@ -78,7 +78,7 @@ class AuthRepositoryImpl @Inject constructor(
         socialLogin(info)
             .onSuccess {
                 databaseRepository
-                    .insertInfo(id = it.id, nickname = it.nickname)
+                    .insertInfo(id = it.id, email = it.email, nickname = it.nickname)
                     .onSuccess { emit(null) }
                     .onFailure { throw Exception("데이터베이스 오류") }
             }
@@ -100,7 +100,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun logout() = databaseRepository.logout()
 
     override suspend fun withdrawal(): Result<Unit> = runCatching {
-        val id = databaseRepository.getUserId()
+        val id = databaseRepository.getUserEmail()
         if (id.isEmpty()) throw Exception("유저 정보가 없습니다.")
 
         authClient

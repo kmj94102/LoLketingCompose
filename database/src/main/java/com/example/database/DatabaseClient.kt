@@ -14,6 +14,10 @@ class DatabaseClient @Inject constructor(
         dao.isLogin() > 0
     }
 
+    suspend fun getUserEmail() = runCatching {
+        dao.getUserEmail()
+    }
+
     suspend fun getUserId() = runCatching {
         dao.getUserId()
     }

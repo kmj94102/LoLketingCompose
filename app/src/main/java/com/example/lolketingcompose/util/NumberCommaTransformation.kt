@@ -26,3 +26,6 @@ class NumberCommaTransformation : VisualTransformation {
 
 fun Long?.formatWithComma(): String =
     NumberFormat.getNumberInstance(Locale.KOREA).format(this ?: 0)
+
+fun Int?.formatWithComma(): String =
+    NumberFormat.getNumberInstance(Locale.KOREA).format(this ?: 0)

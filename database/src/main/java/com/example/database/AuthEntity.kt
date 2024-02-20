@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class AuthEntity(
     @PrimaryKey(autoGenerate = true)
     val index: Int = 0,
-    val id: String,
+    val id: Int,
+    val email: String,
     val nickname: String
 )

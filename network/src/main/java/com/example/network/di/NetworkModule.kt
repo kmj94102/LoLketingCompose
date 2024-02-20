@@ -3,8 +3,10 @@ package com.example.network.di
 import com.example.network.BuildConfig
 import com.example.network.client.AddressClient
 import com.example.network.client.MainClient
+import com.example.network.client.PurchaseClient
 import com.example.network.service.AddressService
 import com.example.network.service.MainService
+import com.example.network.service.PurchaseService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -70,6 +72,19 @@ object NetworkModule {
     fun provideMainClient(
         service: MainService,
     ): MainClient = MainClient(service)
+
+    @Provides
+    @Singleton
+    fun providePurchaseService(
+        @Named("main") retrofit: Retrofit
+    ): PurchaseService =
+        retrofit.create(PurchaseService::class.java)
+
+    @Provides
+    @Singleton
+    fun providePurchaseClient(
+        service: PurchaseService,
+    ): PurchaseClient = PurchaseClient(service)
 
     @Provides
     @Singleton
