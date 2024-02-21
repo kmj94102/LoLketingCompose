@@ -53,7 +53,7 @@ data class ReservationInfo(
         return resultList
     }
 
-    fun setItem(item: ReservationItem): ReservationInfo{
+    fun setItem(item: ReservationItem): ReservationInfo {
         val selectedSeats = removeDuplicates(item.reservedSeats)
         return ReservationInfo(
             userId = item.userId,
@@ -121,7 +121,17 @@ data class TicketInfo(
     val time: String,
     val seats: String
 ) {
-    fun gameTitle() = "$leftTeam VS $rightTeam"
+    fun getGameTitle() =
+        if (leftTeam.isEmpty() || rightTeam.isEmpty()) "" else "$leftTeam VS $rightTeam"
 
-    fun getSeatsInfo() = "A홀 $seats"
+    fun getSeatsInfo() = if (seats.isEmpty()) "" else "A홀 $seats"
+
+    companion object {
+        fun init() = TicketInfo(
+            leftTeam = "",
+            rightTeam = "",
+            time = "",
+            seats = ""
+        )
+    }
 }

@@ -22,6 +22,8 @@ android {
         versionName = "1.0"
 
         manifestPlaceholders["KAKAO_APP_KEY"] = properties.getProperty("KAKAO_APP_KEY")
+        manifestPlaceholders["MAP_CLIENT_ID"] = properties.getProperty("map_client_id")
+        manifestPlaceholders["MAP_CLIENT_SECRET"] = properties.getProperty("map_client_secret")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -65,7 +67,7 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
@@ -95,10 +97,14 @@ dependencies {
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
 
-    val lifecycleVersion = "2.6.2"
+    val lifecycleVersion = "2.7.0"
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
+
+    // NAVER Map
+    implementation("io.github.fornewid:naver-map-compose:1.6.0")
+    implementation("com.naver.maps:map-sdk:3.16.1")
 
     implementation(project(path = ":network"))
     implementation(project(path = ":auth"))
