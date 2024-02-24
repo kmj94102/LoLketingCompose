@@ -52,4 +52,8 @@ class MainClient @Inject constructor(
     suspend fun fetchRouletteCount(item: UserIdParam) = runCatching {
         service.fetchRouletteCount(item).result()
     }
+
+    suspend fun fetchPurchaseHistory(item: UserIdParam) = runCatching {
+        service.fetchPurchaseHistory(item).result()
+    }
 }

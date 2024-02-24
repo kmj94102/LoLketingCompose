@@ -16,6 +16,7 @@ import com.example.lolketingcompose.ui.login.LoginScreen
 import com.example.lolketingcompose.ui.login.address.AddressScreen
 import com.example.lolketingcompose.ui.login.join.JoinScreen
 import com.example.lolketingcompose.ui.mypage.MyPageScreen
+import com.example.lolketingcompose.ui.mypage.history.PurchaseHistoryScreen
 import com.example.lolketingcompose.ui.mypage.modify.MyInfoModifyScreen
 import com.example.lolketingcompose.ui.ticket.TicketListScreen
 import com.example.lolketingcompose.ui.ticket.history.TicketReservationHistoryScreen
@@ -137,6 +138,9 @@ fun NavGraphBuilder.myPageScreens(
             onBackClick = onBackClick,
             goToModify = {
                 navController.navigate(NavScreen.MyPageModify.item.routeWithPostFix)
+            },
+            goToPurchaseHistory = {
+                navController.navigate(NavScreen.PurchaseHistory.item.routeWithPostFix)
             }
         )
     }
@@ -153,6 +157,12 @@ fun NavGraphBuilder.myPageScreens(
             onBackClick = onBackClick,
             goToAddress = { navController.navigate(NavScreen.Address.item.routeWithPostFix) }
         )
+    }
+
+    composable(
+        route = NavScreen.PurchaseHistory.item.routeWithPostFix
+    ) {
+        PurchaseHistoryScreen(onBackClick = onBackClick)
     }
 }
 

@@ -4,6 +4,7 @@ import com.example.database.DatabaseRepository
 import com.example.network.client.MainClient
 import com.example.network.model.IdParam
 import com.example.network.model.ModifyInfo
+import com.example.network.model.PurchaseHistoryInfo
 import com.example.network.model.RouletteCouponUpdateItem
 import com.example.network.model.UpdateCashItem
 import com.example.network.model.UpdateCouponItem
@@ -103,6 +104,20 @@ class MainRepositoryImpl @Inject constructor(
         client
             .fetchRouletteCount(UserIdParam(userId))
             .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun fetchPurchaseHistory() = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) {
+            throw Exception("유저 정보가 없습니다.")
+        }
+
+        client
+            .fetchPurchaseHistory(UserIdParam(userId))
+            .onSuccess {
+                emit(PurchaseHistoryInfo.ticketHistoryListMapper(it))
+            }
             .onFailure { throw it }
     }
 

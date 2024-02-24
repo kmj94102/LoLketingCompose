@@ -5,6 +5,7 @@ import com.example.network.model.ModifyInfo
 import com.example.network.model.MyCash
 import com.example.network.model.MyInfo
 import com.example.network.model.NewUserCouponResult
+import com.example.network.model.PurchaseHistoryInfo
 import com.example.network.model.RouletteCount
 import com.example.network.model.UpdateCashItem
 import com.example.network.model.UpdateCouponItem
@@ -33,5 +34,7 @@ interface MainRepository {
     suspend fun insertRouletteCoupon(id: Int, rp: Int): Result<RouletteCount>
 
     fun fetchRouletteCount(userId: Int): Flow<RouletteCount>
+
+    fun fetchPurchaseHistory(): Flow<List<PurchaseHistoryInfo>>
 
 }

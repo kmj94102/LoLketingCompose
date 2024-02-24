@@ -56,6 +56,7 @@ import com.example.network.model.MyInfo
 fun MyPageScreen(
     onBackClick: () -> Unit,
     goToModify: () -> Unit,
+    goToPurchaseHistory: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -100,9 +101,7 @@ fun MyPageScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
-                goToPurchase = {
-
-                },
+                goToPurchaseHistory = goToPurchaseHistory,
                 logout = { isLogoutDialogShow = true },
                 withdrawal = { isWithdrawalDialogShow = true }
             )
@@ -320,15 +319,15 @@ fun CashCouponCard(
 @Composable
 fun SettingsContainer(
     modifier: Modifier,
-    goToPurchase: () -> Unit,
+    goToPurchaseHistory: () -> Unit,
     logout: () -> Unit,
-    withdrawal: () -> Unit
+    withdrawal: () -> Unit,
 ) {
     Column(
         modifier = modifier
             .border(1.dp, MyWhite, RoundedCornerShape(10.dp))
     ) {
-        SettingItem("구매내역", goToPurchase)
+        SettingItem("구매내역", goToPurchaseHistory)
         Box(
             modifier = Modifier
                 .fillMaxWidth()

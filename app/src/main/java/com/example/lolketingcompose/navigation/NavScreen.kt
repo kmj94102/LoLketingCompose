@@ -37,6 +37,12 @@ sealed class NavScreen(val item: NavItem) {
         )
     )
 
+    object PurchaseHistory: NavScreen(
+        NavItem(
+            route = "PurchaseHistory"
+        )
+    )
+
     object MyPageModify: NavScreen(
         NavItem(
             route = "MyPageModify"

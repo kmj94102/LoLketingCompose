@@ -6,6 +6,7 @@ import com.example.network.model.ModifyInfo
 import com.example.network.model.MyCash
 import com.example.network.model.MyInfo
 import com.example.network.model.NewUserCouponResult
+import com.example.network.model.PurchaseHistoryInfo
 import com.example.network.model.RouletteCount
 import com.example.network.model.UpdateCashItem
 import com.example.network.model.UpdateCouponItem
@@ -45,5 +46,9 @@ interface MainService {
 
     @POST("/user/select/roulette")
     suspend fun fetchRouletteCount(@Body item: UserIdParam): Response<RouletteCount>
+
+    @POST("/purchase/select/history")
+    suspend fun fetchPurchaseHistory(@Body item: UserIdParam):
+            Response<List<PurchaseHistoryInfo.PurchaseTicketHistory>>
 
 }
