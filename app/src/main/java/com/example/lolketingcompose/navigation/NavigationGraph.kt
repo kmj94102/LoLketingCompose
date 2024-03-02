@@ -18,6 +18,7 @@ import com.example.lolketingcompose.ui.login.join.JoinScreen
 import com.example.lolketingcompose.ui.mypage.MyPageScreen
 import com.example.lolketingcompose.ui.mypage.history.PurchaseHistoryScreen
 import com.example.lolketingcompose.ui.mypage.modify.MyInfoModifyScreen
+import com.example.lolketingcompose.ui.shop.ShopScreen
 import com.example.lolketingcompose.ui.ticket.TicketListScreen
 import com.example.lolketingcompose.ui.ticket.history.TicketReservationHistoryScreen
 import com.example.lolketingcompose.ui.ticket.reservation.TicketReservationScreen
@@ -38,6 +39,7 @@ fun NavigationGraph(
         myPageScreens(onBackClick, navController)
         eventScreens(onBackClick, navController)
         ticketScreens(onBackClick, navController)
+        shopScreens(onBackClick, navController)
     }
 }
 
@@ -248,6 +250,17 @@ fun NavGraphBuilder.ticketScreens(
         )
     ) {
         TicketReservationHistoryScreen(onBackClick = onBackClick)
+    }
+}
+
+fun NavGraphBuilder.shopScreens(
+    onBackClick: () -> Unit,
+    navController: NavHostController
+) {
+    composable(
+        route = NavScreen.Shop.item.routeWithPostFix
+    ) {
+        ShopScreen(onBackClick = onBackClick)
     }
 }
 

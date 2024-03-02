@@ -35,6 +35,8 @@ interface MainRepository {
 
     fun fetchRouletteCount(userId: Int): Flow<RouletteCount>
 
-    fun fetchPurchaseHistory(): Flow<List<PurchaseHistoryInfo>>
+    fun fetchTicketHistory(): Flow<List<PurchaseHistoryInfo>>
+
+    fun fetchGoodsHistory(): Flow<List<PurchaseHistoryInfo>>
 
 }

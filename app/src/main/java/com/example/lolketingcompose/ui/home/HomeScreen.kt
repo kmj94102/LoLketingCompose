@@ -122,7 +122,7 @@ fun HomeContent(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_shopping,
                         text = "샵",
-                        onClick = { status.temporaryInformationMessage() }
+                        onClick = { goToScreen(NavScreen.Shop.item.routeWithPostFix) }
                     )
                 )
             }

@@ -2,13 +2,13 @@ package com.example.network.repository
 
 import com.example.database.DatabaseRepository
 import com.example.network.client.MainClient
-import com.example.network.model.IdParam
+import com.example.network.model.StringIdParam
 import com.example.network.model.ModifyInfo
 import com.example.network.model.PurchaseHistoryInfo
 import com.example.network.model.RouletteCouponUpdateItem
 import com.example.network.model.UpdateCashItem
 import com.example.network.model.UpdateCouponItem
-import com.example.network.model.UserIdParam
+import com.example.network.model.IntIdParam
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -84,14 +84,14 @@ class MainRepositoryImpl @Inject constructor(
         if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
 
         client
-            .fetchNewUserCoupon(IdParam(userId))
+            .fetchNewUserCoupon(StringIdParam(userId))
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }
 
     override fun insertNewUserCoupon(userId: Int) = flow {
         client
-            .insertNewUserCoupon(UserIdParam(userId))
+            .insertNewUserCoupon(IntIdParam(userId))
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }
@@ -102,21 +102,35 @@ class MainRepositoryImpl @Inject constructor(
 
     override fun fetchRouletteCount(userId: Int) = flow {
         client
-            .fetchRouletteCount(UserIdParam(userId))
+            .fetchRouletteCount(IntIdParam(userId))
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }
 
-    override fun fetchPurchaseHistory() = flow {
+    override fun fetchTicketHistory() = flow {
         val userId = databaseRepository.getUserId()
         if (userId == 0) {
             throw Exception("유저 정보가 없습니다.")
         }
 
         client
-            .fetchPurchaseHistory(UserIdParam(userId))
+            .fetchTicketHistory(IntIdParam(userId))
             .onSuccess {
                 emit(PurchaseHistoryInfo.ticketHistoryListMapper(it))
+            }
+            .onFailure { throw it }
+    }
+
+    override fun fetchGoodsHistory() = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) {
+            throw Exception("유저 정보가 없습니다.")
+        }
+
+        client
+            .fetchGoodsHistory(IntIdParam(userId))
+            .onSuccess {
+                emit(PurchaseHistoryInfo.goodsHistoryListMapper(it))
             }
             .onFailure { throw it }
     }

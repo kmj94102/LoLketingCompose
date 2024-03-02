@@ -30,7 +30,7 @@ class PurchaseHistoryViewModel @Inject constructor(
 
     fun fetchPurchaseHistory() {
         repository
-            .fetchPurchaseHistory()
+            .fetchTicketHistory()
             .onEach {
                 _list.clear()
                 _list.addAll(it)

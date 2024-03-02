@@ -1,11 +1,11 @@
 package com.example.network.client
 
-import com.example.network.model.IdParam
+import com.example.network.model.StringIdParam
 import com.example.network.model.ModifyInfo
 import com.example.network.model.RouletteCouponUpdateItem
 import com.example.network.model.UpdateCashItem
 import com.example.network.model.UpdateCouponItem
-import com.example.network.model.UserIdParam
+import com.example.network.model.IntIdParam
 import com.example.network.service.MainService
 import com.example.network.util.result
 import javax.inject.Inject
@@ -14,11 +14,11 @@ class MainClient @Inject constructor(
     private val service: MainService
 ) {
     suspend fun fetchMyInfo(id: String) = runCatching {
-        service.fetchMyInfo(IdParam(id)).result()
+        service.fetchMyInfo(StringIdParam(id)).result()
     }
 
     suspend fun fetchCashInfo(id: String) = runCatching {
-        service.fetchCashInfo(IdParam(id)).result()
+        service.fetchCashInfo(StringIdParam(id)).result()
     }
 
     suspend fun updateCashCharging(item: UpdateCashItem) = runCatching {
@@ -26,7 +26,7 @@ class MainClient @Inject constructor(
     }
 
     suspend fun fetchCouponList(id: String) = runCatching {
-        service.fetchCouponList(IdParam(id)).result()
+        service.fetchCouponList(StringIdParam(id)).result()
     }
 
     suspend fun updateUsingCoupon(item: UpdateCouponItem) = runCatching {
@@ -37,11 +37,11 @@ class MainClient @Inject constructor(
         service.updateMyInfo(item).result()
     }
 
-    suspend fun fetchNewUserCoupon(item: IdParam) = runCatching {
+    suspend fun fetchNewUserCoupon(item: StringIdParam) = runCatching {
         service.fetchNewUserCoupon(item).result()
     }
 
-    suspend fun insertNewUserCoupon(item: UserIdParam) = runCatching {
+    suspend fun insertNewUserCoupon(item: IntIdParam) = runCatching {
         service.insertNewUserCoupon(item).result()
     }
 
@@ -49,11 +49,15 @@ class MainClient @Inject constructor(
         service.insertRouletteCoupon(item).result()
     }
 
-    suspend fun fetchRouletteCount(item: UserIdParam) = runCatching {
+    suspend fun fetchRouletteCount(item: IntIdParam) = runCatching {
         service.fetchRouletteCount(item).result()
     }
 
-    suspend fun fetchPurchaseHistory(item: UserIdParam) = runCatching {
-        service.fetchPurchaseHistory(item).result()
+    suspend fun fetchTicketHistory(item: IntIdParam) = runCatching {
+        service.fetchTicketHistory(item).result()
+    }
+
+    suspend fun fetchGoodsHistory(item: IntIdParam) = runCatching {
+        service.fetchGoodsHistory(item).result()
     }
 }

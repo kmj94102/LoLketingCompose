@@ -81,4 +81,10 @@ sealed class NavScreen(val item: NavItem) {
             routeWithPostFix = "TicketHistory/{${Constants.GameId}}"
         )
     )
+
+    object Shop: NavScreen(
+        NavItem(
+            route = "Shop"
+        )
+    )
 }

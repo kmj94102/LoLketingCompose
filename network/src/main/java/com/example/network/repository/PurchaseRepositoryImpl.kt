@@ -3,6 +3,8 @@ package com.example.network.repository
 import com.example.database.DatabaseRepository
 import com.example.network.client.MainClient
 import com.example.network.client.PurchaseClient
+import com.example.network.model.IntIdParam
+import com.example.network.model.ProductPurchase
 import com.example.network.model.ReservationTicketItem
 import com.example.network.model.TicketIdParam
 import com.example.network.model.TicketInfoParam
@@ -81,6 +83,29 @@ class PurchaseRepositoryImpl @Inject constructor(
                     userId = userId
                 )
             )
+            .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun fetchGoodsItems() = flow {
+        client
+            .fetchGoodsItems()
+            .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun fetchGoodsItemDetail(goodsId: Int) = flow {
+        client
+            .fetchGoodsItemDetail(
+                IntIdParam(goodsId)
+            )
+            .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun insertProductPurchase(item: List<ProductPurchase>) = flow {
+        client
+            .insertProductPurchase(item)
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }

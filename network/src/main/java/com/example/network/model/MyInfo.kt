@@ -1,10 +1,10 @@
 package com.example.network.model
 
-data class IdParam(
+data class StringIdParam(
     val id: String
 )
 
-data class UserIdParam(
+data class IntIdParam(
     val id: Int
 )
 

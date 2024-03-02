@@ -1,7 +1,7 @@
 package com.example.network.service
 
 import com.example.network.model.Coupon
-import com.example.network.model.IdParam
+import com.example.network.model.StringIdParam
 import com.example.network.model.ModifyInfo
 import com.example.network.model.MyCash
 import com.example.network.model.MyInfo
@@ -11,23 +11,23 @@ import com.example.network.model.RouletteCount
 import com.example.network.model.UpdateCashItem
 import com.example.network.model.UpdateCouponItem
 import com.example.network.model.RouletteCouponUpdateItem
-import com.example.network.model.UserIdParam
+import com.example.network.model.IntIdParam
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface MainService {
     @POST("/user/select/myInfo")
-    suspend fun fetchMyInfo(@Body item: IdParam): Response<MyInfo>
+    suspend fun fetchMyInfo(@Body item: StringIdParam): Response<MyInfo>
 
     @POST("/user/select/cash")
-    suspend fun fetchCashInfo(@Body item: IdParam): Response<MyCash>
+    suspend fun fetchCashInfo(@Body item: StringIdParam): Response<MyCash>
 
     @POST("/user/update/charging")
     suspend fun updateCashCharging(@Body item: UpdateCashItem): Response<MyInfo>
 
     @POST("/user/select/couponList")
-    suspend fun fetchCouponList(@Body item: IdParam): Response<List<Coupon>>
+    suspend fun fetchCouponList(@Body item: StringIdParam): Response<List<Coupon>>
 
     @POST("/user/update/usingCoupon")
     suspend fun updateUsingCoupon(@Body item: UpdateCouponItem): Response<MyInfo>
@@ -36,19 +36,23 @@ interface MainService {
     suspend fun updateMyInfo(@Body item: ModifyInfo): Response<Unit>
 
     @POST("/user/select/newUserCoupon")
-    suspend fun fetchNewUserCoupon(@Body item: IdParam): Response<NewUserCouponResult>
+    suspend fun fetchNewUserCoupon(@Body item: StringIdParam): Response<NewUserCouponResult>
 
     @POST("/user/insert/newUserCoupon")
-    suspend fun insertNewUserCoupon(@Body item: UserIdParam): Response<Unit>
+    suspend fun insertNewUserCoupon(@Body item: IntIdParam): Response<Unit>
 
     @POST("/user/insert/rouletteCoupon")
     suspend fun insertRouletteCoupon(@Body item: RouletteCouponUpdateItem): Response<RouletteCount>
 
     @POST("/user/select/roulette")
-    suspend fun fetchRouletteCount(@Body item: UserIdParam): Response<RouletteCount>
+    suspend fun fetchRouletteCount(@Body item: IntIdParam): Response<RouletteCount>
 
-    @POST("/purchase/select/history")
-    suspend fun fetchPurchaseHistory(@Body item: UserIdParam):
+    @POST("/purchase/select/ticketHistory")
+    suspend fun fetchTicketHistory(@Body item: IntIdParam):
             Response<List<PurchaseHistoryInfo.PurchaseTicketHistory>>
+
+    @POST("/purchase/select/GoodsHistory")
+    suspend fun fetchGoodsHistory(@Body item: IntIdParam):
+            Response<List<PurchaseHistoryInfo.PurchaseGoodsHistory>>
 
 }

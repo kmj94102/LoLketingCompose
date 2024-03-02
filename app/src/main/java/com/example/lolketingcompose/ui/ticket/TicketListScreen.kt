@@ -82,7 +82,7 @@ fun TicketListHeader(
                 .nonRippleClickable(onBackClick)
         )
         Image(
-            painter = painterResource(id = R.drawable.img_shop),
+            painter = painterResource(id = R.drawable.img_ticket),
             contentDescription = null,
             modifier = Modifier
                 .size(290.dp, 250.dp)
