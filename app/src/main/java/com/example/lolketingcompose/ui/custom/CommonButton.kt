@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyWhite
@@ -19,6 +20,7 @@ fun CommonButton(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = MainColor,
+    style: TextStyle = textStyle20B(),
     shape: RoundedCornerShape = RoundedCornerShape(0.dp)
 ) {
     Box(
@@ -29,7 +31,7 @@ fun CommonButton(
         Text(
             text = text,
             color = MyWhite,
-            style = textStyle20B(),
+            style = style,
             modifier = Modifier.padding(vertical = 10.dp)
         )
     }

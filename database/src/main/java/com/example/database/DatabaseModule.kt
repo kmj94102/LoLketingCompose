@@ -28,6 +28,12 @@ object DatabaseModule {
         database: LoLketingDatabase
     ): AuthDao = database.authDao()
 
+    @Provides
+    @Singleton
+    fun provideGoodsDao(
+        database: LoLketingDatabase
+    ): GoodsDao = database.goodsDao()
+
 }
 
 @Module

@@ -19,6 +19,9 @@ import com.example.lolketingcompose.ui.mypage.MyPageScreen
 import com.example.lolketingcompose.ui.mypage.history.PurchaseHistoryScreen
 import com.example.lolketingcompose.ui.mypage.modify.MyInfoModifyScreen
 import com.example.lolketingcompose.ui.shop.ShopScreen
+import com.example.lolketingcompose.ui.shop.cart.CartScreen
+import com.example.lolketingcompose.ui.shop.detail.ShopDetailScreen
+import com.example.lolketingcompose.ui.shop.purchase.PurchaseScreen
 import com.example.lolketingcompose.ui.ticket.TicketListScreen
 import com.example.lolketingcompose.ui.ticket.history.TicketReservationHistoryScreen
 import com.example.lolketingcompose.ui.ticket.reservation.TicketReservationScreen
@@ -260,7 +263,61 @@ fun NavGraphBuilder.shopScreens(
     composable(
         route = NavScreen.Shop.item.routeWithPostFix
     ) {
-        ShopScreen(onBackClick = onBackClick)
+        ShopScreen(
+            onBackClick = onBackClick,
+            goToDetail = {
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.ShopDetail.item.route,
+                        it.toString()
+                    )
+                )
+            },
+            goToCart = {
+                navController.navigate(NavScreen.Cart.item.routeWithPostFix)
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.ShopDetail.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.GoodsId) { type = NavType.IntType }
+        )
+    ) {
+        val goodsId = it.arguments?.getInt(Constants.GoodsId, 0)
+
+        ShopDetailScreen(
+            onBackClick = onBackClick,
+            goToCart = {
+                navController.navigate(NavScreen.Cart.item.routeWithPostFix)
+            },
+            goToPurchase = {
+                if (goodsId != null && goodsId != 0) {
+                    navController.navigate(
+                        makeRouteWithArgs(
+                            NavScreen.ShopPurchase.item.route,
+                            arrayOf(it).toString()
+                        )
+                    )
+                }
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.ShopPurchase.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.GoodsIds) { type = NavType.IntArrayType }
+        )
+    ) {
+        PurchaseScreen(onBackClick = onBackClick)
+    }
+
+    composable(
+        route = NavScreen.Cart.item.routeWithPostFix
+    ) {
+        CartScreen(onBackClick = onBackClick)
     }
 }
 

@@ -87,4 +87,24 @@ sealed class NavScreen(val item: NavItem) {
             route = "Shop"
         )
     )
+
+    object ShopDetail: NavScreen(
+        NavItem(
+            route = "ShopDetail",
+            routeWithPostFix = "ShopDetail/{${Constants.GoodsId}}"
+        )
+    )
+
+    object ShopPurchase: NavScreen(
+        NavItem(
+            route = "ShopPurchase",
+            routeWithPostFix = "ShopPurchase/{${Constants.GoodsIds}}"
+        )
+    )
+
+    object Cart: NavScreen(
+        NavItem(
+            route = "Cart"
+        )
+    )
 }

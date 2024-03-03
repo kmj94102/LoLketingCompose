@@ -3,27 +3,56 @@ package com.example.database
 import javax.inject.Inject
 
 class DatabaseClient @Inject constructor(
-    private val dao: AuthDao
+    private val authDao: AuthDao,
+    private val goodsDao: GoodsDao
 ) {
 
     suspend fun insertInfo(authEntity: AuthEntity) = runCatching {
-        dao.insertInfo(authEntity)
+        authDao.insertInfo(authEntity)
     }
 
     suspend fun isLogin() = runCatching {
-        dao.isLogin() > 0
+        authDao.isLogin() > 0
     }
 
     suspend fun getUserEmail() = runCatching {
-        dao.getUserEmail()
+        authDao.getUserEmail()
     }
 
     suspend fun getUserId() = runCatching {
-        dao.getUserId()
+        authDao.getUserId()
     }
 
     suspend fun logout() = runCatching {
-        dao.logout()
+        authDao.logout()
+    }
+
+    suspend fun insertGoods(goodsEntity: GoodsEntity) = runCatching {
+        goodsDao.insertInfo(goodsEntity)
+    }
+
+    fun fetchCartList() = runCatching {
+        goodsDao.fetchCartList()
+    }
+
+    fun fetchCartCount() = runCatching {
+        goodsDao.fetchCartCount()
+    }
+
+    suspend fun updateCheckedStatus(index: Int, isChecked: Boolean) = runCatching {
+        goodsDao.updateCheckedStatus(index, isChecked)
+    }
+
+    suspend fun updateCheckedStatusAll(isChecked: Boolean) = runCatching {
+        goodsDao.updateCheckedStatusAll(isChecked)
+    }
+
+    suspend fun updateAmount(index: Int, amount: Int) = runCatching {
+        goodsDao.updateAmount(index, amount)
+    }
+
+    suspend fun deleteItems(items: List<GoodsEntity>) = runCatching {
+        goodsDao.deleteItems(items)
     }
 
 }

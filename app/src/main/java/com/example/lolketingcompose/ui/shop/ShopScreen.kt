@@ -53,13 +53,20 @@ import com.example.network.model.Goods
 @Composable
 fun ShopScreen(
     onBackClick: () -> Unit,
+    goToDetail: (Int) -> Unit,
+    goToCart: () -> Unit,
     viewModel: ShopViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
     HeaderBodyContainer(
         status = status,
         headerContent = {
-            ShopHeader(onBackClick)
+            val cartCount by viewModel.cartCount.collectAsStateWithLifecycle()
+            ShopHeader(
+                cartCount = cartCount,
+                onBackClick = onBackClick,
+                goToCart = goToCart
+            )
         },
         bodyContent = {
             ScrollableTabRow(
@@ -93,7 +100,10 @@ fun ShopScreen(
                 modifier = Modifier.padding(horizontal = 20.dp)
             ) {
                 items(viewModel.itemList) {
-                    ShopItem(item = it)
+                    ShopItem(
+                        item = it,
+                        onClick = goToDetail
+                    )
                 }
             }
         }
@@ -102,7 +112,9 @@ fun ShopScreen(
 
 @Composable
 fun ShopHeader(
+    cartCount: Int,
     onBackClick: () -> Unit,
+    goToCart: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -126,28 +138,13 @@ fun ShopHeader(
                 .size(24.dp)
                 .nonRippleClickable(onBackClick)
         )
-        Box(
+        CartBadge(
+            count = cartCount,
+            onClick = goToCart,
             modifier = Modifier
-                .padding(top = 16.dp, end = 20.dp)
                 .align(Alignment.TopEnd)
-                .size(24.dp, 20.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_cart),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp, 18.dp)
-                    .align(Alignment.BottomCenter)
-            )
-            Text(
-                text = "1+",
-                style = textStyle12B(textAlign = TextAlign.Center),
-                modifier = Modifier
-                    .size(13.dp)
-                    .background(MainColor, CircleShape)
-                    .align(Alignment.TopCenter)
-            )
-        }
+                .padding(top = 16.dp)
+        )
         Text(
             text = "굿즈 쇼핑",
             style = textStyle14B().copy(fontSize = 40.sp),
@@ -157,13 +154,49 @@ fun ShopHeader(
 }
 
 @Composable
-fun ShopItem(item: Goods) {
+fun CartBadge(
+    modifier: Modifier = Modifier,
+    count: Int,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .padding(end = 20.dp)
+            .size(24.dp, 20.dp)
+            .nonRippleClickable(onClick)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_cart),
+            contentDescription = null,
+            modifier = Modifier
+                .size(24.dp, 18.dp)
+                .align(Alignment.BottomCenter)
+        )
+        if (count > 0) {
+            Text(
+                text = if (count < 9) "$count" else "9+",
+                style = textStyle12B(textAlign = TextAlign.Center),
+                modifier = Modifier
+                    .size(13.dp)
+                    .background(MainColor, CircleShape)
+                    .align(Alignment.TopCenter)
+            )
+        }
+    }
+}
+
+@Composable
+fun ShopItem(
+    item: Goods,
+    onClick: (Int) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .border(1.dp, MyGray, RoundedCornerShape(10.dp))
             .padding(5.dp)
             .padding(bottom = 5.dp)
+            .nonRippleClickable { onClick(item.goodsId) }
     ) {
         AsyncImage(
             model = item.url,

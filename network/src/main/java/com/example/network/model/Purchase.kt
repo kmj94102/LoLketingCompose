@@ -1,5 +1,7 @@
 package com.example.network.model
 
+import com.example.database.GoodsEntity
+
 sealed class PurchaseHistoryInfo {
     data class PurchaseHistoryDate(
         val date: String
@@ -67,7 +69,24 @@ data class GoodsDetail(
     val name: String,
     val price: Int,
     val imageList: List<String>
-)
+) {
+    fun toEntity(amount: Int) = GoodsEntity(
+        index = 0,
+        category = category,
+        name = name,
+        price = price,
+        amount = amount,
+        image = imageList.getOrElse(0, defaultValue = { "" })
+    )
+    companion object {
+        fun init() = GoodsDetail(
+            category = "",
+            name = "",
+            price = 0,
+            imageList = listOf()
+        )
+    }
+}
 
 data class ProductPurchase(
     val userId: Int,

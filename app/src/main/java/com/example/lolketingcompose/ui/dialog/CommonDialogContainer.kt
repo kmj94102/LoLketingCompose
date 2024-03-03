@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.lolketingcompose.ui.custom.CommonButton
@@ -21,6 +22,7 @@ import com.example.lolketingcompose.ui.theme.MyGray
 import com.example.lolketingcompose.ui.theme.MyLightBlack
 import com.example.lolketingcompose.ui.theme.MyWhite
 import com.example.lolketingcompose.util.nonRippleClickable
+import com.example.lolketingcompose.util.textStyle20B
 
 @Composable
 fun CommonDialogContainer(
@@ -49,6 +51,8 @@ fun CommonConfirmDialog(
     contents: @Composable () -> Unit,
     okText: String = "확인",
     cancelText: String = "취소",
+    okTextStyle: TextStyle = textStyle20B(),
+    cancelTextStyle: TextStyle = textStyle20B(),
     okButtonColor: Color = MainColor,
     isSingleButton: Boolean = false,
     okClick: () -> Unit,
@@ -69,6 +73,7 @@ fun CommonConfirmDialog(
             if (isSingleButton.not()) {
                 CommonButton(
                     text = cancelText,
+                    style = cancelTextStyle,
                     color = MyGray,
                     shape = RoundedCornerShape(3.dp),
                     modifier = Modifier
@@ -80,6 +85,7 @@ fun CommonConfirmDialog(
             CommonButton(
                 text = okText,
                 color = okButtonColor,
+                style = okTextStyle,
                 shape = RoundedCornerShape(3.dp),
                 modifier = Modifier
                     .weight(1f)
