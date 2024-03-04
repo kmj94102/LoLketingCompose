@@ -47,12 +47,18 @@ class MainRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
-    override fun updateCashCharging(item: UpdateCashItem) = flow {
-        if (item.cash < 1_000) {
-            throw Exception("최소 충전 금액은 1,000원 입니다. 충전 금액을 확인해주세요.")
-        }
+    override fun updateCashCharging(cash: Int) = flow {
+        if (cash < 1_000) throw Exception("최소 충전 금액은 1,000원 입니다. 충전 금액을 확인해주세요.")
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
         client
-            .updateCashCharging(item)
+            .updateCashCharging(
+                UpdateCashItem(
+                    id = userId,
+                    cash = cash
+                )
+            )
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }

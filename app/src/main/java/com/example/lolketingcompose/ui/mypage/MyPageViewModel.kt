@@ -53,12 +53,7 @@ class MyPageViewModel @Inject constructor(
 
     fun updateCashCharging(cash: Int) {
         mainRepository
-            .updateCashCharging(
-                UpdateCashItem(
-                    id = _myInfo.value.id,
-                    cash = cash
-                )
-            )
+            .updateCashCharging(cash)
             .setLoadingState()
             .onEach {
                 _myInfo.value = it

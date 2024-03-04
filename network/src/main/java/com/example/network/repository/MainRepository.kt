@@ -19,7 +19,7 @@ interface MainRepository {
     
     fun fetchCashInfo(): Flow<MyCash>
 
-    fun updateCashCharging(item: UpdateCashItem): Flow<MyInfo>
+    fun updateCashCharging(cash: Int): Flow<MyInfo>
 
     fun fetchCouponList(id: String): Flow<List<Coupon>>
 

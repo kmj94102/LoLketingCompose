@@ -5,6 +5,6 @@ data class MyCash(
 )
 
 data class UpdateCashItem(
-    val id: String,
+    val id: Int,
     val cash: Int
 )
