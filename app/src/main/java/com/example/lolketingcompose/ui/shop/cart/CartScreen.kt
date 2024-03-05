@@ -45,6 +45,7 @@ import com.example.lolketingcompose.util.textStyle16B
 @Composable
 fun CartScreen(
     onBackClick: () -> Unit,
+    goToPurchase: (List<GoodsEntity>) -> Unit,
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -61,7 +62,14 @@ fun CartScreen(
                 text = "선택 상품 구매하기",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .nonRippleClickable { }
+                    .nonRippleClickable {
+                        viewModel
+                            .getSelectedList()
+                            .let {
+                                if (it.isEmpty()) return@nonRippleClickable
+                                goToPurchase(it)
+                            }
+                    }
             )
         }
     )

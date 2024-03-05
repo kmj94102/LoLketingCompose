@@ -1,9 +1,10 @@
 package com.example.network.repository
 
+import com.example.database.GoodsEntity
 import com.example.network.model.Game
 import com.example.network.model.Goods
 import com.example.network.model.GoodsDetail
-import com.example.network.model.ProductPurchase
+import com.example.network.model.PurchaseInfo
 import com.example.network.model.ReservationTicketItem
 import com.example.network.model.ReservationItem
 import com.example.network.model.TicketIdParam
@@ -19,11 +20,16 @@ interface PurchaseRepository {
 
     fun fetchTicketInfo(item: TicketIdParam): Flow<TicketInfo>
 
-    fun cashCharging(cash: Int, gameId: Int): Flow<ReservationItem>
+    fun cashChargingAndReservationInfo(cash: Int, gameId: Int): Flow<ReservationItem>
+
+    fun cashCharging(cash: Int): Flow<Int>
 
     fun fetchGoodsItems(): Flow<List<Goods>>
 
     fun fetchGoodsItemDetail(goodsId: Int): Flow<GoodsDetail>
 
-    fun insertProductPurchase(item: List<ProductPurchase>): Flow<String>
+    fun insertProductPurchase(items: List<GoodsEntity>): Flow<String>
+
+    fun fetchPurchaseInfo(): Flow<PurchaseInfo>
+
 }

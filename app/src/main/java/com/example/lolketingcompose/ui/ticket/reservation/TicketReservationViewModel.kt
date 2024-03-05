@@ -120,7 +120,7 @@ class TicketReservationViewModel @Inject constructor(
         }
 
         repository
-            .cashCharging(cash = cash, gameId = gameId)
+            .cashChargingAndReservationInfo(cash = cash, gameId = gameId)
             .onEach {
                 _ticketInfo.value = _ticketInfo.value.setItem(it)
             }

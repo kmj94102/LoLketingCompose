@@ -98,7 +98,7 @@ sealed class NavScreen(val item: NavItem) {
     object ShopPurchase: NavScreen(
         NavItem(
             route = "ShopPurchase",
-            routeWithPostFix = "ShopPurchase/{${Constants.GoodsIds}}"
+            routeWithPostFix = "ShopPurchase/{${Constants.PurchaseData}}"
         )
     )
 

@@ -18,8 +18,8 @@ class MainRepositoryImpl @Inject constructor(
     private val databaseRepository: DatabaseRepository
 ) : MainRepository {
     override fun fetchMyInfo() = flow {
-        val userId = databaseRepository.getUserEmail()
-        if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
 
         client
             .fetchMyInfo(userId)
@@ -28,8 +28,8 @@ class MainRepositoryImpl @Inject constructor(
     }
 
     override fun fetchModifyInfo(): Flow<ModifyInfo> = flow {
-        val userId = databaseRepository.getUserEmail()
-        if (userId.isEmpty()) throw Exception("유저 정보가 없습니다.")
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
 
         client
             .fetchMyInfo(userId)

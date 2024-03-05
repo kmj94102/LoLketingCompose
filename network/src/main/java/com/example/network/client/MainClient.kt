@@ -13,8 +13,8 @@ import javax.inject.Inject
 class MainClient @Inject constructor(
     private val service: MainService
 ) {
-    suspend fun fetchMyInfo(id: String) = runCatching {
-        service.fetchMyInfo(StringIdParam(id)).result()
+    suspend fun fetchMyInfo(id: Int) = runCatching {
+        service.fetchMyInfo(IntIdParam(id)).result()
     }
 
     suspend fun fetchCashInfo(id: String) = runCatching {

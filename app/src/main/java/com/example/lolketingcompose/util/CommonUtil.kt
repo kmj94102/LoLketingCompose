@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.SavedStateHandle
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 fun Context.toast(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
@@ -23,7 +24,11 @@ fun <T> SnapshotStateList<T>.clearAndAddAll(items: List<T>) {
 fun argumentEncode(item: Any): String =
     Uri.encode(Gson().toJson(item))
 
-inline fun <reified T> String.argumentDecode(): T = Gson().fromJson(this, T::class.java)
+//inline fun <reified T> String.argumentDecode(): T = Gson().fromJson(this, T::class.java)
+inline fun <reified T> String.argumentDecode(): T {
+    val type = object : TypeToken<T>() {}.type
+    return Gson().fromJson(this, type)
+}
 
 inline fun <reified T> SavedStateHandle.getArgumentDecode(key: String): T? {
     return get<String>(key)?.argumentDecode()

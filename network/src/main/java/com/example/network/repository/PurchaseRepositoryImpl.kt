@@ -1,6 +1,7 @@
 package com.example.network.repository
 
 import com.example.database.DatabaseRepository
+import com.example.database.GoodsEntity
 import com.example.network.client.MainClient
 import com.example.network.client.PurchaseClient
 import com.example.network.model.IntIdParam
@@ -56,12 +57,7 @@ class PurchaseRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
-    override fun cashCharging(cash: Int, gameId: Int) = flow {
-        val userEmail = databaseRepository.getUserEmail()
-        if (userEmail.isEmpty()) {
-            throw Exception("유저 정보가 없습니다.")
-        }
-
+    override fun cashChargingAndReservationInfo(cash: Int, gameId: Int) = flow {
         val userId = databaseRepository.getUserId()
         if (userId == 0) {
             throw Exception("유저 정보가 없습니다.")
@@ -70,7 +66,7 @@ class PurchaseRepositoryImpl @Inject constructor(
         mailClient
             .updateCashCharging(
                 UpdateCashItem(
-                    id = userEmail,
+                    id = userId,
                     cash = cash
                 )
             )
@@ -84,6 +80,23 @@ class PurchaseRepositoryImpl @Inject constructor(
                 )
             )
             .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun cashCharging(cash: Int) = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) {
+            throw Exception("유저 정보가 없습니다.")
+        }
+
+        mailClient
+            .updateCashCharging(
+                UpdateCashItem(
+                    id = userId,
+                    cash = cash
+                )
+            )
+            .onSuccess { emit(it.cash) }
             .onFailure { throw it }
     }
 
@@ -103,9 +116,38 @@ class PurchaseRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
-    override fun insertProductPurchase(item: List<ProductPurchase>) = flow {
+    override fun insertProductPurchase(items: List<GoodsEntity>) = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) {
+            throw Exception("유저 정보가 없습니다.")
+        }
+
         client
-            .insertProductPurchase(item)
+            .insertProductPurchase(
+                items.map {
+                    ProductPurchase(
+                        userId = userId,
+                        goodsId = it.goodsId,
+                        amount = it.amount,
+                        productsPrice = it.price * it.amount
+                    )
+                }
+            )
+            .onSuccess {
+                emit(it)
+                databaseRepository.deleteItems(items)
+            }
+            .onFailure { throw it }
+    }
+
+    override fun fetchPurchaseInfo() = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) {
+            throw Exception("유저 정보가 없습니다.")
+        }
+
+        client
+            .fetchPurchaseInfo(IntIdParam(userId))
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }

@@ -292,12 +292,12 @@ fun NavGraphBuilder.shopScreens(
             goToCart = {
                 navController.navigate(NavScreen.Cart.item.routeWithPostFix)
             },
-            goToPurchase = {
+            goToPurchase = { entity ->
                 if (goodsId != null && goodsId != 0) {
                     navController.navigate(
                         makeRouteWithArgs(
                             NavScreen.ShopPurchase.item.route,
-                            arrayOf(it).toString()
+                            argumentEncode(listOf(entity))
                         )
                     )
                 }
@@ -308,16 +308,41 @@ fun NavGraphBuilder.shopScreens(
     composable(
         route = NavScreen.ShopPurchase.item.routeWithPostFix,
         arguments = listOf(
-            navArgument(Constants.GoodsIds) { type = NavType.IntArrayType }
+            navArgument(Constants.PurchaseData) { type = NavType.StringType }
         )
-    ) {
-        PurchaseScreen(onBackClick = onBackClick)
+    ) { entry ->
+        val address = entry
+            .savedStateHandle
+            .get<String>(Constants.Address)
+
+        PurchaseScreen(
+            onBackClick = onBackClick,
+            goToShop = {
+                navController.navigate(NavScreen.Shop.item.routeWithPostFix) {
+                    popUpTo(NavScreen.Home.item.routeWithPostFix) { inclusive = false }
+                }
+            },
+            goToAddress = {
+                navController.navigate(NavScreen.Address.item.routeWithPostFix)
+            },
+            newAddress = address
+        )
     }
 
     composable(
         route = NavScreen.Cart.item.routeWithPostFix
     ) {
-        CartScreen(onBackClick = onBackClick)
+        CartScreen(
+            onBackClick = onBackClick,
+            goToPurchase = { list ->
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.ShopPurchase.item.route,
+                        argumentEncode(list)
+                    )
+                )
+            }
+        )
     }
 }
 

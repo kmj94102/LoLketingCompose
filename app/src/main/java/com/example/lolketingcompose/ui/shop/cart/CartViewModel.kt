@@ -27,7 +27,7 @@ class CartViewModel @Inject constructor(
     val totalPrice
         get() = list
             .filter { it.isChecked }
-            .map { it.price }
+            .map { it.price * it.amount }
             .reduceOrNull { acc, i -> acc + i }
             ?: 0
 
@@ -67,6 +67,14 @@ class CartViewModel @Inject constructor(
 
     fun deleteItems() = viewModelScope.launch {
         repository.deleteItems(_list.filter { it.isChecked })
+    }
+
+    fun getSelectedList(): List<GoodsEntity> {
+        val selectList = _list.filter { it.isChecked }
+        if (selectList.isEmpty()) {
+            updateMessage("구매할 상품을 선택해주세요")
+        }
+        return selectList
     }
 
 }

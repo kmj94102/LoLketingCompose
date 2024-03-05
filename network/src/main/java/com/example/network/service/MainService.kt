@@ -18,7 +18,7 @@ import retrofit2.http.POST
 
 interface MainService {
     @POST("/user/select/myInfo")
-    suspend fun fetchMyInfo(@Body item: StringIdParam): Response<MyInfo>
+    suspend fun fetchMyInfo(@Body item: IntIdParam): Response<MyInfo>
 
     @POST("/user/select/cash")
     suspend fun fetchCashInfo(@Body item: StringIdParam): Response<MyCash>

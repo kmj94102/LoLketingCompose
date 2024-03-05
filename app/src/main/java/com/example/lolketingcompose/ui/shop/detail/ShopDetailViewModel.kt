@@ -36,6 +36,9 @@ class ShopDetailViewModel @Inject constructor(
         .fetchCartCount()
         .stateIn(viewModelScope, started = SharingStarted.Lazily, initialValue = 0)
 
+    val entity
+        get() = _item.value.toEntity(_amount.intValue)
+
     init {
         fetchGoodsItemDetail()
     }
@@ -74,9 +77,7 @@ class ShopDetailViewModel @Inject constructor(
 
     fun insertCart(onSuccess: () -> Unit) = viewModelScope.launch {
         databaseRepository
-            .insertGoods(
-                _item.value.toEntity(_amount.intValue)
-            )
+            .insertGoods(entity)
             .onSuccess { onSuccess() }
             .onFailure { updateMessage("실패") }
     }

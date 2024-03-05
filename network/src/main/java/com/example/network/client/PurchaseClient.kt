@@ -39,4 +39,8 @@ class PurchaseClient @Inject constructor(
     suspend fun insertProductPurchase(item: List<ProductPurchase>) = runCatching {
         service.insertProductPurchase(item).result()
     }
+
+    suspend fun fetchPurchaseInfo(item: IntIdParam) = runCatching {
+        service.fetchPurchaseInfo(item).result()
+    }
 }

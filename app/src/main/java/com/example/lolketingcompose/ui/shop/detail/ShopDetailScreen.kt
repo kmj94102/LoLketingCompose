@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.database.GoodsEntity
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.TopBodyBottomContainer
 import com.example.lolketingcompose.ui.custom.CommonButton
@@ -38,7 +39,7 @@ import com.example.network.model.GoodsDetail
 fun ShopDetailScreen(
     onBackClick: () -> Unit,
     goToCart: () -> Unit,
-    goToPurchase: () -> Unit,
+    goToPurchase: (GoodsEntity) -> Unit,
     viewModel: ShopDetailViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -80,9 +81,11 @@ fun ShopDetailScreen(
                             )
                         }
                 )
-                CommonButton(text = "바로구매", modifier = Modifier
-                    .weight(1f)
-                    .nonRippleClickable { goToPurchase() }
+                CommonButton(
+                    text = "바로구매",
+                    modifier = Modifier
+                        .weight(1f)
+                        .nonRippleClickable { goToPurchase(viewModel.entity) }
                 )
             }
         }

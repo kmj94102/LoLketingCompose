@@ -134,6 +134,7 @@ fun MyPageScreen(
 
     CashChargingDialog(
         isShow = isCashChargingDialogShow,
+        myCash = viewModel.myInfo.value.cash,
         onDismiss = { isCashChargingDialogShow = false },
         listener = viewModel::updateCashCharging
     )

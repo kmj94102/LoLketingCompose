@@ -65,6 +65,7 @@ data class Goods(
 )
 
 data class GoodsDetail(
+    val goodsId: Int,
     val category: String,
     val name: String,
     val price: Int,
@@ -76,14 +77,16 @@ data class GoodsDetail(
         name = name,
         price = price,
         amount = amount,
-        image = imageList.getOrElse(0, defaultValue = { "" })
+        image = imageList.getOrElse(0, defaultValue = { "" }),
+        goodsId = goodsId
     )
     companion object {
         fun init() = GoodsDetail(
             category = "",
             name = "",
             price = 0,
-            imageList = listOf()
+            imageList = listOf(),
+            goodsId = 0
         )
     }
 }
@@ -91,5 +94,22 @@ data class GoodsDetail(
 data class ProductPurchase(
     val userId: Int,
     val goodsId: Int,
-    val amount: Int
+    val amount: Int,
+    val productsPrice: Int
 )
+
+data class PurchaseInfo(
+    val nickname: String,
+    val mobile: String,
+    val address: String,
+    val cash: Int
+) {
+    companion object {
+        fun init() = PurchaseInfo(
+            "",
+            "",
+            "",
+            0
+        )
+    }
+}

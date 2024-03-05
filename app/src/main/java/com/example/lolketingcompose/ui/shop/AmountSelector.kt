@@ -26,13 +26,14 @@ import com.example.lolketingcompose.util.textStyle16B
 @Preview
 @Composable
 fun AmountSelector(
+    modifier: Modifier = Modifier,
     value: Int = 10,
     onMinusClick: () -> Unit = {},
     onPlusClick: () -> Unit = {}
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.border(1.dp, MyWhite, RoundedCornerShape(5.dp))
+        modifier = modifier.border(1.dp, MyWhite, RoundedCornerShape(5.dp))
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_minus),

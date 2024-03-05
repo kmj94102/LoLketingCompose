@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -23,6 +23,7 @@ import com.example.lolketingcompose.ui.custom.CommonTextField
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyLightGray
 import com.example.lolketingcompose.util.NumberCommaTransformation
+import com.example.lolketingcompose.util.formatWithComma
 import com.example.lolketingcompose.util.textStyle16
 import com.example.lolketingcompose.util.textStyle16B
 import com.example.lolketingcompose.util.textStyle20
@@ -32,10 +33,11 @@ import kotlin.math.min
 @Composable
 fun CashChargingDialog(
     isShow: Boolean,
+    myCash: Int,
     onDismiss: () -> Unit,
     listener: (Int) -> Unit
 ) {
-    var amount by remember { mutableStateOf(0) }
+    var amount by remember { mutableIntStateOf(0) }
     val guideText = buildAnnotatedString {
         append("‘롤켓팅'의 캐시는 ")
         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -89,7 +91,7 @@ fun CashChargingDialog(
                 ) {
                     Text(text = "My 캐시", style = textStyle16(color = MyLightGray))
                     Text(
-                        text = "100,000원",
+                        text = myCash.formatWithComma().plus("원"),
                         style = textStyle16B(textAlign = TextAlign.End),
                         modifier = Modifier.weight(1f)
                     )

@@ -13,5 +13,6 @@ data class GoodsEntity (
     val price: Int,
     val amount: Int,
     val isChecked: Boolean = true,
-    val image: String
+    val image: String,
+    val goodsId: Int
 )

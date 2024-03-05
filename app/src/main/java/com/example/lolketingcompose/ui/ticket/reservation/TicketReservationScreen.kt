@@ -105,6 +105,7 @@ fun TicketReservationScreen(
 
     CashChargingDialog(
         isShow = isShow,
+        myCash = viewModel.ticketInfo.value.cash,
         onDismiss = { isShow = false},
         listener = viewModel::cashCharging
     )
