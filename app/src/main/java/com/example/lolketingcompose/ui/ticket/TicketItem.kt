@@ -25,19 +25,20 @@ import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyBlack
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.textStyle14B
-import com.example.network.model.Game
 
 @Preview
 @Composable
 fun TicketItem(
-    item: Game = Game.mockData(),
-    onClick: (Int) -> Unit = {}
+    leftTeam: String = "kt Rolster",
+    rightTeam: String = "GRIFFIN",
+    info: String = "2024.01.01\n17:00",
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(54.dp)
-            .nonRippleClickable { onClick(item.gameId) }
+            .nonRippleClickable(onClick)
     ) {
         Box(
             modifier = Modifier
@@ -89,7 +90,7 @@ fun TicketItem(
                     .align(Alignment.Center)
             ) {
                 Text(
-                    text = item.leftTeam,
+                    text = leftTeam,
                     style = textStyle14B(textAlign = TextAlign.Center),
                     modifier = Modifier
                         .weight(1f)
@@ -100,7 +101,7 @@ fun TicketItem(
                     style = textStyle14B(color = MyBlack),
                 )
                 Text(
-                    text = item.rightTeam,
+                    text = rightTeam,
                     style = textStyle14B(textAlign = TextAlign.Center),
                     modifier = Modifier
                         .weight(1f)
@@ -148,7 +149,7 @@ fun TicketItem(
             )
 
             Text(
-                text = item.gameDate.replace(" ", "\n"),
+                text = info,
                 style = textStyle14B(textAlign = TextAlign.Center),
                 modifier = Modifier
                     .fillMaxWidth()

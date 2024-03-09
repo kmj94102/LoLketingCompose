@@ -139,7 +139,12 @@ fun TicketListBody(
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         items(list) {
-            TicketItem(it, goToReservation)
+            TicketItem(
+                leftTeam = it.leftTeam,
+                rightTeam = it.rightTeam,
+                info = it.gameDate.replace(" ", "\n"),
+                onClick = { goToReservation(it.gameId) }
+            )
         }
     }
 }

@@ -9,18 +9,12 @@ sealed class PurchaseHistoryInfo {
 
     data class PurchaseTicketHistory(
         val reservationIds: String,
+        val seatNumbers: String,
         val date: String,
         val time: String,
         val leftTeam: String,
         val rightTeam: String
-    ): PurchaseHistoryInfo() {
-        fun toGame() = Game(
-            gameId = 0,
-            gameDate = "$date $time",
-            leftTeam = leftTeam,
-            rightTeam = rightTeam
-        )
-    }
+    ): PurchaseHistoryInfo()
 
     data class PurchaseGoodsHistory(
         val amount: Int,
@@ -35,7 +29,7 @@ sealed class PurchaseHistoryInfo {
         fun ticketHistoryListMapper(list: List<PurchaseTicketHistory>): List<PurchaseHistoryInfo> {
             val newList = mutableListOf<PurchaseHistoryInfo>()
             list
-                .groupBy { ticket -> ticket.date }
+                .groupBy { ticket -> ticket.date + " " + ticket.time }
                 .mapKeys { (key, value) ->
                     newList.add(PurchaseHistoryDate(key))
                     newList.addAll(value)

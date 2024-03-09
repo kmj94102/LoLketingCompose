@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.lolketingcompose.structure.BaseViewModel
+import com.example.lolketingcompose.util.clearAndAddAll
 import com.example.network.model.PurchaseHistoryInfo
 import com.example.network.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +22,11 @@ class PurchaseHistoryViewModel @Inject constructor(
     private val _isTicket = mutableStateOf(true)
     val isTicket: State<Boolean> = _isTicket
 
-    private val _list = mutableStateListOf<PurchaseHistoryInfo>()
-    val list: List<PurchaseHistoryInfo> = _list
+    private val _ticketList = mutableStateListOf<PurchaseHistoryInfo>()
+    val ticketList: List<PurchaseHistoryInfo> = _ticketList
+
+    private val _goodsList = mutableStateListOf<PurchaseHistoryInfo>()
+    val goodsList: List<PurchaseHistoryInfo> = _goodsList
 
     fun updateSelector(isTicket: Boolean) {
         _isTicket.value = isTicket
@@ -31,10 +35,15 @@ class PurchaseHistoryViewModel @Inject constructor(
     fun fetchPurchaseHistory() {
         repository
             .fetchTicketHistory()
-            .onEach {
-                _list.clear()
-                _list.addAll(it)
-            }
+            .onEach { _ticketList.clearAndAddAll(it) }
+            .catch { updateMessage(it.message ?: "구매 정보를 찾을 수 없습니다.") }
+            .launchIn(viewModelScope)
+    }
+
+    fun fetchGoodsHistory() {
+        repository
+            .fetchGoodsHistory()
+            .onEach { _goodsList.clearAndAddAll(it) }
             .catch { updateMessage(it.message ?: "구매 정보를 찾을 수 없습니다.") }
             .launchIn(viewModelScope)
     }

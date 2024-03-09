@@ -44,6 +44,7 @@ import com.example.lolketingcompose.ui.dialog.LogoutDialog
 import com.example.lolketingcompose.ui.dialog.WithdrawalDialog
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyWhite
+import com.example.lolketingcompose.util.formatWithComma
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle12
@@ -258,7 +259,7 @@ fun CashCouponContainer(
     Row(modifier = modifier) {
         CashCouponCard(
             title = "My 캐시",
-            contents = "${myInfo.cash}",
+            contents = myInfo.cash.formatWithComma().plus("원"),
             buttonText = "충전하기",
             modifier = Modifier.weight(1f),
             onClick = cashCharging
