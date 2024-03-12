@@ -10,14 +10,16 @@ import androidx.compose.ui.window.Dialog
 import com.example.lolketingcompose.R
 
 @Composable
-fun LoadingScreen() {
-    Dialog(onDismissRequest = {}) {
-        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-            CommonLottieAnimation(
-                resId = R.raw.lottie_loading,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+fun LoadingScreen(isShow: Boolean) {
+    if (isShow) {
+        Dialog(onDismissRequest = {}) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                CommonLottieAnimation(
+                    resId = R.raw.lottie_loading,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
     }
 }

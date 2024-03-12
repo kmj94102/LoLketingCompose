@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,6 +40,7 @@ fun BaseStructureScreen(
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
+    var isShow by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -47,11 +52,17 @@ fun BaseStructureScreen(
         } else {
             content()
         }
+    }
 
-        if (status.isLoading) {
-            LoadingScreen()
+    LaunchedEffect (status.isLoading) {
+        isShow = if (status.isLoading) {
+            delay(1000)
+            status.isLoading
+        } else {
+            false
         }
     }
+    LoadingScreen(isShow)
 
     LaunchedEffect(status.message) {
         val text = getStatusMessage(context, status.message)
