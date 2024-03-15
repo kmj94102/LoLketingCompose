@@ -68,7 +68,7 @@ fun JoinScreen(
                 text = "회원가입",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .nonRippleClickable { viewModel.join() })
+                    .nonRippleClickable(viewModel::join))
         }
     }
 
