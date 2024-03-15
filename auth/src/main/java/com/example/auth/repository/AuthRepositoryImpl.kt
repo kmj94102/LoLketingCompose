@@ -34,6 +34,10 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun emailLogin(loginInfo: LoginInfo) = flow {
+        if (loginInfo.id.isEmpty() || loginInfo.password.isEmpty()) {
+            throw Exception("아이디 또는 비밀번호를 입력해주세요.")
+        }
+
         authClient.emailLogin(loginInfo)
             .onSuccess {
                 databaseRepository
