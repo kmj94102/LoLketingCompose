@@ -24,6 +24,9 @@ class AddressViewModel @Inject constructor(
     private val _info = mutableStateOf(AddressSearchInfo())
     val info: State<AddressSearchInfo> = _info
 
+    private val _address = mutableStateOf("")
+    val address: State<String> = _address
+
     private var beforeKeyword = ""
     private var currentPage = 1
     private var isMoreData = true
@@ -79,6 +82,15 @@ class AddressViewModel @Inject constructor(
 
     fun updateAddressDetail(addressDetail: String) {
         _info.value = _info.value.copy(addressDetail = addressDetail)
+    }
+
+    fun getFullAddress() {
+        _info.value.getFullAddress()
+            .onSuccess {
+                _address.value = it
+                updateFinish()
+            }
+            .onFailure { updateMessage(it.message ?: "주소를 입력해주세요.") }
     }
 
 }

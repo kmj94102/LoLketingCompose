@@ -39,6 +39,7 @@ fun AddressScreen(
 
     HeaderBodyContainer(
         status = status,
+        onBackClick = { onBackClick(viewModel.address.value) },
         headerContent = {
             Image(
                 painter = painterResource(id = R.drawable.ic_back),
@@ -55,11 +56,7 @@ fun AddressScreen(
                 text = "주소 설정",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .nonRippleClickable {
-                        viewModel.info.value.getFullAddress()
-                            .onSuccess(onBackClick)
-                            .onFailure { status.updateMessage("주소를 입력해주세요.") }
-                    }
+                    .nonRippleClickable(viewModel::getFullAddress)
             )
         }
     )
