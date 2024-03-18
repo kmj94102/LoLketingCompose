@@ -106,4 +106,10 @@ data class PurchaseInfo(
             0
         )
     }
+
+    fun checkValidation() = when {
+        nickname.isEmpty() || mobile.isEmpty() || address.isEmpty() ->
+            false
+        else -> true
+    }
 }

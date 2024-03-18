@@ -174,7 +174,7 @@ fun CartBadge(
         )
         if (count > 0) {
             Text(
-                text = if (count < 9) "$count" else "9+",
+                text = if (count < 10) "$count" else "9+",
                 style = textStyle12B(textAlign = TextAlign.Center),
                 modifier = Modifier
                     .size(13.dp)

@@ -13,9 +13,11 @@ import com.example.lolketingcompose.util.getArgumentDecode
 import com.example.network.model.PurchaseInfo
 import com.example.network.repository.PurchaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +31,9 @@ class PurchaseViewModel @Inject constructor(
 
     private val _purchaseInfo = mutableStateOf(PurchaseInfo.init())
     val purchaseInfo: State<PurchaseInfo> = _purchaseInfo
+
+    private val _purchaseStatus = mutableStateOf<PurchaseStatus>(PurchaseStatus.Init)
+    val purchaseStatus: State<PurchaseStatus> = _purchaseStatus
 
     val totalPrice
         get() = _list.map { it.price * it.amount }.reduceOrNull { acc, i -> acc + i } ?: 0
@@ -86,6 +91,19 @@ class PurchaseViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun checkPurchase() = viewModelScope.launch {
+        if (_purchaseInfo.value.checkValidation().not()) {
+            updateMessage("배송 정보를 입력해주세요")
+        } else if (_purchaseInfo.value.cash < totalPrice) {
+            _purchaseStatus.value = PurchaseStatus.NeedCashCharging
+        } else {
+            _purchaseStatus.value = PurchaseStatus.Purchase
+        }
+
+        delay(500)
+        _purchaseStatus.value = PurchaseStatus.Init
+    }
+
     fun purchase() {
        repository
            .insertProductPurchase(_list)
@@ -96,6 +114,14 @@ class PurchaseViewModel @Inject constructor(
            }
            .catch { updateMessage(it.message ?: "결제 실패") }
            .launchIn(viewModelScope)
+    }
+
+    sealed class PurchaseStatus {
+        object Init: PurchaseStatus()
+
+        object NeedCashCharging: PurchaseStatus()
+
+        object Purchase: PurchaseStatus()
     }
 
 }

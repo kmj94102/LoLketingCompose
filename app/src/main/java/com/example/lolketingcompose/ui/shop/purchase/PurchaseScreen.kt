@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -117,16 +118,22 @@ fun PurchaseScreen(
                 text = "결제하기",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .nonRippleClickable {
-                        if (viewModel.purchaseInfo.value.cash > viewModel.totalPrice) {
-                            isPurchaseDialogShow = true
-                        } else {
-                            isCashChargingDialogShow = true
-                        }
-                    }
+                    .nonRippleClickable(viewModel::checkPurchase)
             )
         }
     )
+
+    LaunchedEffect(viewModel.purchaseStatus.value) {
+        when(viewModel.purchaseStatus.value) {
+            PurchaseViewModel.PurchaseStatus.Init -> {}
+            PurchaseViewModel.PurchaseStatus.NeedCashCharging -> {
+                isCashChargingDialogShow = true
+            }
+            PurchaseViewModel.PurchaseStatus.Purchase -> {
+                isPurchaseDialogShow = true
+            }
+        }
+    }
 
     PurchaseDeleteInfoDialog(
         isShow = isDeleteDialogShow,

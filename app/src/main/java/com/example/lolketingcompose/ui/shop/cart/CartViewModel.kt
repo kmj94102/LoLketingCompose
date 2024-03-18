@@ -72,7 +72,7 @@ class CartViewModel @Inject constructor(
     fun getSelectedList(): List<GoodsEntity> {
         val selectList = _list.filter { it.isChecked }
         if (selectList.isEmpty()) {
-            updateMessage("구매할 상품을 선택해주세요")
+            updateMessage("구매할 상품을 선택해 주세요")
         }
         return selectList
     }
