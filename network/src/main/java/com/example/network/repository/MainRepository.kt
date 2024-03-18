@@ -21,7 +21,7 @@ interface MainRepository {
 
     fun fetchCouponList(id: String): Flow<List<Coupon>>
 
-    fun updateUsingCoupon(item: UpdateCouponItem): Flow<MyInfo>
+    fun updateUsingCoupon(couponId: Int): Flow<MyInfo>
 
     fun updateMyInfo(item: ModifyInfo): Flow<Unit>
 

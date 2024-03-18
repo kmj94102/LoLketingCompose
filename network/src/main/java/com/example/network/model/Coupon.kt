@@ -15,7 +15,7 @@ data class Coupon(
 }
 
 data class UpdateCouponItem(
-    val id: String,
+    val id: Int,
     val couponId: Int
 )
 

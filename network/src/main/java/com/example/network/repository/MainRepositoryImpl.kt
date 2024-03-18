@@ -71,9 +71,12 @@ class MainRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
-    override fun updateUsingCoupon(item: UpdateCouponItem) = flow {
+    override fun updateUsingCoupon(couponId: Int) = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
         client
-            .updateUsingCoupon(item)
+            .updateUsingCoupon(UpdateCouponItem(id = userId, couponId = couponId))
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }

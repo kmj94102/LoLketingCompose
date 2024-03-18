@@ -6,8 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.auth.repository.AuthRepository
 import com.example.lolketingcompose.structure.BaseViewModel
 import com.example.network.model.MyInfo
-import com.example.network.model.UpdateCashItem
-import com.example.network.model.UpdateCouponItem
 import com.example.network.repository.MainRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -64,12 +62,7 @@ class MyPageViewModel @Inject constructor(
 
     fun updateUsingCoupon(id: Int) {
         mainRepository
-            .updateUsingCoupon(
-                UpdateCouponItem(
-                    id = _myInfo.value.id,
-                    couponId = id
-                )
-            )
+            .updateUsingCoupon(couponId = id)
             .setLoadingState()
             .onEach {
                 _myInfo.value = it
