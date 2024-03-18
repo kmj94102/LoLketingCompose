@@ -50,7 +50,7 @@ import com.example.lolketingcompose.util.textStyle22B
 fun EventScreen(
     onBackClick: () -> Unit,
     goToMyPage: () -> Unit,
-    goToRoulette: (Int) -> Unit,
+    goToRoulette: () -> Unit,
     viewModel: EventViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -78,9 +78,7 @@ fun EventScreen(
                     NewSignUpEventContainer(viewModel::insertNewUserCoupon)
                 }
                 item {
-                    TicketReservationEventContainer {
-                        goToRoulette(viewModel.userId)
-                    }
+                    TicketReservationEventContainer(goToRoulette)
                 }
             }
         }
@@ -192,7 +190,7 @@ fun TicketReservationEventContainer(
             ) {
                 append("RP")
             }
-            append(" 받아가세요.\n")
+            append("를 받아가세요.\n")
             withStyle(
                 SpanStyle(fontSize = 12.sp)
             ) {

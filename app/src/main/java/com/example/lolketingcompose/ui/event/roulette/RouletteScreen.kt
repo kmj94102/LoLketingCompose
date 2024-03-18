@@ -115,20 +115,22 @@ fun RouletteBody(
         Box(
             modifier = Modifier.weight(1f)
         ) {
-            FillMaxWithImage(
-                imageRes = R.drawable.img_roulette,
-                modifier = Modifier
-                    .padding(top = 36.dp)
-                    .rotate(rotate.value)
-            )
+            Box(modifier = Modifier.align(Alignment.Center)) {
+                FillMaxWithImage(
+                    imageRes = R.drawable.img_roulette,
+                    modifier = Modifier
+                        .padding(top = 36.dp)
+                        .rotate(rotate.value)
+                )
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_position),
-                contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .size(40.dp, 58.dp)
-            )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_position),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .size(40.dp, 58.dp)
+                )
+            }
         }
 
         Text(

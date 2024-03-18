@@ -5,7 +5,6 @@ import com.example.network.model.StringIdParam
 import com.example.network.model.ModifyInfo
 import com.example.network.model.MyCash
 import com.example.network.model.MyInfo
-import com.example.network.model.NewUserCouponResult
 import com.example.network.model.PurchaseHistoryInfo
 import com.example.network.model.RouletteCount
 import com.example.network.model.UpdateCashItem
@@ -36,7 +35,7 @@ interface MainService {
     suspend fun updateMyInfo(@Body item: ModifyInfo): Response<Unit>
 
     @POST("/user/select/newUserCoupon")
-    suspend fun fetchNewUserCoupon(@Body item: StringIdParam): Response<NewUserCouponResult>
+    suspend fun fetchNewUserCoupon(@Body item: StringIdParam): Response<Boolean>
 
     @POST("/user/insert/newUserCoupon")
     suspend fun insertNewUserCoupon(@Body item: IntIdParam): Response<Unit>

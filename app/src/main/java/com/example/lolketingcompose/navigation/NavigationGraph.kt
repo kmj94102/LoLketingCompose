@@ -184,25 +184,15 @@ fun NavGraphBuilder.eventScreens(
                 navController.navigate(NavScreen.MyPage.item.routeWithPostFix)
             },
             goToRoulette = {
-                navController.navigate(
-                    makeRouteWithArgs(
-                        NavScreen.Roulette.item.route,
-                        it.toString(),
-                    )
-                )
+                navController.navigate(NavScreen.Roulette.item.routeWithPostFix)
             }
         )
     }
 
     composable(
         route = NavScreen.Roulette.item.routeWithPostFix,
-        arguments = listOf(
-            navArgument(Constants.UserId) { type = NavType.IntType }
-        )
     ) {
-        RouletteScreen(
-            onBackClick = onBackClick
-        )
+        RouletteScreen(onBackClick = onBackClick)
     }
 }
 

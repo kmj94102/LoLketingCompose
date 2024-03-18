@@ -16,10 +16,6 @@ class EventViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ): BaseViewModel() {
 
-    private var _userId = 0
-    val userId
-        get() = _userId
-
     private val _isIssued = mutableStateOf(false)
     val isIssued: State<Boolean> = _isIssued
 
@@ -30,10 +26,7 @@ class EventViewModel @Inject constructor(
         mainRepository
             .fetchNewUserCoupon()
             .setLoadingState()
-            .onEach {
-                _userId = it.userId
-                _isIssued.value = it.isIssued
-            }
+            .onEach { _isIssued.value = it }
             .catch { updateMessage(it.message ?: "오류가 발생하였습니다.") }
             .launchIn(viewModelScope)
     }
@@ -45,7 +38,7 @@ class EventViewModel @Inject constructor(
         }
 
         mainRepository
-            .insertNewUserCoupon(_userId)
+            .insertNewUserCoupon()
             .setLoadingState()
             .onEach {
                 _isComplete.value = true

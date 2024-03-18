@@ -9,6 +9,7 @@ import com.example.network.model.RouletteCouponUpdateItem
 import com.example.network.model.UpdateCashItem
 import com.example.network.model.UpdateCouponItem
 import com.example.network.model.IntIdParam
+import com.example.network.model.RouletteCount
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -95,18 +96,31 @@ class MainRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
-    override fun insertNewUserCoupon(userId: Int) = flow {
+    override fun insertNewUserCoupon() = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
         client
             .insertNewUserCoupon(IntIdParam(userId))
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }
 
-    override suspend fun insertRouletteCoupon(id: Int, rp: Int) =
-        client
-            .insertRouletteCoupon(RouletteCouponUpdateItem(id, rp))
+    override suspend fun insertRouletteCoupon(rp: Int): Result<RouletteCount> {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
 
-    override fun fetchRouletteCount(userId: Int) = flow {
+        return client
+            .insertRouletteCoupon(RouletteCouponUpdateItem(userId, rp))
+    }
+
+    override fun fetchRouletteCount() = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) {
+            throw Exception("유저 정보가 없습니다.")
+        }
+
+
         client
             .fetchRouletteCount(IntIdParam(userId))
             .onSuccess { emit(it) }

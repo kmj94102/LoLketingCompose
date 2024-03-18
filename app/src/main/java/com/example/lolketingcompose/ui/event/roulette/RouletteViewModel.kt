@@ -1,11 +1,11 @@
 package com.example.lolketingcompose.ui.event.roulette
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.lolketingcompose.structure.BaseViewModel
-import com.example.lolketingcompose.util.Constants
 import com.example.network.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -16,23 +16,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RouletteViewModel @Inject constructor(
-    private val repository: MainRepository,
-    savedStateHandle: SavedStateHandle
+    private val repository: MainRepository
 ) : BaseViewModel() {
 
-    private val userId = savedStateHandle.get<Int>(Constants.UserId)
-
-    private val _count = mutableStateOf(20)
+    private val _count = mutableIntStateOf(20)
     val count: State<Int> = _count
 
-    private val _deg = mutableStateOf(0f)
+    private val _deg = mutableFloatStateOf(0f)
     val deg: State<Float> = _deg
 
     private val _resultMessage = mutableStateOf("")
     val resultMessage: State<String> = _resultMessage
 
     private val result
-        get() = when (_deg.value) {
+        get() = when (_deg.floatValue) {
             in 0f..45f -> 2000
             in 46f..90f -> 300
             in 91f..135f -> 350
@@ -44,18 +41,15 @@ class RouletteViewModel @Inject constructor(
         }
 
     init {
-        userId?.let(::fetchRouletteCount) ?: {
-            updateMessage("오류가 발생하였습니다. 잠시 후 이용해주세요")
-            updateFinish()
-        }
+        fetchRouletteCount()
     }
 
-    private fun fetchRouletteCount(userId: Int) {
+    private fun fetchRouletteCount() {
         repository
-            .fetchRouletteCount(userId)
+            .fetchRouletteCount()
             .setLoadingState()
             .onEach {
-                _count.value = it.count
+                _count.intValue = it.count
             }
             .catch {
                 updateMessage("오류가 발생하였습니다. 잠시 후 이용해주세요")
@@ -65,19 +59,12 @@ class RouletteViewModel @Inject constructor(
     }
 
     fun rouletteStart() = viewModelScope.launch {
-        if (userId == null) {
-            updateMessage("유저 정보가 없습니다.")
-            return@launch
-        }
-        _deg.value = (1..359).random().toFloat()
+        _deg.floatValue = (1..359).random().toFloat()
 
         repository
-            .insertRouletteCoupon(
-                id = userId,
-                rp = result
-            )
+            .insertRouletteCoupon(result)
             .onSuccess {
-                _count.value = it.count
+                _count.intValue = it.count
                 _resultMessage.value = "${result}RP 쿠폰 당첨!!"
             }
             .onFailure { error ->

@@ -24,11 +24,6 @@ data class RouletteCouponUpdateItem(
     val rp: Int
 )
 
-data class NewUserCouponResult(
-    val userId: Int,
-    val isIssued: Boolean
-)
-
 data class RouletteCount(
     val count: Int
 )
