@@ -18,6 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +32,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.HeaderBodyContainer
+import com.example.lolketingcompose.ui.dialog.ReservationEndsDialog
+import com.example.lolketingcompose.ui.dialog.SoldOutDialog
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyGray
 import com.example.lolketingcompose.ui.theme.MyYellow
@@ -101,6 +106,9 @@ fun TicketListBody(
     list: List<Game>,
     goToReservation: (Int) -> Unit
 ) {
+    var isSoldOut by remember { mutableStateOf(false) }
+    var isReservationEnd by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,7 +129,7 @@ fun TicketListBody(
                 .background(MyYellow)
         )
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = "경기 종료", style = textStyle14())
+        Text(text = "예매 종료", style = textStyle14())
         Spacer(modifier = Modifier.width(20.dp))
 
         Box(
@@ -133,7 +141,6 @@ fun TicketListBody(
         Text(text = "매진", style = textStyle14())
     }
 
-
     LazyColumn(
         contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 40.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
@@ -143,8 +150,31 @@ fun TicketListBody(
                 leftTeam = it.leftTeam,
                 rightTeam = it.rightTeam,
                 info = it.gameDate.replace(" ", "\n"),
-                onClick = { goToReservation(it.gameId) }
+                status = when{
+                    it.isSoldOut -> TicketStatus.SoldOut
+                    it.isDateExpired() -> TicketStatus.End
+                    else -> TicketStatus.Possible
+                },
+                onClick = {
+                    if (it.isSoldOut) {
+                        isSoldOut = true
+                    } else if (it.isDateExpired()) {
+                        isReservationEnd = true
+                    } else {
+                        goToReservation(it.gameId)
+                    }
+                }
             )
         }
     }
+
+    ReservationEndsDialog(
+        isShow = isReservationEnd,
+        onDismiss = { isReservationEnd = false },
+    )
+
+    SoldOutDialog(
+        isShow = isSoldOut,
+        onDismiss = { isSoldOut = false},
+    )
 }

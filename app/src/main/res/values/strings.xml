@@ -19,4 +19,6 @@
     <string name="guide_withdrawal">회원 탈퇴를 진행하시려면\n아래의 입력창에 \‘회원 탈퇴\'를 입력 후\n탈퇴하기 버튼을 눌러주세요.</string>
     <string name="wrong_input_withdrawal">회원 탈퇴를 정확히 입력해 주세요.</string>
     <string name="do_withdrawal">탈퇴하기</string>
+    <string name="reservation_ends">티켓 예매가 종료된 경기입니다.\n다른 경기를 선택해주세요.</string>
+    <string name="reservation_sold_out">선택하신 경기는 매진되었습니다.\n다른 경기를 선택해주세요.</string>
 </resources>

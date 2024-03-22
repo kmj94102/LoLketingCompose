@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.lolketingcompose.R
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.util.formatWithComma
 import com.example.lolketingcompose.util.textStyle16
@@ -80,5 +82,37 @@ fun PurchaseDialog(
             onDismiss()
         },
         okText = "결제하기"
+    )
+}
+
+@Composable
+fun SoldOutDialog(
+    isShow: Boolean,
+    onDismiss: () -> Unit,
+) {
+    ConfirmDialog(
+        isShow = isShow,
+        content = stringResource(id = R.string.reservation_sold_out),
+        onDismiss = onDismiss,
+        isSingleButton = true,
+        okClick = {
+            onDismiss()
+        }
+    )
+}
+
+@Composable
+fun ReservationEndsDialog(
+    isShow: Boolean,
+    onDismiss: () -> Unit,
+) {
+    ConfirmDialog(
+        isShow = isShow,
+        content = stringResource(id = R.string.reservation_ends),
+        onDismiss = onDismiss,
+        isSingleButton = true,
+        okClick = {
+            onDismiss()
+        }
     )
 }

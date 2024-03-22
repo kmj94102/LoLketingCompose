@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyBlack
+import com.example.lolketingcompose.ui.theme.MyGray
+import com.example.lolketingcompose.ui.theme.MyYellow
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.textStyle14B
 
@@ -32,8 +34,15 @@ fun TicketItem(
     leftTeam: String = "kt Rolster",
     rightTeam: String = "GRIFFIN",
     info: String = "2024.01.01\n17:00",
+    status: TicketStatus = TicketStatus.Possible,
     onClick: () -> Unit = {}
 ) {
+    val backgroundColor = when(status) {
+        TicketStatus.Possible -> MainColor
+        TicketStatus.End -> MyYellow
+        TicketStatus.SoldOut -> MyGray
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +57,7 @@ fun TicketItem(
                     clip = true
                     shape = RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp)
                 }
-                .background(MainColor, RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
+                .background(backgroundColor, RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
         ) {
             Box(
                 modifier = Modifier
@@ -122,7 +131,7 @@ fun TicketItem(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .border(1.dp, MainColor, RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp))
+                    .border(1.dp, backgroundColor, RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp))
             )
             Box(
                 modifier = Modifier
@@ -133,7 +142,7 @@ fun TicketItem(
                         translationX = -8.dp.toPx()
                     }
                     .background(MyBlack, CircleShape)
-                    .border(1.dp, MainColor, CircleShape)
+                    .border(1.dp, backgroundColor, CircleShape)
             )
 
             Box(
@@ -145,7 +154,7 @@ fun TicketItem(
                         translationX = -8.dp.toPx()
                     }
                     .background(MyBlack, CircleShape)
-                    .border(1.dp, MainColor, CircleShape)
+                    .border(1.dp, backgroundColor, CircleShape)
             )
 
             Text(
@@ -157,4 +166,8 @@ fun TicketItem(
             )
         }
     }
+}
+
+enum class TicketStatus {
+    Possible, End, SoldOut
 }
