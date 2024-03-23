@@ -6,6 +6,7 @@ import com.example.network.client.MainClient
 import com.example.network.client.PurchaseClient
 import com.example.network.model.IntIdParam
 import com.example.network.model.ProductPurchase
+import com.example.network.model.RefundInfo
 import com.example.network.model.ReservationTicketItem
 import com.example.network.model.TicketIdParam
 import com.example.network.model.TicketInfoParam
@@ -54,6 +55,23 @@ class PurchaseRepositoryImpl @Inject constructor(
         client
             .fetchTicketInfo(item)
             .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun refundTicket(reservationIds: List<Int>) = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) {
+            throw Exception("유저 정보가 없습니다.")
+        }
+
+        client
+            .refundTicket(
+                RefundInfo(
+                    userId = userId,
+                    reservationIds = reservationIds
+                )
+            )
+            .onSuccess { emit(Unit) }
             .onFailure { throw it }
     }
 

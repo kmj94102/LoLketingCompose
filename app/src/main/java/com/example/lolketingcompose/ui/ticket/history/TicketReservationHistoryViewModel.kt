@@ -23,27 +23,35 @@ class TicketReservationHistoryViewModel @Inject constructor(
     private val _ticketInfo = mutableStateOf(TicketInfo.init())
     val ticketInfo: State<TicketInfo> = _ticketInfo
 
+    private val _noRefund = mutableStateOf(false)
+    val noRefund: State<Boolean> = _noRefund
+
+    private val idList = mutableListOf<Int>()
+
     init {
         fetchTicketInfo()
     }
 
     private fun fetchTicketInfo() {
-        val idList = runCatching {
-            savedStateHandle
-                .get<String>(Constants.GameId)
-                ?.split(",")
-                ?.map { it.toInt() }
-                ?: throw Exception()
-        }.getOrNull() ?: run {
-            updateMessage("티켓 정보가 없습니다.")
-            updateFinish()
-            return
-        }
+        idList.addAll(
+            runCatching {
+                savedStateHandle
+                    .get<String>(Constants.GameId)
+                    ?.split(",")
+                    ?.map { it.toInt() }
+                    ?: throw Exception()
+            }.getOrNull() ?: run {
+                updateMessage("티켓 정보가 없습니다.")
+                updateFinish()
+                return
+            }
+        )
 
         repository
             .fetchTicketInfo(
                 TicketIdParam(idList)
             )
+            .setLoadingState()
             .onEach {
                 _ticketInfo.value = it
             }
@@ -52,5 +60,21 @@ class TicketReservationHistoryViewModel @Inject constructor(
                 updateFinish()
             }
             .launchIn(viewModelScope)
+    }
+
+    fun refundTicket() {
+        repository
+            .refundTicket(idList)
+            .setLoadingState()
+            .onEach {
+                updateMessage("환불을 완료하였습니다.")
+                updateFinish()
+            }
+            .catch { _noRefund.value = true }
+            .launchIn(viewModelScope)
+    }
+
+    fun dismiss() {
+        _noRefund.value = false
     }
 }

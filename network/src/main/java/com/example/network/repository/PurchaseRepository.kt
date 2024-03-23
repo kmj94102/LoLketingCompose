@@ -20,6 +20,8 @@ interface PurchaseRepository {
 
     fun fetchTicketInfo(item: TicketIdParam): Flow<TicketInfo>
 
+    fun refundTicket(reservationIds: List<Int>): Flow<Unit>
+
     fun cashChargingAndReservationInfo(cash: Int, gameId: Int): Flow<ReservationItem>
 
     fun cashCharging(cash: Int): Flow<Int>

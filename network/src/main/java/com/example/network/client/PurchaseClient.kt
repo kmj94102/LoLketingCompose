@@ -2,6 +2,7 @@ package com.example.network.client
 
 import com.example.network.model.IntIdParam
 import com.example.network.model.ProductPurchase
+import com.example.network.model.RefundInfo
 import com.example.network.model.TicketInfoParam
 import com.example.network.model.ReservationTicketItem
 import com.example.network.model.TicketIdParam
@@ -26,6 +27,10 @@ class PurchaseClient @Inject constructor(
 
     suspend fun fetchTicketInfo(item: TicketIdParam) = runCatching {
         service.fetchTicketInfo(item).result()
+    }
+
+    suspend fun refundTicket(item: RefundInfo) = runCatching {
+        service.refundTicket(item).result()
     }
 
     suspend fun fetchGoodsItems() = runCatching {

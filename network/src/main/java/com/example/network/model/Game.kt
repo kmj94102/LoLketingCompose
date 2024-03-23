@@ -140,3 +140,8 @@ data class TicketInfo(
         )
     }
 }
+
+data class RefundInfo(
+    val userId: Int,
+    val reservationIds: List<Int>
+)

@@ -116,3 +116,19 @@ fun ReservationEndsDialog(
         }
     )
 }
+
+@Composable
+fun NoRefundDialog(
+    isShow: Boolean,
+    onDismiss: () -> Unit,
+) {
+    ConfirmDialog(
+        isShow = isShow,
+        content = stringResource(id = R.string.no_refund),
+        onDismiss = onDismiss,
+        isSingleButton = true,
+        okClick = {
+            onDismiss()
+        }
+    )
+}

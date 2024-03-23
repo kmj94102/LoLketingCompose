@@ -47,6 +47,7 @@ import com.example.network.model.PurchaseHistoryInfo
 @Composable
 fun PurchaseHistoryScreen(
     onBackClick: () -> Unit,
+    goToTicketReservationHistory: (String) -> Unit,
     viewModel: PurchaseHistoryViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -68,7 +69,10 @@ fun PurchaseHistoryScreen(
                     .padding(top = 15.dp)
             )
             if (viewModel.isTicket.value) {
-                TicketHistoryItems(list = viewModel.ticketList)
+                TicketHistoryItems(
+                    list = viewModel.ticketList,
+                    goToTicketReservationHistory = goToTicketReservationHistory
+                )
             } else {
                 GoodsHistoryItems(list = viewModel.goodsList)
             }
@@ -122,7 +126,8 @@ fun PurchaseHistorySelector(
 @Composable
 fun TicketHistoryItems(
     modifier: Modifier = Modifier,
-    list: List<PurchaseHistoryInfo>
+    list: List<PurchaseHistoryInfo>,
+    goToTicketReservationHistory: (String) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(top = 5.dp, bottom = 30.dp, start = 20.dp, end = 20.dp),
@@ -137,7 +142,9 @@ fun TicketHistoryItems(
                         leftTeam = it.leftTeam,
                         rightTeam = it.rightTeam,
                         info = it.seatNumbers,
-                        onClick = {}
+                        onClick = {
+                            goToTicketReservationHistory(it.reservationIds)
+                        }
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                 }

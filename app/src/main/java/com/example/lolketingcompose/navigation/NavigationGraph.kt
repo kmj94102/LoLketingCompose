@@ -167,7 +167,17 @@ fun NavGraphBuilder.myPageScreens(
     composable(
         route = NavScreen.PurchaseHistory.item.routeWithPostFix
     ) {
-        PurchaseHistoryScreen(onBackClick = onBackClick)
+        PurchaseHistoryScreen(
+            onBackClick = onBackClick,
+            goToTicketReservationHistory = {
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.TicketHistory.item.route,
+                        it
+                    )
+                )
+            }
+        )
     }
 }
 

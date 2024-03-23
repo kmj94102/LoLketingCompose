@@ -6,6 +6,7 @@ import com.example.network.model.GoodsDetail
 import com.example.network.model.IntIdParam
 import com.example.network.model.ProductPurchase
 import com.example.network.model.PurchaseInfo
+import com.example.network.model.RefundInfo
 import com.example.network.model.ReservationItem
 import com.example.network.model.TicketInfoParam
 import com.example.network.model.ReservationTicketItem
@@ -27,6 +28,9 @@ interface PurchaseService {
 
     @POST("/purchase/select/ticketInfo")
     suspend fun fetchTicketInfo(@Body item: TicketIdParam): Response<TicketInfo>
+
+    @POST("/purchase/delete/tickets")
+    suspend fun refundTicket(@Body item: RefundInfo): Response<String>
 
     @POST("/purchase/select/goodsItems")
     suspend fun fetchGoodsItems(): Response<List<Goods>>
