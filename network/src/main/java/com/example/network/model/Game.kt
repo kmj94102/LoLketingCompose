@@ -14,8 +14,8 @@ data class Game(
     fun isDateExpired() = runCatching {
         val format = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault())
         val date = format.parse(gameDate) ?: return@runCatching false
+        date.time -= 1000 * 60 * 60
         val currentDate = Calendar.getInstance().time
-        currentDate.time = currentDate.time + (1000 * 60 * 60 * 10)
 
         date.before(currentDate)
     }.getOrElse { false }
