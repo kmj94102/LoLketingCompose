@@ -106,7 +106,7 @@ fun HomeContent(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_trophy,
                         text = "리그 정보",
-                        onClick = { status.temporaryInformationMessage() }
+                        onClick = { goToScreen(NavScreen.LeagueInfo.item.routeWithPostFix) }
                     )
                 )
 

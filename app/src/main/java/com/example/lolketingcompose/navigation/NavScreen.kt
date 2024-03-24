@@ -113,4 +113,10 @@ sealed class NavScreen(val item: NavItem) {
             route = "Cart"
         )
     )
+
+    object LeagueInfo: NavScreen(
+        NavItem(
+            route = "LeagueInfo"
+        )
+    )
 }

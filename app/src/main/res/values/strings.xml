@@ -43,4 +43,19 @@
     <string name="restrictions">관람 시 제한사항</string>
     <string name="guide_restrictions">- 입장 및 관람시 1인 1티켓을 소지하여야 합니다. (단 만 12세 미만의 경우 보호자 동반이 필요합니다.)\n- &quot;관람객&quot;은 경기를 촬영, 녹은, 기록할 수 없으며, 각종 TV, 인터넷 등과 같은 매체로 전파하거나 상업적 목적으로 이용할 수 없고, 이를 돕는 행가 금지됩니다.\n- &quot;주최측&quot;은 경기장에서 얻은 &quot;관람객&quot;의 음성 및 초상권을 무상으로 이용할 수 있으며, &quot;관람객&quot;의 경기장 입장은 이에 대한 동의로 간주됩니다.\n- 본 티켓은 &quot;주최측&quot;의 허가없이 판매, 교환, 환전, 증여 등의 일체의 양도 행위를 할 수 없습니다. &quot;관람객&quot;이 &quot;주최측&quot;에서 허가하지 않은 양도 행위로 인해 피해를 입을 경우, &quot;관람객&quot; 스스로 책임을 부답합니다.\n- &quot;관람객&quot;으 쾌적한 관람 및 안전을 위한 목적으로 &quot;주최측&quot;이 실시하는 모든 조치에 협력해야 하며, 경기가 시작된 이후에는 입장이 제한될 수 있습니다.&quot;관람객&quot;은 경기 당일 어떠한 경우에도 &quot;주최측&quot;의 허가없이 타인을 비방, 비하할 목적 또는 정치적, 상업적 목적의 설치물 (배너, 현수막, 심볼 등 모든 종류의 표현물)을 경기장에 반입 및 게재할 수 없으며, 위반 시 &quot;주최측&quot;은 경기 종료 시까지 해당 설치물에 대한 임의 보관을 요구할 수 있고, 불응 시 즉시 퇴장을 요구할 수 있습니다. 또한 다른 &quot;관람객&quot;의 경기 관람과 경기 운영을 방해하는 경우 등에 대해 &quot;주최측&quot;은 경고 없이 즉시 퇴장 또는 민/형사상의 책임을 요구할 수 있습니다.\n- 본 티켓은 티켓 전면에 표시된 해당 일이에만 유효하며, 예매분 티켓이 매진되었을 경우 현장 판매는 실시하지 않는 것을 원칙으로 합니다.\n- &quot;관람객&quot;은 &quot;주최측&quot;의 중대한 과실이나 고의로 인한 경우를 제외하고, 경기장 내 발설할 수 있는 모든 문제에 대해 스스로 책임을 부암합니다.\n- 티켓을 분실, 훼손, 미 소지 시 어떠한 경우에도 입장이 불가하고, 환불 및 재발급이 제한됩니다.\n- 결제하신 티켓의 가액에는 &quot;기념품&quot;이 포함되지 않습니다. 현장에서 지급 받는 &quot;기념품&quot;은 주최사가 제공하는 무료 지급 서비스이며, 교환, 환불, 반품, 수리 등을 요구살 수 없고, 분실 등의 이유로 재 지급을 요구살 수 없으며, 양도 불가한 상품입니다.\n- 상기 명시된 내용에 대한 미 숙지로 인한 책임은 &quot;관람객&quot;본인에게 있으며, 이를 위반한 경우 &quot;관람객&quot;의 관람은 거부되고, 티켓은 무효로 간주되며 환불되지 않습니다. 또한 1회라 하더라도 중대한 위반을 하거나, 상습적이고 지속적인 위반행위를 하는 &quot;관람객&quot;은 재 방문이 제한될 수 있습니다.</string>
 
+    <string name="what_is_lck">What is LCK?</string>
+    <string name="guide_what_is_lck">라이엇 게임즈에서 주최/주관하는 공식 리그로, 최상위 실력의 프로팀들이 경쟁하는 공식 프로 티어 리그 입니다.\n\n총 10팀이 참가하여 2라운드 풀리그로 정규 리그 경기가 진행되며, 정규리그 최종 상위 5팀은 포스트 시즌에 진출하여 우승 타이틀을 놓고 경쟁하게 됩니다.</string>
+    <string name="league_schedule">일정</string>
+    <string name="guide_league_schedule">1라운드(17:00)\n매주 수요일, 목요일, 금요일, 토요일, 일요일\n\n2라운드(20:00)\n매주 목요일, 금요일, 토요일, 일요일</string>
+    <string name="total_prize_money">총상금</string>
+    <string name="guide_total_prize_money">300,000,000원</string>
+    <string name="relay">중계</string>
+    <string name="guide_relay">(TV) SBS-AfreecaTV\n(온라인) 네이버, 아프리카TV, 트위치, 유튜브, Wavve, LG U+ 모바일 tv</string>
+    <string name="place">장소</string>
+    <string name="guide_place">롤파크(LoL PARK) 내 LCK아레나(LCK Arena)</string>
+    <string name="regular_season">정규 시즌</string>
+    <string name="post_season">포스트 시즌</string>
+    <string name="guide_post_season">- 와일드카드전(3전 2선승제) : 정규 시즌 4위 vs 정규 시즌 5위\n- 플레이오프 1라운드(5전 3선승제) : 정규 시즌 3위 vs 와일드카드전 승리팀\n- 플레이오프 2라운드(5전 3선승제) : 정규 시즌 2위 vs 플레이오프 1라운드 승리팀\n- 결승전(5전 3선승제) : 정규 시즌 1위 vs 플레이오프 2라운드 승리팀</string>
+    <string name="lck_prize_money_information">LCK 상금 안내</string>
+
 </resources>

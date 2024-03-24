@@ -12,6 +12,7 @@ import com.example.auth.model.UserInfoType
 import com.example.lolketingcompose.ui.event.EventScreen
 import com.example.lolketingcompose.ui.event.roulette.RouletteScreen
 import com.example.lolketingcompose.ui.home.HomeScreen
+import com.example.lolketingcompose.ui.legue.LeagueInfoScreen
 import com.example.lolketingcompose.ui.login.LoginScreen
 import com.example.lolketingcompose.ui.login.address.AddressScreen
 import com.example.lolketingcompose.ui.login.join.JoinScreen
@@ -130,6 +131,12 @@ fun NavGraphBuilder.homeScreens(
                     ?.set(Constants.Address, it)
             }
         )
+    }
+
+    composable(
+        route = NavScreen.LeagueInfo.item.routeWithPostFix
+    ) {
+        LeagueInfoScreen(onBackClick = onBackClick)
     }
 }
 
