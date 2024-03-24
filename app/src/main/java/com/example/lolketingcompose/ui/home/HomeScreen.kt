@@ -79,7 +79,7 @@ fun HomeContent(
                 HomeIcon(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_board,
-                        text = "게스트",
+                        text = "게시판",
                         onClick = { status.temporaryInformationMessage() }
                     )
                 )
