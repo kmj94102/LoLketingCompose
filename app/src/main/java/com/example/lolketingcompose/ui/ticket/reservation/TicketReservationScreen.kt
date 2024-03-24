@@ -56,6 +56,7 @@ import com.example.network.model.ReservationInfo
 fun TicketReservationScreen(
     onBackClick: () -> Unit,
     goToTicketInfo: (String) -> Unit,
+    goToGuide: () -> Unit,
     viewModel: TicketReservationViewModel = hiltViewModel()
 ) {
     var isShow by remember { mutableStateOf(false) }
@@ -70,7 +71,7 @@ fun TicketReservationScreen(
             )
         },
         bodyContent = {
-            TicketReservationBody(viewModel = viewModel)
+            TicketReservationBody(viewModel = viewModel, goToGuide = goToGuide)
         },
         bottomContent = {
             CommonButton(
@@ -91,12 +92,13 @@ fun TicketReservationScreen(
 
     val reservation = viewModel.reservation.value
     LaunchedEffect(reservation) {
-        when(reservation) {
+        when (reservation) {
             is TicketReservationViewModel.Reservation.Init -> {}
             is TicketReservationViewModel.Reservation.CashCharging -> {
                 isShow = true
                 viewModel.updateInit()
             }
+
             is TicketReservationViewModel.Reservation.Success -> {
                 goToTicketInfo(reservation.ids)
             }
@@ -106,14 +108,15 @@ fun TicketReservationScreen(
     CashChargingDialog(
         isShow = isShow,
         myCash = viewModel.ticketInfo.value.cash,
-        onDismiss = { isShow = false},
+        onDismiss = { isShow = false },
         listener = viewModel::cashCharging
     )
 }
 
 @Composable
 fun ColumnScope.TicketReservationBody(
-    viewModel: TicketReservationViewModel
+    viewModel: TicketReservationViewModel,
+    goToGuide: () -> Unit
 ) {
     Spacer(modifier = Modifier.weight(1f))
     Text(
@@ -155,7 +158,8 @@ fun ColumnScope.TicketReservationBody(
         numberOfPeople = viewModel.numberOfPeople.value,
         selectedSeatInfo = viewModel.selectedSeatInfo,
         ticketInfo = viewModel.ticketInfo.value,
-        onNumberOfPeopleClick = viewModel::updateNumberOfPeople
+        onNumberOfPeopleClick = viewModel::updateNumberOfPeople,
+        goToGuide = goToGuide
     )
 }
 
@@ -165,7 +169,8 @@ fun TicketReservationInfo(
     numberOfPeople: Int,
     selectedSeatInfo: String,
     ticketInfo: ReservationInfo,
-    onNumberOfPeopleClick: (Int) -> Unit
+    onNumberOfPeopleClick: (Int) -> Unit,
+    goToGuide: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -179,7 +184,11 @@ fun TicketReservationInfo(
                 style = textStyle16(),
                 modifier = Modifier.weight(1f)
             )
-            Text(text = "티켓 안내 >", style = textStyle16(color = MyLightGray))
+            Text(
+                text = "티켓 안내 >",
+                style = textStyle16(color = MyLightGray),
+                modifier = Modifier.nonRippleClickable(goToGuide)
+            )
         }
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -215,7 +224,7 @@ fun TicketReservationInfo(
             }
         }
         Spacer(modifier = Modifier.height(14.dp))
-        
+
         Row {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

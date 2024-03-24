@@ -82,6 +82,12 @@ sealed class NavScreen(val item: NavItem) {
         )
     )
 
+    object TicketGuide: NavScreen(
+        NavItem(
+            route = "TicketGuide"
+        )
+    )
+
     object Shop: NavScreen(
         NavItem(
             route = "Shop"

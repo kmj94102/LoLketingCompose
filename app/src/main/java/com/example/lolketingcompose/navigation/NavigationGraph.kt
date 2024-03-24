@@ -23,6 +23,7 @@ import com.example.lolketingcompose.ui.shop.cart.CartScreen
 import com.example.lolketingcompose.ui.shop.detail.ShopDetailScreen
 import com.example.lolketingcompose.ui.shop.purchase.PurchaseScreen
 import com.example.lolketingcompose.ui.ticket.TicketListScreen
+import com.example.lolketingcompose.ui.ticket.guide.TicketGuideScreen
 import com.example.lolketingcompose.ui.ticket.history.TicketReservationHistoryScreen
 import com.example.lolketingcompose.ui.ticket.reservation.TicketReservationScreen
 import com.example.lolketingcompose.util.Constants
@@ -242,6 +243,9 @@ fun NavGraphBuilder.ticketScreens(
                         it
                     )
                 )
+            },
+            goToGuide = {
+                navController.navigate(NavScreen.TicketGuide.item.routeWithPostFix)
             }
         )
     }
@@ -252,7 +256,18 @@ fun NavGraphBuilder.ticketScreens(
             navArgument(Constants.GameId) { type = NavType.StringType }
         )
     ) {
-        TicketReservationHistoryScreen(onBackClick = onBackClick)
+        TicketReservationHistoryScreen(
+            onBackClick = onBackClick,
+            goToGuide = {
+                navController.navigate(NavScreen.TicketGuide.item.routeWithPostFix)
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.TicketGuide.item.routeWithPostFix
+    ) {
+        TicketGuideScreen(onBackClick = onBackClick)
     }
 }
 

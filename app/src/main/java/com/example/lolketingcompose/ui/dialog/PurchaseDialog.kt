@@ -124,7 +124,7 @@ fun NoRefundDialog(
 ) {
     ConfirmDialog(
         isShow = isShow,
-        content = stringResource(id = R.string.no_refund),
+        content = stringResource(id = R.string.msg_no_refund),
         onDismiss = onDismiss,
         isSingleButton = true,
         okClick = {

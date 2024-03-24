@@ -51,6 +51,7 @@ import com.naver.maps.map.compose.rememberCameraPositionState
 @Composable
 fun TicketReservationHistoryScreen(
     onBackClick: () -> Unit,
+    goToGuide: () -> Unit,
     viewModel: TicketReservationHistoryViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -66,7 +67,9 @@ fun TicketReservationHistoryScreen(
                     Image(
                         painter = painterResource(id = R.drawable.ic_info),
                         contentDescription = null,
-                        modifier = Modifier.padding(end = 20.dp)
+                        modifier = Modifier
+                            .padding(end = 20.dp)
+                            .nonRippleClickable(goToGuide)
                     )
                 }
             )
