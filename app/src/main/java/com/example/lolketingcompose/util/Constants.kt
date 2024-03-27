@@ -6,4 +6,5 @@ object Constants {
     const val GameId = "gameId"
     const val GoodsId = "goodsId"
     const val PurchaseData = "purchaseData"
+    const val Title = "title"
 }

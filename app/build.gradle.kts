@@ -85,7 +85,7 @@ dependencies {
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.50")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
 
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -106,6 +106,10 @@ dependencies {
     // NAVER Map
     implementation("io.github.fornewid:naver-map-compose:1.6.0")
     implementation("com.naver.maps:map-sdk:3.16.1")
+
+    // HtmlText
+    // https://github.com/ch4rl3x/HtmlText
+    implementation ("de.charlex.compose.material3:material3-html-text:2.0.0-beta01")
 
     implementation(project(path = ":network"))
     implementation(project(path = ":auth"))

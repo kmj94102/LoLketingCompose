@@ -119,4 +119,17 @@ sealed class NavScreen(val item: NavItem) {
             route = "LeagueInfo"
         )
     )
+
+    object LoLGuide: NavScreen(
+        NavItem(
+            route = "LoLGuide"
+        )
+    )
+
+    object LoLGuideDetail: NavScreen(
+        NavItem(
+            route = "LoLGuideDetail",
+            routeWithPostFix = "LoLGuideDetail/{${Constants.Title}}"
+        )
+    )
 }

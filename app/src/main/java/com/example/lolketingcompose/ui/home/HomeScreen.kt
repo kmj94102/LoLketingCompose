@@ -132,7 +132,7 @@ fun HomeContent(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_lol_guide,
                         text = "롤알못",
-                        onClick = { status.temporaryInformationMessage() }
+                        onClick = { goToScreen(NavScreen.LoLGuide.item.routeWithPostFix) }
                     )
                 )
 

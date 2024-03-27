@@ -11,6 +11,8 @@ import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
 import com.example.lolketingcompose.ui.event.EventScreen
 import com.example.lolketingcompose.ui.event.roulette.RouletteScreen
+import com.example.lolketingcompose.ui.guide.GuidDetailScreen
+import com.example.lolketingcompose.ui.guide.GuideScreen
 import com.example.lolketingcompose.ui.home.HomeScreen
 import com.example.lolketingcompose.ui.legue.LeagueInfoScreen
 import com.example.lolketingcompose.ui.login.LoginScreen
@@ -137,6 +139,33 @@ fun NavGraphBuilder.homeScreens(
         route = NavScreen.LeagueInfo.item.routeWithPostFix
     ) {
         LeagueInfoScreen(onBackClick = onBackClick)
+    }
+
+    composable(
+        route = NavScreen.LoLGuide.item.routeWithPostFix
+    ) {
+        GuideScreen(
+            onBackClick = onBackClick,
+            goToDetail = {
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.LoLGuideDetail.item.route,
+                        it.toString()
+                    )
+                )
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.LoLGuideDetail.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.Title) { type = NavType.IntType }
+        )
+    ) {
+        GuidDetailScreen(
+            onBackClick = onBackClick,
+        )
     }
 }
 
