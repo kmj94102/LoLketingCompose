@@ -21,6 +21,7 @@ import com.example.lolketingcompose.ui.login.join.JoinScreen
 import com.example.lolketingcompose.ui.mypage.MyPageScreen
 import com.example.lolketingcompose.ui.mypage.history.PurchaseHistoryScreen
 import com.example.lolketingcompose.ui.mypage.modify.MyInfoModifyScreen
+import com.example.lolketingcompose.ui.news.NewsScreen
 import com.example.lolketingcompose.ui.shop.ShopScreen
 import com.example.lolketingcompose.ui.shop.cart.CartScreen
 import com.example.lolketingcompose.ui.shop.detail.ShopDetailScreen
@@ -167,6 +168,17 @@ fun NavGraphBuilder.homeScreens(
             onBackClick = onBackClick,
         )
     }
+
+
+
+    composable(
+        route = NavScreen.News.item.routeWithPostFix
+    ) {
+        NewsScreen(
+            onBackClick = onBackClick
+        )
+    }
+
 }
 
 fun NavGraphBuilder.myPageScreens(

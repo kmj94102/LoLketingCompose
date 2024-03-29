@@ -18,6 +18,8 @@ android {
         minSdk = 24
 
         buildConfigField("String", "ADDRESS_API_KEY", "${properties["address_api_key"]}")
+        buildConfigField("String", "CLIENT_ID", "${properties["client_id"]}")
+        buildConfigField("String", "CLIENT_SECRET", "${properties["client_secret"]}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }

@@ -3,9 +3,11 @@ package com.example.network.di
 import com.example.network.BuildConfig
 import com.example.network.client.AddressClient
 import com.example.network.client.MainClient
+import com.example.network.client.NewsClient
 import com.example.network.client.PurchaseClient
 import com.example.network.service.AddressService
 import com.example.network.service.MainService
+import com.example.network.service.NewsService
 import com.example.network.service.PurchaseService
 import dagger.Module
 import dagger.Provides
@@ -109,4 +111,25 @@ object NetworkModule {
     fun provideAddressClient(addressService: AddressService) : AddressClient =
         AddressClient(addressService)
 
+    @Provides
+    @Singleton
+    @Named("news")
+    fun provideNewsRetrofit(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl("https://openapi.naver.com/v1/")
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+    @Provides
+    @Singleton
+    fun provideNewsService(@Named("news") retrofit: Retrofit) : NewsService =
+        retrofit.create(NewsService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNewsClient(newsService: NewsService) : NewsClient =
+        NewsClient(newsService)
 }

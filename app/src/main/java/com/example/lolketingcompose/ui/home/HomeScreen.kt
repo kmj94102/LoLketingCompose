@@ -140,7 +140,7 @@ fun HomeContent(
                     HomeIconItem(
                         iconRes = R.drawable.ic_news,
                         text = "뉴스",
-                        onClick = { status.temporaryInformationMessage() }
+                        onClick = { goToScreen(NavScreen.News.item.routeWithPostFix) }
                     )
                 )
 

@@ -132,4 +132,10 @@ sealed class NavScreen(val item: NavItem) {
             routeWithPostFix = "LoLGuideDetail/{${Constants.Title}}"
         )
     )
+
+    object News: NavScreen(
+        NavItem(
+            route = "News"
+        )
+    )
 }
