@@ -2,16 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ImageSlider">
+      <entry key="CustomDatePickerDialogPreview">
         <State />
       </entry>
-      <entry key="Test">
+      <entry key="DatePickerView">
+        <State />
+      </entry>
+      <entry key="TestChatting">
         <State />
       </entry>
       <entry key="TicketGuideItemPreview">
-        <State />
-      </entry>
-      <entry key="TicketHistoryInfo">
         <State />
       </entry>
       <entry key="app">

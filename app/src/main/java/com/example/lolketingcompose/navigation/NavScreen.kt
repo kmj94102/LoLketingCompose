@@ -138,4 +138,17 @@ sealed class NavScreen(val item: NavItem) {
             route = "News"
         )
     )
+
+    object ChattingList: NavScreen(
+        NavItem(
+            route = "ChattingList"
+        )
+    )
+
+    object ChattingRoom: NavScreen(
+        NavItem(
+            route = "ChattingRoom",
+            routeWithPostFix = "ChattingRoom/{${Constants.GameId}}"
+        )
+    )
 }

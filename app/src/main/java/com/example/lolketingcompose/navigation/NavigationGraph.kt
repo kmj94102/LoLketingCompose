@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
+import com.example.lolketingcompose.ui.chatting.ChattingListScreen
+import com.example.lolketingcompose.ui.chatting.room.ChattingRoomScreen
 import com.example.lolketingcompose.ui.event.EventScreen
 import com.example.lolketingcompose.ui.event.roulette.RouletteScreen
 import com.example.lolketingcompose.ui.guide.GuidDetailScreen
@@ -48,6 +50,7 @@ fun NavigationGraph(
         eventScreens(onBackClick, navController)
         ticketScreens(onBackClick, navController)
         shopScreens(onBackClick, navController)
+        chattingScreens(onBackClick, navController)
     }
 }
 
@@ -168,8 +171,6 @@ fun NavGraphBuilder.homeScreens(
             onBackClick = onBackClick,
         )
     }
-
-
 
     composable(
         route = NavScreen.News.item.routeWithPostFix
@@ -406,6 +407,36 @@ fun NavGraphBuilder.shopScreens(
                 )
             }
         )
+    }
+}
+
+fun NavGraphBuilder.chattingScreens(
+    onBackClick: () -> Unit,
+    navController: NavHostController
+) {
+    composable(
+        route = NavScreen.ChattingList.item.routeWithPostFix
+    ) {
+        ChattingListScreen(
+            onBackClick = onBackClick,
+            goToChattingRoom = {
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.ChattingRoom.item.route,
+                        it.toString()
+                    )
+                )
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.ChattingRoom.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.GameId) { type = NavType.IntType }
+        )
+    ) {
+        ChattingRoomScreen(onBackClick)
     }
 }
 

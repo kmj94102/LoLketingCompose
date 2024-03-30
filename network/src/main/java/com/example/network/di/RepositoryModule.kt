@@ -2,6 +2,8 @@ package com.example.network.di
 
 import com.example.network.repository.AddressRepository
 import com.example.network.repository.AddressRepositoryImpl
+import com.example.network.repository.ChattingRepository
+import com.example.network.repository.ChattingRepositoryImpl
 import com.example.network.repository.MainRepository
 import com.example.network.repository.MainRepositoryImpl
 import com.example.network.repository.NewsRepository
@@ -36,5 +38,10 @@ interface RepositoryModule {
     fun bindNewsRepository(
         repository: NewsRepositoryImpl
     ): NewsRepository
+
+    @Binds
+    fun bindChattingRepository(
+        repository: ChattingRepositoryImpl
+    ): ChattingRepository
 
 }

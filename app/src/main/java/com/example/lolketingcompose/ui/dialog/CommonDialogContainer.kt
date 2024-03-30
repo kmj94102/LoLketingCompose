@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.lolketingcompose.ui.custom.CommonButton
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyGray
@@ -26,15 +27,20 @@ import com.example.lolketingcompose.util.textStyle20B
 
 @Composable
 fun CommonDialogContainer(
+    modifier: Modifier = Modifier,
     isShow: Boolean,
     onDismissRequest: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    properties: DialogProperties = DialogProperties(),
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     if (isShow) {
-        Dialog(onDismissRequest = onDismissRequest) {
+        Dialog(
+            onDismissRequest = onDismissRequest,
+            properties = properties
+        ) {
             Column(
                 content = content,
-                modifier = Modifier
+                modifier = modifier
                     .background(MyLightBlack, RoundedCornerShape(10.dp))
                     .border(1.dp, MyWhite, RoundedCornerShape(10.dp))
             )
@@ -44,6 +50,7 @@ fun CommonDialogContainer(
 
 @Composable
 fun CommonConfirmDialog(
+    modifier: Modifier = Modifier,
     isShow: Boolean,
     onDismiss: () -> Unit,
     cancelable: Boolean = true,
@@ -51,6 +58,7 @@ fun CommonConfirmDialog(
     contents: @Composable () -> Unit,
     okText: String = "확인",
     cancelText: String = "취소",
+    properties: DialogProperties = DialogProperties(),
     okTextStyle: TextStyle = textStyle20B(),
     cancelTextStyle: TextStyle = textStyle20B(),
     okButtonColor: Color = MainColor,
@@ -60,7 +68,9 @@ fun CommonConfirmDialog(
 ) {
     CommonDialogContainer(
         isShow = isShow,
-        onDismissRequest = { if (cancelable) onDismiss() }
+        onDismissRequest = { if (cancelable) onDismiss() },
+        properties = properties,
+        modifier = modifier
     ) {
         Spacer(modifier = Modifier.height(40.dp))
         title?.let {

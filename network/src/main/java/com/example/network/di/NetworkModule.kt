@@ -2,10 +2,12 @@ package com.example.network.di
 
 import com.example.network.BuildConfig
 import com.example.network.client.AddressClient
+import com.example.network.client.ChattingClient
 import com.example.network.client.MainClient
 import com.example.network.client.NewsClient
 import com.example.network.client.PurchaseClient
 import com.example.network.service.AddressService
+import com.example.network.service.ChattingService
 import com.example.network.service.MainService
 import com.example.network.service.NewsService
 import com.example.network.service.PurchaseService
@@ -87,6 +89,19 @@ object NetworkModule {
     fun providePurchaseClient(
         service: PurchaseService,
     ): PurchaseClient = PurchaseClient(service)
+
+    @Provides
+    @Singleton
+    fun provideChattingService(
+        @Named("main") retrofit: Retrofit
+    ): ChattingService =
+        retrofit.create(ChattingService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideChattingClient(
+        service: ChattingService,
+    ): ChattingClient = ChattingClient(service)
 
     @Provides
     @Singleton

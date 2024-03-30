@@ -148,7 +148,7 @@ fun HomeContent(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_chatting,
                         text = "채팅",
-                        onClick = { status.temporaryInformationMessage() }
+                        onClick = { goToScreen(NavScreen.ChattingList.item.routeWithPostFix) }
                     )
                 )
             }
