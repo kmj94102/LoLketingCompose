@@ -47,7 +47,7 @@ import com.example.network.model.Team
 @Composable
 fun ChattingListScreen(
     onBackClick: () -> Unit,
-    goToChattingRoom: (Int) -> Unit,
+    goToChattingRoom: (ChattingRoomInfo, String) -> Unit,
     viewModel: ChattingListViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -92,7 +92,9 @@ fun ChattingListScreen(
                             ChattingListItem(
                                 title = "1경기 (17:00)",
                                 item = it,
-                                onClick = { goToChattingRoom(it.gameId) }
+                                onClick = { selectedTeam ->
+                                    goToChattingRoom(it, selectedTeam)
+                                }
                             )
                         }
                     }
@@ -104,7 +106,9 @@ fun ChattingListScreen(
                             ChattingListItem(
                                 title = "2경기 (20:00)",
                                 item = it,
-                                onClick = {goToChattingRoom(it.gameId)}
+                                onClick = { selectedTeam ->
+                                    goToChattingRoom(it, selectedTeam)
+                                }
                             )
                         }
                     }
@@ -165,12 +169,11 @@ fun ChattingHeader(onBackClick: () -> Unit) {
 fun ChattingListItem(
     title: String,
     item: ChattingRoomInfo,
-    onClick: () -> Unit
+    onClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
             .border(1.dp, MainColor, RoundedCornerShape(10.dp))
-            .nonRippleClickable(onClick)
     ) {
         Text(
             text = title,
@@ -190,6 +193,7 @@ fun ChattingListItem(
                 modifier = Modifier
                     .height(100.dp)
                     .weight(1f)
+                    .nonRippleClickable { onClick(item.leftTeam) }
             )
 
             Text(
@@ -206,6 +210,7 @@ fun ChattingListItem(
                 modifier = Modifier
                     .height(100.dp)
                     .weight(1f)
+                    .nonRippleClickable { onClick(item.rightTeam) }
             )
         }
     }

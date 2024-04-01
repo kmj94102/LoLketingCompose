@@ -15,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -35,7 +34,6 @@ import com.example.lolketingcompose.ui.theme.MyYellow
 import com.example.lolketingcompose.util.textStyle20
 
 @OptIn(
-    ExperimentalComposeUiApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
@@ -55,13 +53,16 @@ fun CommonTextField(
     onSearch: (String) -> Unit = {},
     isError: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null
+    trailingIcon: @Composable (() -> Unit)? = null,
+    focusedColor: Color = MainColor,
+    unFocusedColor: Color = MyWhite,
+    errorColor: Color = MyYellow
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(false) }
-    val borderColor = if (isError) MyYellow else if (isFocused) MainColor else MyWhite
+    val borderColor = if (isError) errorColor else if (isFocused) focusedColor else unFocusedColor
 
     BasicTextField(
         value = value,

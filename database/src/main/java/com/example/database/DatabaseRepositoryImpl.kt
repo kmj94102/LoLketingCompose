@@ -16,6 +16,9 @@ class DatabaseRepositoryImpl @Inject constructor(
     override suspend fun getUserEmail(): String =
         client.getUserEmail().getOrElse { "" }
 
+    override suspend fun getUserNickname(): String =
+        client.getUserNickname().getOrElse { "" }
+
     override suspend fun getUserId(): Int =
         client.getUserId().getOrElse { 0 }
 

@@ -7,4 +7,6 @@ object Constants {
     const val GoodsId = "goodsId"
     const val PurchaseData = "purchaseData"
     const val Title = "title"
+    const val RoomInfo = "roomInfo"
+    const val SelectedTeam = "selectedTeam"
 }

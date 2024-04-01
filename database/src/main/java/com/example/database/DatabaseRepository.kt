@@ -10,6 +10,8 @@ interface DatabaseRepository {
 
     suspend fun getUserEmail(): String
 
+    suspend fun getUserNickname(): String
+
     suspend fun getUserId(): Int
 
     suspend fun logout(): Result<Unit>

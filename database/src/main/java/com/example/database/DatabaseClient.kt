@@ -23,6 +23,10 @@ class DatabaseClient @Inject constructor(
         authDao.getUserId()
     }
 
+    suspend fun getUserNickname() = runCatching {
+        authDao.getUserNickname()
+    }
+
     suspend fun logout() = runCatching {
         authDao.logout()
     }

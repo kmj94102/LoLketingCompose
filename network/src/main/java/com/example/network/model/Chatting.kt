@@ -6,10 +6,49 @@ data class ChattingListParam(
 
 data class ChattingRoomInfo(
     val gameId: Int,
+    val gameDate: String,
     val gameTime: String,
     val leftTeam: String,
     val rightTeam: String
+) {
+    companion object {
+        fun init() = ChattingRoomInfo(
+            gameId = 0,
+            gameDate = "",
+            gameTime = "",
+            leftTeam = "",
+            rightTeam = ""
+        )
+    }
+}
+
+data class ChattingItem(
+    val nickname: String,
+    val message: String,
+    val isLeftTeam: Boolean,
+    val isMyChat: Boolean
 )
+
+data class ChattingModel(
+    var gameId: Int ?= null,
+    var email: String ?= null,
+    var nickname: String ?= null,
+    var gameDate: String ?= null,
+    var team: String ?= null,
+    var message: String ?= null,
+    var timestamp: Long = 0,
+) {
+    fun mapper(leftTeam: String, rightTeam: String, myEmail: String) : ChattingItem? {
+        if (team != leftTeam && team != rightTeam) return null
+        
+        return ChattingItem(
+            nickname = nickname ?: return null,
+            message = message ?: return null,
+            isLeftTeam = team == leftTeam,
+            isMyChat = email == myEmail
+        )
+    }
+}
 
 enum class Team(val teamName: String, val image: String) {
     T1("T1", "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/logo%2Fimg_t1.png?alt=media&token=d9f4dea2-0813-4221-a902-951469621b10"),

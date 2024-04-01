@@ -20,6 +20,9 @@ interface AuthDao {
     @Query("SELECT id FROM AuthEntity LIMIT 1")
     suspend fun getUserId(): Int
 
+    @Query("SELECT nickname FROM AuthEntity LIMIT 1")
+    suspend fun getUserNickname(): String
+
     @Query("DELETE FROM AuthEntity")
     suspend fun logout()
 

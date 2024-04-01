@@ -419,11 +419,12 @@ fun NavGraphBuilder.chattingScreens(
     ) {
         ChattingListScreen(
             onBackClick = onBackClick,
-            goToChattingRoom = {
+            goToChattingRoom = { roomInfo, selectedTeam ->
                 navController.navigate(
                     makeRouteWithArgs(
                         NavScreen.ChattingRoom.item.route,
-                        it.toString()
+                        argumentEncode(roomInfo),
+                        selectedTeam
                     )
                 )
             }
@@ -433,7 +434,8 @@ fun NavGraphBuilder.chattingScreens(
     composable(
         route = NavScreen.ChattingRoom.item.routeWithPostFix,
         arguments = listOf(
-            navArgument(Constants.GameId) { type = NavType.IntType }
+            navArgument(Constants.RoomInfo) { type = NavType.StringType },
+            navArgument(Constants.SelectedTeam) { type = NavType.StringType }
         )
     ) {
         ChattingRoomScreen(onBackClick)
