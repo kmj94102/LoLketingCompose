@@ -26,7 +26,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.navigation.NavScreen
 import com.example.lolketingcompose.structure.BaseContainer
-import com.example.lolketingcompose.structure.BaseStatus
 import com.example.lolketingcompose.util.nonRippleClickable
 import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle14B
@@ -42,7 +41,7 @@ fun HomeScreen(
     BaseContainer(
         status = status,
     ) {
-        HomeContent(status, goToScreen)
+        HomeContent(goToScreen)
     }
 
     val lifecycleEvent = rememberLifecycleEvent()
@@ -57,7 +56,6 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(
-    status: BaseStatus,
     goToScreen: (String) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -80,7 +78,7 @@ fun HomeContent(
                     item = HomeIconItem(
                         iconRes = R.drawable.ic_board,
                         text = "게시판",
-                        onClick = { status.temporaryInformationMessage() }
+                        onClick = { goToScreen(NavScreen.Board.item.routeWithPostFix) }
                     )
                 )
 
@@ -154,10 +152,6 @@ fun HomeContent(
             }
         }
     }
-}
-
-private fun BaseStatus.temporaryInformationMessage() {
-    updateMessage("페이지 준비중입니다.")
 }
 
 @Composable

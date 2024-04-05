@@ -151,4 +151,16 @@ sealed class NavScreen(val item: NavItem) {
             routeWithPostFix = "ChattingRoom/{${Constants.RoomInfo}}/{${Constants.SelectedTeam}}"
         )
     )
+
+    object Board: NavScreen(
+        NavItem(
+            route = "Board"
+        )
+    )
+
+    object BoardWrite: NavScreen(
+        NavItem(
+            route = "BoardWrite"
+        )
+    )
 }

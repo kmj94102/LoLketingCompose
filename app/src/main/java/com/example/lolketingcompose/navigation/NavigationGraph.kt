@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
+import com.example.lolketingcompose.ui.board.BoardScreen
+import com.example.lolketingcompose.ui.board.write.BoardWriteScreen
 import com.example.lolketingcompose.ui.chatting.ChattingListScreen
 import com.example.lolketingcompose.ui.chatting.room.ChattingRoomScreen
 import com.example.lolketingcompose.ui.event.EventScreen
@@ -51,6 +53,7 @@ fun NavigationGraph(
         ticketScreens(onBackClick, navController)
         shopScreens(onBackClick, navController)
         chattingScreens(onBackClick, navController)
+        boardScreens(onBackClick, navController)
     }
 }
 
@@ -439,6 +442,28 @@ fun NavGraphBuilder.chattingScreens(
         )
     ) {
         ChattingRoomScreen(onBackClick)
+    }
+}
+
+fun NavGraphBuilder.boardScreens(
+    onBackClick: () -> Unit,
+    navController: NavHostController
+) {
+    composable(
+        route = NavScreen.Board.item.routeWithPostFix
+    ) {
+        BoardScreen(
+            onBackClick = onBackClick,
+            goToWrite = {
+                navController.navigate(NavScreen.BoardWrite.item.routeWithPostFix)
+            }
+        )
+    }
+
+    composable(
+        route = NavScreen.BoardWrite.item.routeWithPostFix
+    ) {
+        BoardWriteScreen(onBackClick = onBackClick)
     }
 }
 

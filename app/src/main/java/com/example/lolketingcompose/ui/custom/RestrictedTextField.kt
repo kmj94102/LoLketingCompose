@@ -33,7 +33,8 @@ fun RestrictedTextField(
     modifier: Modifier = Modifier,
     minHeight: Dp = 85.dp,
     onTextChange: (String) -> Unit,
-    onRegister: () -> Unit
+    onRegister: () -> Unit = {},
+    isRegisterButtonVisible: Boolean = true,
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -71,18 +72,20 @@ fun RestrictedTextField(
                 .align(Alignment.BottomStart)
                 .padding(bottom = 5.dp, start = 10.dp)
         )
-        Text(
-            text = "등록",
-            style = textStyle16B(),
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 5.dp, end = 10.dp)
-                .background(MainColor, RoundedCornerShape(3.dp))
-                .padding(vertical = 2.dp, horizontal = 3.dp)
-                .nonRippleClickable {
-                    focusManager.clearFocus()
-                    onRegister()
-                }
-        )
+        if (isRegisterButtonVisible) {
+            Text(
+                text = "등록",
+                style = textStyle16B(),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 5.dp, end = 10.dp)
+                    .background(MainColor, RoundedCornerShape(3.dp))
+                    .padding(vertical = 2.dp, horizontal = 3.dp)
+                    .nonRippleClickable {
+                        focusManager.clearFocus()
+                        onRegister()
+                    }
+            )
+        }
     }
 }
