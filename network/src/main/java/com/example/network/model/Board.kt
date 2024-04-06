@@ -10,6 +10,7 @@ data class Board(
     val name: String,
     val nickname: String,
     val likeCount: Int,
+    val isLike: Boolean,
     val commentCount: Int
 )
 
@@ -44,7 +45,8 @@ data class BoardWriteInfo(
 
 data class BoardSearch(
     val skip: Int,
-    val limit: Int
+    val limit: Int,
+    val userId: Int
 )
 
 data class Comment(
@@ -63,6 +65,11 @@ data class CommentWrite(
 
 data class CommentDelete(
     val commentId: Int,
+    val boardId: Int,
+    val userId: Int
+)
+
+data class LikeUpdate(
     val boardId: Int,
     val userId: Int
 )

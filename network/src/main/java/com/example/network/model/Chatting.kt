@@ -51,6 +51,7 @@ data class ChattingModel(
 }
 
 enum class Team(val teamId: Int, val teamName: String, val image: String) {
+    ALL(0, "전체보기", ""),
     DRX(1, "DRX", "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/logo%2Fimg_drx.png?alt=media&token=2e416fe7-f24f-4dac-909f-ad5a62b46d41"),
     T1(2, "T1", "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/logo%2Fimg_t1.png?alt=media&token=d9f4dea2-0813-4221-a902-951469621b10"),
     Hanwha(3, "Hanwha Life Esports", "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/logo%2Fimg_hanwha.png?alt=media&token=d5902b3e-9c7f-4c74-818a-d29dd49193db"),
@@ -68,8 +69,5 @@ enum class Team(val teamId: Int, val teamName: String, val image: String) {
 
         fun getTeamList() =
             listOf(DRX, T1, Hanwha, GenG, OK, KIA, MVP, KT, Griffin, CJ)
-
-        fun getTeamId(name: String) =
-            values().firstOrNull { it.teamName == name }?.teamId ?: 0
     }
 }

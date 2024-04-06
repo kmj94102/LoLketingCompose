@@ -456,7 +456,8 @@ fun NavGraphBuilder.boardScreens(
             onBackClick = onBackClick,
             goToWrite = {
                 navController.navigate(NavScreen.BoardWrite.item.routeWithPostFix)
-            }
+            },
+            goToDetail = {}
         )
     }
 

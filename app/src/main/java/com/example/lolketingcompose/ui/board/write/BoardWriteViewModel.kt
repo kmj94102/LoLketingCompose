@@ -29,10 +29,10 @@ class BoardWriteViewModel @Inject constructor(
         _info.value = _info.value.copy(image = uri)
     }
 
-    fun selectTeam(teamName: String) {
+    fun selectTeam(team: Team) {
         _info.value = _info.value.copy(
-            teamId = Team.getTeamId(teamName),
-            teamName = teamName
+            teamId = team.teamId,
+            teamName = team.teamName
         )
     }
 

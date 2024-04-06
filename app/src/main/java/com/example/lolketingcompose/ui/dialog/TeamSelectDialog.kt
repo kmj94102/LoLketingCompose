@@ -31,7 +31,7 @@ fun TeamSelectDialog(
     isShow: Boolean,
     isAllVisible: Boolean = false,
     onDismiss: () -> Unit,
-    onItemClick: (String) -> Unit
+    onItemClick: (Team) -> Unit
 ) {
     CommonDialogContainer(
         isShow = isShow,
@@ -60,7 +60,7 @@ fun TeamSelectDialog(
                             .border(0.5.dp, MyLightGray)
                             .padding(5.dp)
                             .nonRippleClickable {
-                                onItemClick(it.teamName)
+                                onItemClick(it)
                                 onDismiss()
                             }
                     ) {
@@ -80,7 +80,10 @@ fun TeamSelectDialog(
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 10.dp)
                     .fillMaxWidth()
-                    .nonRippleClickable { onItemClick("전체보기") }
+                    .nonRippleClickable {
+                        onItemClick(Team.ALL)
+                        onDismiss()
+                    }
             )
         }
     }
