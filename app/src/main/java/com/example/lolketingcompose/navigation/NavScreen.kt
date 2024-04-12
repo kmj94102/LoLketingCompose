@@ -163,4 +163,11 @@ sealed class NavScreen(val item: NavItem) {
             route = "BoardWrite"
         )
     )
+
+    object BoardDetail: NavScreen(
+        NavItem(
+            route = "BoardDetail",
+            routeWithPostFix = "BoardDetail/{${Constants.BoardId}}"
+        )
+    )
 }

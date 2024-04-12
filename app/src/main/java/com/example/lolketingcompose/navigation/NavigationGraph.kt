@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.example.auth.model.JoinInfo
 import com.example.auth.model.UserInfoType
 import com.example.lolketingcompose.ui.board.BoardScreen
+import com.example.lolketingcompose.ui.board.detail.BoardDetailScreen
 import com.example.lolketingcompose.ui.board.write.BoardWriteScreen
 import com.example.lolketingcompose.ui.chatting.ChattingListScreen
 import com.example.lolketingcompose.ui.chatting.room.ChattingRoomScreen
@@ -457,7 +458,14 @@ fun NavGraphBuilder.boardScreens(
             goToWrite = {
                 navController.navigate(NavScreen.BoardWrite.item.routeWithPostFix)
             },
-            goToDetail = {}
+            goToDetail = { boardId ->
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.BoardDetail.item.route,
+                        boardId.toString()
+                    )
+                )
+            }
         )
     }
 
@@ -465,6 +473,15 @@ fun NavGraphBuilder.boardScreens(
         route = NavScreen.BoardWrite.item.routeWithPostFix
     ) {
         BoardWriteScreen(onBackClick = onBackClick)
+    }
+
+    composable(
+        route = NavScreen.BoardDetail.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.BoardId) { type = NavType.IntType }
+        )
+    ) {
+        BoardDetailScreen(onBackClick = onBackClick)
     }
 }
 

@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,8 +30,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.lolketingcompose.R
@@ -42,6 +45,7 @@ import com.example.lolketingcompose.ui.theme.MyGray
 import com.example.lolketingcompose.ui.theme.MyLightGray
 import com.example.lolketingcompose.ui.theme.MyYellow
 import com.example.lolketingcompose.util.nonRippleClickable
+import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle12
 import com.example.lolketingcompose.util.textStyle14B
 import com.example.lolketingcompose.util.textStyle16
@@ -63,6 +67,7 @@ fun BoardScreen(
         headerContent = {
             BoardHeader(
                 onBackClick = onBackClick,
+                goToWrite = goToWrite,
                 onTeamSelectClick = { isShow = true },
                 team = viewModel.selectTeam.value.teamName
             )
@@ -70,7 +75,6 @@ fun BoardScreen(
         bodyContent = {
             BoardBody(
                 viewModel = viewModel,
-                goToWrite = goToWrite,
                 goToDetail = goToDetail
             )
         }
@@ -82,12 +86,20 @@ fun BoardScreen(
         isAllVisible = true,
         onItemClick = viewModel::updateSelectTeam
     )
+
+    val lifecycleEvent = rememberLifecycleEvent()
+    LaunchedEffect(lifecycleEvent) {
+        if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+            viewModel.fetchBoardList(true)
+        }
+    }
 }
 
 @Composable
 fun BoardHeader(
     onBackClick: () -> Unit,
     onTeamSelectClick: () -> Unit,
+    goToWrite: () -> Unit,
     team: String
 ) {
     CommonHeader(
@@ -107,7 +119,7 @@ fun BoardHeader(
             }
         },
         tailIcon = {
-            Row {
+            Row(modifier = Modifier.padding(end = 20.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = null,
@@ -115,9 +127,9 @@ fun BoardHeader(
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Image(
-                    painter = painterResource(id = R.drawable.ic_menu),
+                    painter = painterResource(id = R.drawable.ic_plus),
                     contentDescription = null,
-                    modifier = Modifier
+                    modifier = Modifier.nonRippleClickable(goToWrite)
                 )
             }
         }
@@ -127,7 +139,6 @@ fun BoardHeader(
 @Composable
 fun BoardBody(
     viewModel: BoardViewModel,
-    goToWrite: () -> Unit,
     goToDetail: (Int) -> Unit
 ) {
     val list = viewModel.list
@@ -140,7 +151,10 @@ fun BoardBody(
                 BoardItem(
                     board = it,
                     onLikeClick = viewModel::updateBoardLike,
-                    onItemClick = goToDetail
+                    onItemClick = goToDetail,
+                    onModifierClick = {},
+                    onDeleteClick = viewModel::deleteBoard,
+                    onReportClick = {}
                 )
             }
         }
@@ -151,8 +165,7 @@ fun BoardBody(
         ) {
             Text(
                 text = "작성된 게시글이 없습니다.",
-                style = textStyle16B(color = MyGray),
-                modifier = Modifier.nonRippleClickable(goToWrite)
+                style = textStyle16B(color = MyGray)
             )
         }
     }
@@ -162,8 +175,12 @@ fun BoardBody(
 fun BoardItem(
     modifier: Modifier = Modifier,
     board: Board,
-    onItemClick: (Int) -> Unit,
-    onLikeClick: (Int) -> Unit
+    imageMaxHeight: Dp = 200.dp,
+    onItemClick: (Int) -> Unit = {},
+    onLikeClick: (Int) -> Unit,
+    onModifierClick: (Int) -> Unit,
+    onDeleteClick: (Int) -> Unit,
+    onReportClick: (Int) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -183,10 +200,17 @@ fun BoardItem(
             Text(text = board.timestamp, style = textStyle12(color = MyLightGray))
             Spacer(modifier = Modifier.width(5.dp))
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_more),
-                contentDescription = null,
-                modifier = Modifier.nonRippleClickable { }
+            BoardBalloon(
+                isAuthor = board.isAuthor,
+                onModifierClick = {
+                    onModifierClick(board.id)
+                },
+                onDeleteClick = {
+                    onDeleteClick(board.id)
+                },
+                onReportClick = {
+                    onReportClick(board.id)
+                }
             )
         }
 
@@ -215,7 +239,7 @@ fun BoardItem(
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(max = 200.dp)
+                    .heightIn(max = imageMaxHeight)
                     .padding(horizontal = 20.dp)
                     .clip(RoundedCornerShape(5.dp))
             )

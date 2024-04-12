@@ -3,10 +3,12 @@ package com.example.network.repository
 import com.example.database.DatabaseRepository
 import com.example.network.client.BoardClient
 import com.example.network.client.FirebaseClient
+import com.example.network.model.BoardIdInfoParam
 import com.example.network.model.BoardSearch
 import com.example.network.model.BoardWrite
 import com.example.network.model.BoardWriteInfo
-import com.example.network.model.Comment
+import com.example.network.model.CommentDelete
+import com.example.network.model.CommentWrite
 import com.example.network.model.LikeUpdate
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -15,7 +17,7 @@ class BoardRepositoryImpl @Inject constructor(
     private val client: BoardClient,
     private val firebaseClient: FirebaseClient,
     private val databaseRepository: DatabaseRepository
-): BoardRepository {
+) : BoardRepository {
     override fun insertBoard(info: BoardWriteInfo) = flow {
         val userId = databaseRepository.getUserId()
         if (userId == 0) throw Exception("유저 정보가 없습니다.")
@@ -68,12 +70,58 @@ class BoardRepositoryImpl @Inject constructor(
             .onFailure { throw it }
     }
 
+    override fun fetchBoardDetail(boardId: Int) = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
+        client
+            .fetchBoardDetail(BoardIdInfoParam(boardId = boardId, userId = userId))
+            .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun deleteBoard(boardId: Int) = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
+        client
+            .deleteBoard(BoardIdInfoParam(boardId = boardId, userId = userId))
+            .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
     override fun insertComment(contents: String, boardId: Int) = flow {
-        emit("")
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
+        client
+            .insertComment(
+                CommentWrite(
+                    contents = contents,
+                    boardId = boardId,
+                    userId = userId
+                )
+            )
+            .onSuccess {
+                emit(it)
+            }
+            .onFailure { throw it }
     }
 
     override fun deleteComment(commentId: Int, boardId: Int) = flow {
-        emit(Comment(0, "", "", 0, 0))
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
+        client
+            .deleteComment(
+                CommentDelete(
+                    commentId = commentId,
+                    boardId = boardId,
+                    userId = userId
+                )
+            )
+            .onSuccess { emit(it)  }
+            .onFailure { throw it }
     }
 
     override fun updateBoardLike(boardId: Int) = flow {

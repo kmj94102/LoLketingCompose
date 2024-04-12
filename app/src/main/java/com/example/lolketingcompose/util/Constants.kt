@@ -9,4 +9,5 @@ object Constants {
     const val Title = "title"
     const val RoomInfo = "roomInfo"
     const val SelectedTeam = "selectedTeam"
+    const val BoardId = "boardId"
 }

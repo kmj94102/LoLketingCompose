@@ -112,6 +112,10 @@ dependencies {
     // https://github.com/ch4rl3x/HtmlText
     implementation ("de.charlex.compose.material3:material3-html-text:2.0.0-beta01")
 
+    // Balloon
+    // https://github.com/skydoves/Balloon?tab=readme-ov-file#balloon-in-jetpack-compose-1
+    implementation("com.github.skydoves:balloon-compose:1.6.4")
+
     implementation(project(path = ":network"))
     implementation(project(path = ":auth"))
     implementation(project(path = ":database"))

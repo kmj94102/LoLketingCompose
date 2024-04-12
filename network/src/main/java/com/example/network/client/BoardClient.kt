@@ -1,5 +1,6 @@
 package com.example.network.client
 
+import com.example.network.model.BoardIdInfoParam
 import com.example.network.model.BoardSearch
 import com.example.network.model.BoardWrite
 import com.example.network.model.CommentDelete
@@ -18,6 +19,14 @@ class BoardClient @Inject constructor(
 
     suspend fun fetchBoardList(item: BoardSearch) = runCatching {
         service.fetchBoardList(item).result()
+    }
+
+    suspend fun fetchBoardDetail(item: BoardIdInfoParam) = runCatching {
+        service.fetchBoardDetail(item).result()
+    }
+
+    suspend fun deleteBoard(item: BoardIdInfoParam) = runCatching {
+        service.deleteBoard(item).result()
     }
 
     suspend fun insertComment(item: CommentWrite) = runCatching {

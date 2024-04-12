@@ -11,7 +11,8 @@ data class Board(
     val nickname: String,
     val likeCount: Int,
     val isLike: Boolean,
-    val commentCount: Int
+    val commentCount: Int,
+    val isAuthor: Boolean
 )
 
 data class BoardWrite(
@@ -49,12 +50,60 @@ data class BoardSearch(
     val userId: Int
 )
 
-data class Comment(
+data class BoardIdInfoParam(
+    val boardId: Int,
+    val userId: Int,
+)
+
+data class BoardDetail(
     val id: Int,
+    val contents: String,
+    val image: String,
+    val timestamp: String,
+    val name: String,
+    val nickname: String,
+    val likeCount: Int,
+    val isLike: Boolean,
+    val commentList: List<Comment>,
+    val isAuthor: Boolean
+) {
+    fun toBoard() = Board(
+        id = id,
+        contents = contents,
+        image = image,
+        timestamp = timestamp,
+        name = name,
+        nickname = nickname,
+        likeCount = likeCount,
+        isLike = isLike,
+        commentCount = commentList.size,
+        isAuthor = isAuthor
+    )
+
+    companion object {
+        fun init() = BoardDetail(
+            id = 0,
+            contents = "",
+            image = "",
+            timestamp = "",
+            name = "",
+            nickname = "",
+            likeCount = 0,
+            isLike = false,
+            commentList = listOf(),
+            isAuthor = false
+        )
+    }
+}
+
+data class Comment(
+    val commentId: Int,
     val contents: String,
     val timestamp: String,
     val userId: Int,
-    val boardId: Int
+    val nickname: String,
+    val boardId: Int,
+    val isAuthor: Boolean
 )
 
 data class CommentWrite(

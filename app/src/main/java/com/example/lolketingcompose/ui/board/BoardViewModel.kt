@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.lolketingcompose.structure.BaseViewModel
+import com.example.lolketingcompose.util.clearAndAddAll
 import com.example.network.model.Board
 import com.example.network.model.Team
 import com.example.network.repository.BoardRepository
@@ -25,19 +26,28 @@ class BoardViewModel @Inject constructor(
     private val _list = mutableStateListOf<Board>()
     val list: List<Board> = _list
 
-    init {
-        fetchBoardList()
-    }
+    private var skip = 0
+    private val limit = 10
 
     fun updateSelectTeam(team: Team) {
         _selectTeam.value = team
     }
 
-    private fun fetchBoardList() {
+    fun fetchBoardList(isInit: Boolean) {
+        if (isInit) {
+            skip = 0
+        }
+
         repository
-            .fetchBoardList(skip = 0, limit = 10)
+            .fetchBoardList(skip = skip, limit = limit)
             .setLoadingState()
-            .onEach { _list.addAll(it) }
+            .onEach {
+                if (isInit) {
+                    _list.clearAndAddAll(it)
+                } else {
+                    _list.addAll(it)
+                }
+            }
             .catch { updateMessage(it.message ?: "조회 실패") }
             .launchIn(viewModelScope)
     }
@@ -55,6 +65,23 @@ class BoardViewModel @Inject constructor(
                 }
             }
             .catch { updateMessage(it.message ?: "오류 발생") }
+            .launchIn(viewModelScope)
+    }
+
+    fun deleteBoard(boardId: Int) {
+        repository
+            .deleteBoard(boardId)
+            .setLoadingState()
+            .onEach {
+                runCatching {
+                    val index = _list.indexOfFirst { it.id == boardId }
+                    if (index != -1) {
+                        _list.removeAt(index)
+                        skip -= 1
+                    }
+                }
+            }
+            .catch { updateMessage(it.message ?: "삭제 실패") }
             .launchIn(viewModelScope)
     }
 
