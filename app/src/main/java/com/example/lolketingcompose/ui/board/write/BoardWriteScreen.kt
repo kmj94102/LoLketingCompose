@@ -71,7 +71,7 @@ fun BoardWriteScreen(
                 text = "등록",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .nonRippleClickable { viewModel.insertBoard() }
+                    .nonRippleClickable { viewModel.register() }
             )
         }
     )

@@ -28,11 +28,7 @@ class BoardDetailViewModel @Inject constructor(
     private val _commentWrite = mutableStateOf("")
     val commentWrite: State<String> = _commentWrite
 
-    init {
-        fetchBoardDetail()
-    }
-
-    private fun fetchBoardDetail() {
+    fun fetchBoardDetail() {
         if (boardId == null) {
             updateMessage("게시글 정보가 없습니다.")
             updateFinish()

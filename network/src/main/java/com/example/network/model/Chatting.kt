@@ -69,5 +69,8 @@ enum class Team(val teamId: Int, val teamName: String, val image: String) {
 
         fun getTeamList() =
             listOf(DRX, T1, Hanwha, GenG, OK, KIA, MVP, KT, Griffin, CJ)
+
+        fun getTeamId(name: String) =
+            values().firstOrNull { it.teamName == name }?.teamId ?: T1.teamId
     }
 }

@@ -456,7 +456,12 @@ fun NavGraphBuilder.boardScreens(
         BoardScreen(
             onBackClick = onBackClick,
             goToWrite = {
-                navController.navigate(NavScreen.BoardWrite.item.routeWithPostFix)
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.BoardWrite.item.route,
+                        0.toString()
+                    )
+                )
             },
             goToDetail = { boardId ->
                 navController.navigate(
@@ -470,7 +475,10 @@ fun NavGraphBuilder.boardScreens(
     }
 
     composable(
-        route = NavScreen.BoardWrite.item.routeWithPostFix
+        route = NavScreen.BoardWrite.item.routeWithPostFix,
+        arguments = listOf(
+            navArgument(Constants.BoardId) { type = NavType.IntType }
+        )
     ) {
         BoardWriteScreen(onBackClick = onBackClick)
     }
@@ -481,7 +489,17 @@ fun NavGraphBuilder.boardScreens(
             navArgument(Constants.BoardId) { type = NavType.IntType }
         )
     ) {
-        BoardDetailScreen(onBackClick = onBackClick)
+        BoardDetailScreen(
+            onBackClick = onBackClick,
+            goToModify = { boardId ->
+                navController.navigate(
+                    makeRouteWithArgs(
+                        NavScreen.BoardWrite.item.route,
+                        boardId.toString()
+                    )
+                )
+            }
+        )
     }
 }
 

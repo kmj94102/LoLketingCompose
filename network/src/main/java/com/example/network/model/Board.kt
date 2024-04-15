@@ -8,6 +8,7 @@ data class Board(
     val image: String,
     val timestamp: String,
     val name: String,
+    val userId: Int = 0,
     val nickname: String,
     val likeCount: Int,
     val isLike: Boolean,
@@ -19,14 +20,16 @@ data class BoardWrite(
     val contents: String,
     val image: String,
     val teamId: Int,
-    val userId: Int
+    val userId: Int,
+    val boardId: Int
 )
 
 data class BoardWriteInfo(
     val contents: String,
     val image: Uri?,
     val teamId: Int,
-    val teamName: String
+    val teamName: String,
+    val boardId: Int
 ) {
     fun checkValidation() = when {
         contents.isEmpty() -> throw Exception("내용을 입력해 주세요.")
@@ -34,12 +37,22 @@ data class BoardWriteInfo(
         else -> true
     }
 
+    fun toModify(image: String, userId: Int) = BoardModify(
+        id = boardId,
+        contents = contents,
+        image = image,
+        timestamp = "2024-04-12T10:26:10.925Z",
+        teamId = teamId,
+        userId = userId
+    )
+
     companion object {
         fun init() = BoardWriteInfo(
             contents = "",
             image = null,
             teamId = 0,
-            teamName = ""
+            teamName = "",
+            boardId = 0
         )
     }
 }
@@ -80,6 +93,14 @@ data class BoardDetail(
         isAuthor = isAuthor
     )
 
+    fun toBoardWriteInfo() = BoardWriteInfo(
+        contents = contents,
+        image = if (image.trim().isEmpty()) null else Uri.parse(image),
+        teamId = Team.getTeamId(name),
+        teamName = name,
+        boardId = id
+    )
+
     companion object {
         fun init() = BoardDetail(
             id = 0,
@@ -96,6 +117,15 @@ data class BoardDetail(
     }
 }
 
+data class BoardModify(
+    val id: Int,
+    val contents: String,
+    val image: String,
+    val timestamp: String,
+    val teamId: Int,
+    val userId: Int
+)
+
 data class Comment(
     val commentId: Int,
     val contents: String,
@@ -104,7 +134,24 @@ data class Comment(
     val nickname: String,
     val boardId: Int,
     val isAuthor: Boolean
-)
+) {
+    companion object {
+        fun createCommentModifyInfo(
+            commentId: Int,
+            contents: String,
+            userId: Int,
+            boardId: Int
+        ) = Comment(
+            commentId = commentId,
+            contents = contents,
+            timestamp = "",
+            userId = userId,
+            nickname = "",
+            boardId = boardId,
+            isAuthor = false
+        )
+    }
+}
 
 data class CommentWrite(
     val contents: String,

@@ -37,7 +37,8 @@ class BoardRepositoryImpl @Inject constructor(
                 contents = info.contents,
                 image = "",
                 teamId = info.teamId,
-                userId = userId
+                userId = userId,
+                boardId = info.boardId
             )
         } else {
             val imageAddress = firebaseClient.basicFileUpload(
@@ -49,7 +50,8 @@ class BoardRepositoryImpl @Inject constructor(
                 contents = info.contents,
                 image = imageAddress,
                 teamId = info.teamId,
-                userId = userId
+                userId = userId,
+                boardId = info.boardId
             )
         }
     }
@@ -76,6 +78,31 @@ class BoardRepositoryImpl @Inject constructor(
 
         client
             .fetchBoardDetail(BoardIdInfoParam(boardId = boardId, userId = userId))
+            .onSuccess { emit(it) }
+            .onFailure { throw it }
+    }
+
+    override fun updateBoard(info: BoardWriteInfo, isImageChanged: Boolean) = flow {
+        val userId = databaseRepository.getUserId()
+        if (userId == 0) throw Exception("유저 정보가 없습니다.")
+
+        info.checkValidation()
+        val imageAddress =
+            if (isImageChanged && info.image != null) {
+                firebaseClient.basicFileUpload(
+                    fileName = "board/${System.currentTimeMillis()}.png",
+                    uri = info.image
+                ).getOrThrow()
+            } else if (info.image == null) {
+                ""
+            } else {
+                info.image.path ?: ""
+            }
+
+        val modifyItem = info.toModify(imageAddress, userId)
+
+        client
+            .updateBoard(modifyItem)
             .onSuccess { emit(it) }
             .onFailure { throw it }
     }

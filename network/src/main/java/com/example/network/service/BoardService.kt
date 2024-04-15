@@ -3,6 +3,7 @@ package com.example.network.service
 import com.example.network.model.Board
 import com.example.network.model.BoardDetail
 import com.example.network.model.BoardIdInfoParam
+import com.example.network.model.BoardModify
 import com.example.network.model.BoardSearch
 import com.example.network.model.BoardWrite
 import com.example.network.model.Comment
@@ -23,11 +24,17 @@ interface BoardService {
     @POST("/board/select/boardDetail")
     suspend fun fetchBoardDetail(@Body item: BoardIdInfoParam): Response<BoardDetail>
 
+    @POST("/board/update/board")
+    suspend fun updateBoard(@Body item: BoardModify): Response<String>
+
     @POST("/board/delete/board")
     suspend fun deleteBoard(@Body item: BoardIdInfoParam): Response<String>
 
     @POST("/board/insert/comment")
     suspend fun insertComment(@Body item: CommentWrite): Response<List<Comment>>
+
+    @POST("/board/update/comment")
+    suspend fun updateComment(@Body item: Comment): Response<String>
 
     @POST("/board/delete/comment")
     suspend fun deleteComment(@Body item: CommentDelete): Response<List<Comment>>

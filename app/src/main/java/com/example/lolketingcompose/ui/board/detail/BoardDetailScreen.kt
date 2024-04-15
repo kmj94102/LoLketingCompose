@@ -13,12 +13,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.TopBodyBottomContainer
@@ -26,6 +28,7 @@ import com.example.lolketingcompose.ui.board.BoardBalloon
 import com.example.lolketingcompose.ui.board.BoardItem
 import com.example.lolketingcompose.ui.custom.RestrictedTextField
 import com.example.lolketingcompose.ui.theme.MyGray
+import com.example.lolketingcompose.util.rememberLifecycleEvent
 import com.example.lolketingcompose.util.textStyle12
 import com.example.lolketingcompose.util.textStyle12B
 import com.example.lolketingcompose.util.textStyle14
@@ -34,6 +37,7 @@ import com.example.network.model.Comment
 @Composable
 fun BoardDetailScreen(
     onBackClick: () -> Unit,
+    goToModify: (Int) -> Unit,
     viewModel: BoardDetailViewModel = hiltViewModel()
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -45,7 +49,8 @@ fun BoardDetailScreen(
         },
         bodyContent = {
             BoardDetailBody(
-                viewModel = viewModel
+                viewModel = viewModel,
+                goToModify = goToModify
             )
         },
         bottomContent = {
@@ -65,7 +70,8 @@ fun BoardDetailScreen(
 @Composable
 fun BoardDetailBody(
     modifier: Modifier = Modifier,
-    viewModel: BoardDetailViewModel
+    viewModel: BoardDetailViewModel,
+    goToModify: (Int) -> Unit
 ) {
     val item = viewModel.info.value
 
@@ -77,7 +83,7 @@ fun BoardDetailBody(
             BoardItem(
                 board = item.toBoard(),
                 onLikeClick = viewModel::updateLike,
-                onModifierClick = {},
+                onModifierClick = goToModify,
                 onDeleteClick = viewModel::deleteBoard,
                 imageMaxHeight = Dp.Unspecified,
                 onReportClick = {}
@@ -92,6 +98,13 @@ fun BoardDetailBody(
                 onReportClick = {},
                 modifier = Modifier.fillMaxWidth()
             )
+        }
+    }
+
+    val lifecycleEvent = rememberLifecycleEvent()
+    LaunchedEffect(lifecycleEvent) {
+        if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+            viewModel.fetchBoardDetail()
         }
     }
 }

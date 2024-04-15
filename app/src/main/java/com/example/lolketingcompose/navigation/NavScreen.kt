@@ -160,7 +160,8 @@ sealed class NavScreen(val item: NavItem) {
 
     object BoardWrite: NavScreen(
         NavItem(
-            route = "BoardWrite"
+            route = "BoardWrite",
+            routeWithPostFix = "BoardWrite/{${Constants.BoardId}}"
         )
     )
 

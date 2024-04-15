@@ -13,6 +13,8 @@ interface BoardRepository {
 
     fun fetchBoardDetail(boardId: Int): Flow<BoardDetail>
 
+    fun updateBoard(info: BoardWriteInfo, isImageChanged: Boolean): Flow<String>
+
     fun deleteBoard(boardId: Int): Flow<String>
 
     fun insertComment(contents: String, boardId: Int): Flow<List<Comment>>
