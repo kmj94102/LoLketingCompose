@@ -37,10 +37,11 @@ import coil.compose.AsyncImage
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.HeaderBodyContainer
-import com.example.lolketingcompose.ui.custom.TextProgress
+import com.example.lolketingcompose.ui.custom.GradeProgress
 import com.example.lolketingcompose.ui.dialog.CashChargingDialog
 import com.example.lolketingcompose.ui.dialog.CouponListDialog
 import com.example.lolketingcompose.ui.dialog.LogoutDialog
+import com.example.lolketingcompose.ui.dialog.PromotionDialog
 import com.example.lolketingcompose.ui.dialog.WithdrawalDialog
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyWhite
@@ -65,6 +66,7 @@ fun MyPageScreen(
     var isWithdrawalDialogShow by remember { mutableStateOf(false) }
     var isCashChargingDialogShow by remember { mutableStateOf(false) }
     var isCouponDialogShow by remember { mutableStateOf(false) }
+    var isPromotionDialogShow by remember { mutableStateOf(false) }
 
     HeaderBodyContainer(
         status = status,
@@ -80,6 +82,10 @@ fun MyPageScreen(
             UserInfoContainer(
                 myInfo = myInfo,
                 goToModify = goToModify,
+                updateGrade = {
+                    viewModel.updateGrade(it)
+                    isPromotionDialogShow = true
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
@@ -147,13 +153,20 @@ fun MyPageScreen(
         onDismiss = { isCouponDialogShow = false },
         useCoupon = viewModel::updateUsingCoupon
     )
+
+    PromotionDialog(
+        isShow = isPromotionDialogShow,
+        grade = Grade.getGrade(viewModel.myInfo.value.grade),
+        onDismiss = { isPromotionDialogShow = false }
+    )
 }
 
 @Composable
 fun UserInfoContainer(
     modifier: Modifier,
     myInfo: MyInfo,
-    goToModify: () -> Unit
+    goToModify: () -> Unit,
+    updateGrade: (String) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -214,9 +227,10 @@ fun UserInfoContainer(
         )
     }
 
-    TextProgress(
-        maxValue = Grade.getMaxPoint(myInfo.grade),
-        value = if (myInfo.grade == Grade.MASTER.code) Grade.MASTER.maxPoint else myInfo.point,
+    GradeProgress(
+        grade = myInfo.grade,
+        value = myInfo.point,
+        gradeUpdateListener = updateGrade,
         modifier = modifier
     )
 }

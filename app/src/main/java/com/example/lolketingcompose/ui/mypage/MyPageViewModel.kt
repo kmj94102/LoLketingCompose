@@ -54,10 +54,19 @@ class MyPageViewModel @Inject constructor(
             .updateCashCharging(cash)
             .setLoadingState()
             .onEach {
-                _myInfo.value = it
+                _myInfo.value = _myInfo.value.copy(
+                    cash = it.cash,
+                    point = it.point
+                )
             }
             .catch { updateMessage(it.message ?: "충전 중 오류가 발생하였습니다.") }
             .launchIn(viewModelScope)
+    }
+
+    fun updateGrade(grade: String) {
+        _myInfo.value = _myInfo.value.copy(
+            grade = grade
+        )
     }
 
     fun updateUsingCoupon(id: Int) {

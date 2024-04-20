@@ -10,31 +10,31 @@ enum class Grade(
         "브론즈",
         "USER001",
         3_000,
-        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/bronze.png?alt=media&token=8826d27f-be2d-423e-a4cb-37b6587d914c"
+        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/bronze.png?alt=media&token=0f60a4c2-a58f-4fd9-9546-b9d6f7bdfdd2"
     ),
     SILVER(
         "실버",
         "USER002",
         30_000,
-        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/silver.png?alt=media&token=083c09ba-b311-45de-ba9c-852f2b73afee"
+        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/silver.png?alt=media&token=89072c89-30f4-49ee-9114-768450109c9e"
     ),
     GOLD(
         "골드",
         "USER003",
         300_000,
-        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/gold.png?alt=media&token=42ba695d-2f81-43fa-8e6b-c44bda6c827a"
+        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/gold.png?alt=media&token=dc94d6d4-633d-46e5-9833-a1195da7d4e0"
     ),
     PLATINUM(
         "플래티넘",
         "USER004",
         300_000,
-        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/platinum.png?alt=media&token=e87bbc24-e3dc-4d9b-8695-96dce9e4979e"
+        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/platinum.png?alt=media&token=55428f81-1907-414f-9eea-80cce2087d42"
     ),
     MASTER(
         "마스터",
         "USER005",
         300_000,
-        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/master.png?alt=media&token=72ebd38e-23b2-4462-89ab-598c85d06760"
+        "https://firebasestorage.googleapis.com/v0/b/lolketing.appspot.com/o/master.png?alt=media&token=60ba025c-4357-4017-912c-94788f3c4e7e"
     );
 
     companion object {
@@ -46,5 +46,19 @@ enum class Grade(
 
         fun getKoreanName(code: String) =
             values().firstOrNull { it.code == code }?.koreanName ?: BRONZE.koreanName
+
+        fun getNextGrade(code: String, point: Int): String =
+            if (code == PLATINUM.code || code == MASTER.code) {
+                ""
+            } else if (point < SILVER.maxPoint) {
+                SILVER.code
+            } else if (point < GOLD.maxPoint){
+                GOLD.code
+            } else {
+                PLATINUM.code
+            }
+
+        fun getGrade(code: String) =
+            values().firstOrNull { it.code == code } ?: BRONZE
     }
 }

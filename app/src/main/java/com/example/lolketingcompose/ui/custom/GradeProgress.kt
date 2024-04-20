@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,28 +20,38 @@ import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyLightGray
 import com.example.lolketingcompose.util.formatNumber
 import com.example.lolketingcompose.util.textStyle14B
+import com.example.network.model.Grade
 import kotlin.math.min
 
 @Composable
-fun TextProgress(
+fun GradeProgress(
     modifier: Modifier = Modifier,
-    maxValue: Int,
-    value: Int
+    grade: String,
+    value: Int,
+    gradeUpdateListener: (String) -> Unit
 ) {
+    val maxValue = Grade.getMaxPoint(grade)
+    var isGradeUpdate by remember { mutableStateOf(false) }
     val percent = runCatching {
         min(value.toFloat() / maxValue, 1f)
     }.getOrElse { 0f }
 
-    var isStart by remember { mutableStateOf(false) }
     val state by animateFloatAsState(
-        targetValue = if (isStart) percent else 0f,
-        animationSpec = tween(durationMillis = 2500),
+        targetValue = percent,
+        animationSpec = if (isGradeUpdate) tween(durationMillis = 0) else tween(durationMillis = 1500),
+        finishedListener = {
+            isGradeUpdate = it >= 1.0
+            if (it >= 1.0) {
+                val nextGrade = Grade.getNextGrade(grade, value)
+                if (nextGrade.isNotEmpty()) {
+                    gradeUpdateListener(nextGrade)
+                }
+            }
+        },
         label = ""
     )
     val text =
         if (maxValue <= value) "MAX" else "${formatNumber(value)} / ${formatNumber(maxValue)}"
-
-    LaunchedEffect(Unit) { isStart = true }
 
     Box(
         modifier = modifier
