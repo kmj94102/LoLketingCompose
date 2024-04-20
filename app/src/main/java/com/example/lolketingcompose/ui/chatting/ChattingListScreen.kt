@@ -117,7 +117,7 @@ fun ChattingListScreen(
         bottomContent = {
             Text(
                 text = "응원하고 싶은 팀의 아이콘을 눌러 채팅방에 입장해주세요",
-                style = textStyle12(),
+                style = textStyle12(textAlign = TextAlign.Center),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(15.dp)
