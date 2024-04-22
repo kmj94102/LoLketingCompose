@@ -29,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.HeaderBodyContainer
+import com.example.lolketingcompose.ui.custom.EmptyContainer
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyBlack
 import com.example.lolketingcompose.ui.theme.MyGray
@@ -129,6 +130,10 @@ fun TicketHistoryItems(
     list: List<PurchaseHistoryInfo>,
     goToTicketReservationHistory: (String) -> Unit
 ) {
+    if (list.isEmpty()) {
+        EmptyContainer(text = "구매 내역이 없습니다")
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(top = 5.dp, bottom = 30.dp, start = 20.dp, end = 20.dp),
         modifier = modifier.fillMaxWidth()
@@ -159,6 +164,10 @@ fun GoodsHistoryItems(
     modifier: Modifier = Modifier,
     list: List<PurchaseHistoryInfo>
 ) {
+    if (list.isEmpty()) {
+        EmptyContainer(text = "구매 내역이 없습니다")
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(top = 15.dp, bottom = 30.dp),
         modifier = modifier.fillMaxWidth()

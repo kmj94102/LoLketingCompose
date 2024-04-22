@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -26,6 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.TopBodyBottomContainer
+import com.example.lolketingcompose.ui.custom.EmptyContainer
+import com.example.lolketingcompose.ui.custom.EmptyStateLazyColumn
 import com.example.lolketingcompose.ui.custom.RestrictedTextField
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyLightBlack
@@ -61,7 +61,7 @@ fun ChattingRoomScreen(
             )
         },
         bodyContent = {
-            LazyColumn(
+            EmptyStateLazyColumn(
                 state = lazyListState,
                 contentPadding = PaddingValues(
                     top = 20.dp,
@@ -69,16 +69,19 @@ fun ChattingRoomScreen(
                     end = 20.dp,
                     bottom = 30.dp
                 ),
-                verticalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
-                items(viewModel.list) {
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                list = viewModel.list,
+                content = {
                     if (it.isLeftTeam) {
                         LeftChatItem(item = it)
                     } else {
                         RightChatItem(item = it)
                     }
+                },
+                emptyContent = {
+                    EmptyContainer(text = "아직 작성된 채팅이 없습니다\n첫 채팅을 입력해 주세요")
                 }
-            }
+            )
         },
         bottomContent = {
             RestrictedTextField(

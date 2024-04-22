@@ -34,6 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.TopBodyBottomContainer
+import com.example.lolketingcompose.ui.custom.EmptyContainer
 import com.example.lolketingcompose.ui.dialog.CustomDatePickerDialog
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyYellow
@@ -76,6 +77,11 @@ fun ChattingListScreen(
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
+
+            if (viewModel.list.isEmpty()) {
+                EmptyContainer(text = "등록된 경기가 없습니다")
+            }
+
             LazyColumn(
                 contentPadding = PaddingValues(
                     top = 15.dp,

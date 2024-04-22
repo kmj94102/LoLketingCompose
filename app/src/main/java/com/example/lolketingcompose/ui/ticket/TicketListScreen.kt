@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +30,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.HeaderBodyContainer
+import com.example.lolketingcompose.ui.custom.EmptyContainer
+import com.example.lolketingcompose.ui.custom.EmptyStateLazyColumn
 import com.example.lolketingcompose.ui.dialog.ReservationEndsDialog
 import com.example.lolketingcompose.ui.dialog.SoldOutDialog
 import com.example.lolketingcompose.ui.theme.MainColor
@@ -141,11 +141,11 @@ fun TicketListBody(
         Text(text = "매진", style = textStyle14())
     }
 
-    LazyColumn(
+    EmptyStateLazyColumn(
+        list = list,
         contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 40.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
-    ) {
-        items(list) {
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        content = {
             TicketItem(
                 leftTeam = it.leftTeam,
                 rightTeam = it.rightTeam,
@@ -165,8 +165,11 @@ fun TicketListBody(
                     }
                 }
             )
+        },
+        emptyContent = {
+            EmptyContainer(text = "등록된 경기가 없습니다")
         }
-    }
+    )
 
     ReservationEndsDialog(
         isShow = isReservationEnd,

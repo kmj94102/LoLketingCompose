@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -31,6 +29,8 @@ import com.example.database.GoodsEntity
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.TopBodyBottomContainer
 import com.example.lolketingcompose.ui.custom.CommonButton
+import com.example.lolketingcompose.ui.custom.EmptyContainer
+import com.example.lolketingcompose.ui.custom.EmptyStateLazyColumn
 import com.example.lolketingcompose.ui.shop.AmountSelector
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyGray
@@ -110,15 +110,22 @@ fun ColumnScope.CartBodyContainer(
     }
     Divider(color = MyGray)
 
-    LazyColumn(modifier = Modifier.fillMaxWidth().weight(1f)) {
-        items(viewModel.list) {
+    EmptyStateLazyColumn(
+        list = viewModel.list,
+        content = {
             CartItem(
                 info = it,
                 onCheckedChange = viewModel::updateCheckedStatus,
                 onAmountChange = viewModel::updateAmount
             )
-        }
-    }
+        },
+        emptyContent = {
+            EmptyContainer(text = "장바구니에 추가된 상품이 없습니다")
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)
+    )
 
     Row(modifier = Modifier.padding(vertical = 15.dp, horizontal = 20.dp)) {
         Text(text = "총 합계", style = textStyle16B())

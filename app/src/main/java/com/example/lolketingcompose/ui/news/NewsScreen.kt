@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.HeaderBodyContainer
+import com.example.lolketingcompose.ui.custom.EmptyContainer
 import com.example.lolketingcompose.ui.theme.MyGray
 import com.example.lolketingcompose.ui.theme.MyLightGray
 import com.example.lolketingcompose.ui.theme.MyYellow
@@ -48,6 +49,10 @@ fun NewsScreen(
             CommonHeader(title = "뉴스", onBackClick = onBackClick)
         },
         bodyContent = {
+            if (viewModel.list.isEmpty()) {
+                EmptyContainer(text = "뉴스 기사가 없습니다")
+            }
+
             LazyColumn(
                 contentPadding = PaddingValues(bottom = 30.dp),
             ) {

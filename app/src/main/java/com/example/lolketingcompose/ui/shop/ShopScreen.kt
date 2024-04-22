@@ -38,6 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.HeaderBodyContainer
+import com.example.lolketingcompose.ui.custom.EmptyContainer
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyBlack
 import com.example.lolketingcompose.ui.theme.MyGray
@@ -90,6 +91,10 @@ fun ShopScreen(
                         unselectedContentColor = MyWhite
                     )
                 }
+            }
+
+            if (viewModel.itemList.isEmpty()) {
+                EmptyContainer(text = "등록된 상품이 없습니다")
             }
 
             LazyVerticalGrid(

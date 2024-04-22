@@ -1,19 +1,15 @@
 package com.example.lolketingcompose.ui.board
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -39,6 +35,8 @@ import coil.compose.AsyncImage
 import com.example.lolketingcompose.R
 import com.example.lolketingcompose.structure.CommonHeader
 import com.example.lolketingcompose.structure.HeaderBodyContainer
+import com.example.lolketingcompose.ui.custom.EmptyContainer
+import com.example.lolketingcompose.ui.custom.EmptyStateLazyColumn
 import com.example.lolketingcompose.ui.dialog.TeamSelectDialog
 import com.example.lolketingcompose.ui.theme.MainColor
 import com.example.lolketingcompose.ui.theme.MyGray
@@ -75,7 +73,8 @@ fun BoardScreen(
         bodyContent = {
             BoardBody(
                 viewModel = viewModel,
-                goToDetail = goToDetail
+                goToDetail = goToDetail,
+                goToWrite = goToWrite
             )
         }
     )
@@ -139,36 +138,31 @@ fun BoardHeader(
 @Composable
 fun BoardBody(
     viewModel: BoardViewModel,
-    goToDetail: (Int) -> Unit
+    goToDetail: (Int) -> Unit,
+    goToWrite: () -> Unit
 ) {
     val list = viewModel.list
 
-    if (list.isNotEmpty()) {
-        LazyColumn(
-            contentPadding = PaddingValues(bottom = 30.dp)
-        ) {
-            items(list) {
-                BoardItem(
-                    board = it,
-                    onLikeClick = viewModel::updateBoardLike,
-                    onItemClick = goToDetail,
-                    onModifierClick = {},
-                    onDeleteClick = viewModel::deleteBoard,
-                    onReportClick = {}
-                )
-            }
-        }
-    } else {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
+    EmptyStateLazyColumn(
+        list = list,
+        contentPadding = PaddingValues(bottom = 30.dp),
+        content = {
+            BoardItem(
+                board = it,
+                onLikeClick = viewModel::updateBoardLike,
+                onItemClick = goToDetail,
+                onModifierClick = {},
+                onDeleteClick = viewModel::deleteBoard,
+                onReportClick = {}
+            )
+        },
+        emptyContent = {
+            EmptyContainer(
                 text = "작성된 게시글이 없습니다.",
-                style = textStyle16B(color = MyGray)
+                onClick = goToWrite
             )
         }
-    }
+    )
 }
 
 @Composable
