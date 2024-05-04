@@ -31,6 +31,7 @@ class BoardViewModel @Inject constructor(
 
     fun updateSelectTeam(team: Team) {
         _selectTeam.value = team
+        fetchBoardList(true)
     }
 
     fun fetchBoardList(isInit: Boolean) {
@@ -39,7 +40,7 @@ class BoardViewModel @Inject constructor(
         }
 
         repository
-            .fetchBoardList(skip = skip, limit = limit)
+            .fetchBoardList(skip = skip, limit = limit, teamId = _selectTeam.value.teamId)
             .setLoadingState()
             .onEach {
                 if (isInit) {
